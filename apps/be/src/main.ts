@@ -15,7 +15,6 @@ app.use('*', cors());
 
 // Routes
 app.route('/', generalRoutes);
-app.route('/', usersRoutes);
 app.route('/', stacksRoutes);
 app.route('/', cardsRoutes);
 

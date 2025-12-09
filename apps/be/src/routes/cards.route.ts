@@ -1,5 +1,6 @@
 import { Hono } from 'hono';
-import { cardRepo, stackRepo } from '../data/store.js';
+import { cardRepo } from '../data/cards.store.js';
+import { stackRepo } from '../data/stacks.store.js';
 
 const app = new Hono();
 
