@@ -7,7 +7,7 @@
   },
   "files": {
     "ignoreUnknown": true,
-    "ignore": ["node_modules", "dist", ".deno"]
+    "ignore": ["node_modules", "dist", ".deno", "apps/fe/src/open-api/generated"]
   },
   "formatter": {
     "enabled": true,
