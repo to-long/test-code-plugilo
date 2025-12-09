@@ -12,6 +12,8 @@ dev-fe:
 
 # Run backend only
 dev-be:
+	@echo "🔄 Running migrations..."
+	@cd apps/be && bun run db:migrate
 	@echo "🚀 Starting Backend on http://localhost:8000"
 	@cd apps/be && bun run dev
 
