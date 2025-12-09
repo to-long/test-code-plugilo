@@ -1,0 +1,155 @@
+const PORT = Number(process.env.PORT) || 8000;
+
+export const openApiSpec = {
+  openapi: '3.0.0',
+  info: {
+    title: 'BE API',
+    version: '1.0.0',
+    description: 'Backend API for Plugilo',
+  },
+  servers: [{ url: `http://localhost:${PORT}`, description: 'Development' }],
+  tags: [
+    { name: 'General', description: 'General endpoints' },
+    { name: 'Users', description: 'User management' },
+  ],
+  paths: {
+    '/': {
+      get: {
+        tags: ['General'],
+        summary: 'Welcome',
+        responses: {
+          200: {
+            description: 'Success',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    message: { type: 'string' },
+                    timestamp: { type: 'string' },
+                    version: { type: 'string' },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+    '/health': {
+      get: {
+        tags: ['General'],
+        summary: 'Health check',
+        responses: {
+          200: {
+            description: 'Success',
+            content: {
+              'application/json': {
+                schema: { type: 'object', properties: { status: { type: 'string' } } },
+              },
+            },
+          },
+        },
+      },
+    },
+    '/api/users': {
+      get: {
+        tags: ['Users'],
+        summary: 'Get all users',
+        responses: {
+          200: {
+            description: 'List of users',
+            content: {
+              'application/json': {
+                schema: { type: 'array', items: { $ref: '#/components/schemas/User' } },
+              },
+            },
+          },
+        },
+      },
+      post: {
+        tags: ['Users'],
+        summary: 'Create user',
+        requestBody: {
+          content: { 'application/json': { schema: { $ref: '#/components/schemas/CreateUser' } } },
+        },
+        responses: {
+          201: {
+            description: 'Created',
+            content: { 'application/json': { schema: { $ref: '#/components/schemas/User' } } },
+          },
+        },
+      },
+    },
+    '/api/users/{id}': {
+      get: {
+        tags: ['Users'],
+        summary: 'Get user by ID',
+        parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'integer' } }],
+        responses: {
+          200: {
+            description: 'Success',
+            content: { 'application/json': { schema: { $ref: '#/components/schemas/User' } } },
+          },
+          404: { description: 'Not found' },
+        },
+      },
+      put: {
+        tags: ['Users'],
+        summary: 'Update user',
+        parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'integer' } }],
+        requestBody: {
+          content: { 'application/json': { schema: { $ref: '#/components/schemas/CreateUser' } } },
+        },
+        responses: {
+          200: {
+            description: 'Updated',
+            content: { 'application/json': { schema: { $ref: '#/components/schemas/User' } } },
+          },
+          404: { description: 'Not found' },
+        },
+      },
+      delete: {
+        tags: ['Users'],
+        summary: 'Delete user',
+        parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'integer' } }],
+        responses: {
+          200: { description: 'Deleted' },
+          404: { description: 'Not found' },
+        },
+      },
+    },
+  },
+  components: {
+    schemas: {
+      User: {
+        type: 'object',
+        properties: {
+          id: { type: 'integer', example: 1 },
+          name: { type: 'string', example: 'John Doe' },
+          email: { type: 'string', example: 'john@example.com' },
+        },
+      },
+      CreateUser: {
+        type: 'object',
+        required: ['name', 'email'],
+        properties: {
+          name: { type: 'string', example: 'John Doe' },
+          email: { type: 'string', example: 'john@example.com' },
+        },
+      },
+    },
+  },
+};
+
+export function generateSwaggerHtml(specPath = './swagger.json'): string {
+  return `<!DOCTYPE html>
+<html><head>
+  <title>BE API</title>
+  <link rel="stylesheet" href="https://unpkg.com/swagger-ui-dist@5/swagger-ui.css">
+</head><body>
+  <div id="swagger-ui"></div>
+  <script src="https://unpkg.com/swagger-ui-dist@5/swagger-ui-bundle.js"></script>
+  <script>SwaggerUIBundle({ url: '${specPath}', dom_id: '#swagger-ui' });</script>
+</body></html>`;
+}

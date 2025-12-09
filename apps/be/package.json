@@ -1,0 +1,21 @@
+{
+  "name": "be",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/main.ts",
+    "start": "tsx src/main.ts",
+    "build": "tsc",
+    "generate:swagger": "tsx src/open-api/generate.ts"
+  },
+  "dependencies": {
+    "@hono/node-server": "^1.13.0",
+    "hono": "^4.6.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.19.2",
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.0"
+  }
+}

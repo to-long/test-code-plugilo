@@ -1,0 +1,42 @@
+.PHONY: dev dev-fe dev-be install lint format build clean
+
+# Run both FE and BE in parallel
+dev:
+	@echo "🚀 Starting FE and BE in parallel..."
+	@make -j2 dev-fe dev-be
+
+# Run frontend only
+dev-fe:
+	@echo "⚛️  Starting Frontend on http://localhost:3000"
+	@cd apps/fe && bun run dev
+
+# Run backend only
+dev-be:
+	@echo "🚀 Starting Backend on http://localhost:8000"
+	@cd apps/be && bun run dev
+
+# Install all dependencies
+install:
+	@echo "📦 Installing dependencies..."
+	@pnpm install
+
+# Run linter
+lint:
+	@echo "🔍 Running Biome linter..."
+	@pnpm lint
+
+# Format code
+format:
+	@echo "✨ Formatting code..."
+	@pnpm format
+
+# Build all apps
+build:
+	@echo "🏗️  Building all apps..."
+	@pnpm build
+
+# Clean node_modules and build artifacts
+clean:
+	@echo "🧹 Cleaning..."
+	@rm -rf node_modules apps/*/node_modules apps/*/dist
+
