@@ -29,6 +29,11 @@ pnpm-debug.log*
 # Testing
 coverage/
 
+# Database
+*.db
+*.db-wal
+*.db-shm
+
 # Misc
 *.tsbuildinfo
 
