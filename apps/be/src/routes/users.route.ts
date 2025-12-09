@@ -2,7 +2,6 @@ import { Hono } from 'hono';
 
 const app = new Hono();
 
-// In-memory users store
 const users = [
   { id: 1, name: 'Alice Johnson', email: 'alice@example.com' },
   { id: 2, name: 'Bob Smith', email: 'bob@example.com' },
@@ -10,14 +9,34 @@ const users = [
 ];
 
 /**
- * @api {get} /api/users Get all users
- * @apiGroup Users
+ * @openapi
+ * /api/users:
+ *   get:
+ *     tags: [Users]
+ *     summary: Get all users
+ *     responses:
+ *       200:
+ *         description: List of users
  */
 app.get('/api/users', (c) => c.json(users));
 
 /**
- * @api {get} /api/users/:id Get user by ID
- * @apiGroup Users
+ * @openapi
+ * /api/users/{id}:
+ *   get:
+ *     tags: [Users]
+ *     summary: Get user by ID
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: User found
+ *       404:
+ *         description: Not found
  */
 app.get('/api/users/:id', (c) => {
   const id = parseInt(c.req.param('id'));
@@ -27,8 +46,25 @@ app.get('/api/users/:id', (c) => {
 });
 
 /**
- * @api {post} /api/users Create user
- * @apiGroup Users
+ * @openapi
+ * /api/users:
+ *   post:
+ *     tags: [Users]
+ *     summary: Create user
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               email:
+ *                 type: string
+ *     responses:
+ *       201:
+ *         description: Created
  */
 app.post('/api/users', async (c) => {
   const body = await c.req.json();
@@ -42,8 +78,22 @@ app.post('/api/users', async (c) => {
 });
 
 /**
- * @api {put} /api/users/:id Update user
- * @apiGroup Users
+ * @openapi
+ * /api/users/{id}:
+ *   put:
+ *     tags: [Users]
+ *     summary: Update user
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Updated
+ *       404:
+ *         description: Not found
  */
 app.put('/api/users/:id', async (c) => {
   const id = parseInt(c.req.param('id'));
@@ -55,8 +105,22 @@ app.put('/api/users/:id', async (c) => {
 });
 
 /**
- * @api {delete} /api/users/:id Delete user
- * @apiGroup Users
+ * @openapi
+ * /api/users/{id}:
+ *   delete:
+ *     tags: [Users]
+ *     summary: Delete user
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Deleted
+ *       404:
+ *         description: Not found
  */
 app.delete('/api/users/:id', (c) => {
   const id = parseInt(c.req.param('id'));

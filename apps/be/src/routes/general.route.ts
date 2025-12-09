@@ -3,8 +3,14 @@ import { Hono } from 'hono';
 const app = new Hono();
 
 /**
- * @api {get} / Welcome
- * @apiGroup General
+ * @openapi
+ * /:
+ *   get:
+ *     tags: [General]
+ *     summary: Welcome
+ *     responses:
+ *       200:
+ *         description: Success
  */
 app.get('/', (c) =>
   c.json({
@@ -15,8 +21,14 @@ app.get('/', (c) =>
 );
 
 /**
- * @api {get} /health Health check
- * @apiGroup General
+ * @openapi
+ * /health:
+ *   get:
+ *     tags: [General]
+ *     summary: Health check
+ *     responses:
+ *       200:
+ *         description: OK
  */
 app.get('/health', (c) => c.json({ status: 'ok' }));
 

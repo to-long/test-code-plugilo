@@ -41,3 +41,4 @@ writeFileSync(
 </body></html>`
 );
 console.log('✅ Generated: public/swagger.html');
+

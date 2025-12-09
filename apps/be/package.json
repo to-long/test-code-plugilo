@@ -7,14 +7,16 @@
     "dev": "tsx watch src/main.ts",
     "start": "tsx src/main.ts",
     "build": "tsc",
-    "generate:swagger": "tsx src/open-api/generate.ts"
+    "generate:swagger": "tsx src/generate-swagger.ts"
   },
   "dependencies": {
     "@hono/node-server": "^1.13.0",
-    "hono": "^4.6.0"
+    "hono": "^4.6.0",
+    "swagger-jsdoc": "^6.2.8"
   },
   "devDependencies": {
     "@types/node": "^22.19.2",
+    "@types/swagger-jsdoc": "^6.0.4",
     "tsx": "^4.19.0",
     "typescript": "^5.7.0"
   }

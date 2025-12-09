@@ -3,22 +3,12 @@
   "info": {
     "title": "BE API",
     "version": "1.0.0",
-    "description": "Backend API for Plugilo"
+    "description": "Backend API - Auto-generated from JSDoc"
   },
   "servers": [
     {
       "url": "http://localhost:8000",
       "description": "Development"
-    }
-  ],
-  "tags": [
-    {
-      "name": "General",
-      "description": "General endpoints"
-    },
-    {
-      "name": "Users",
-      "description": "User management"
     }
   ],
   "paths": {
@@ -30,25 +20,7 @@
         "summary": "Welcome",
         "responses": {
           "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string"
-                    },
-                    "timestamp": {
-                      "type": "string"
-                    },
-                    "version": {
-                      "type": "string"
-                    }
-                  }
-                }
-              }
-            }
+            "description": "Success"
           }
         }
       }
@@ -61,19 +33,7 @@
         "summary": "Health check",
         "responses": {
           "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string"
-                    }
-                  }
-                }
-              }
-            }
+            "description": "OK"
           }
         }
       }
@@ -86,17 +46,7 @@
         "summary": "Get all users",
         "responses": {
           "200": {
-            "description": "List of users",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/User"
-                  }
-                }
-              }
-            }
+            "description": "List of users"
           }
         }
       },
@@ -106,24 +56,26 @@
         ],
         "summary": "Create user",
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateUser"
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  }
+                }
               }
             }
           }
         },
         "responses": {
           "201": {
-            "description": "Created",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/User"
-                }
-              }
-            }
+            "description": "Created"
           }
         }
       }
@@ -146,14 +98,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/User"
-                }
-              }
-            }
+            "description": "User found"
           },
           "404": {
             "description": "Not found"
@@ -175,25 +120,9 @@
             }
           }
         ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateUser"
-              }
-            }
-          }
-        },
         "responses": {
           "200": {
-            "description": "Updated",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/User"
-                }
-              }
-            }
+            "description": "Updated"
           },
           "404": {
             "description": "Not found"
@@ -226,42 +155,6 @@
       }
     }
   },
-  "components": {
-    "schemas": {
-      "User": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "example": 1
-          },
-          "name": {
-            "type": "string",
-            "example": "John Doe"
-          },
-          "email": {
-            "type": "string",
-            "example": "john@example.com"
-          }
-        }
-      },
-      "CreateUser": {
-        "type": "object",
-        "required": [
-          "name",
-          "email"
-        ],
-        "properties": {
-          "name": {
-            "type": "string",
-            "example": "John Doe"
-          },
-          "email": {
-            "type": "string",
-            "example": "john@example.com"
-          }
-        }
-      }
-    }
-  }
+  "components": {},
+  "tags": []
 }
