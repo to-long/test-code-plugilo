@@ -1,0 +1,107 @@
+# Plugilo
+
+A full-stack application with React frontend and Hono backend.
+
+## Quick Start
+
+```bash
+# Install dependencies
+make install
+
+# Start development (FE + BE)
+make dev
+```
+
+- **Frontend**: http://localhost:3000
+- **Backend**: http://localhost:8000
+- **Swagger**: http://localhost:8000/swagger
+
+## Commands
+
+| Command | Description |
+|---------|-------------|
+| `make install` | Install all dependencies |
+| `make dev` | Start both FE and BE |
+| `make dev-fe` | Start frontend only |
+| `make dev-be` | Start backend only (runs migrations first) |
+| `make api-gen` | Generate OpenAPI types for frontend |
+| `make lint` | Run Biome linter |
+| `make format` | Format code |
+| `make build` | Build all apps |
+| `make clean` | Remove node_modules and build artifacts |
+
+## Tech Stack
+
+### Backend (`apps/be`)
+
+| Technology | Purpose |
+|------------|---------|
+| [Hono](https://hono.dev) | Fast, lightweight web framework |
+| [sql.js](https://sql.js.org) | SQLite in JavaScript (no native bindings) |
+| [TypeScript](https://www.typescriptlang.org) | Type safety |
+| [tsx](https://github.com/privatenumber/tsx) | TypeScript execution |
+| [swagger-jsdoc](https://github.com/Surnet/swagger-jsdoc) | OpenAPI spec generation |
+
+### Frontend (`apps/fe`)
+
+| Technology | Purpose |
+|------------|---------|
+| [React 19](https://react.dev) | UI library |
+| [TypeScript](https://www.typescriptlang.org) | Type safety |
+| [Rsbuild](https://rsbuild.dev) | Fast bundler (Rspack-based) |
+| [Tailwind CSS](https://tailwindcss.com) | Utility-first CSS |
+| [Zustand](https://zustand-demo.pmnd.rs) | State management |
+| [openapi-fetch](https://openapi-ts.dev/openapi-fetch) | Type-safe API client |
+| [@use-gesture/react](https://use-gesture.netlify.app) | Gesture handling |
+
+### Tooling
+
+| Tool | Purpose |
+|------|---------|
+| [pnpm](https://pnpm.io) | Package manager |
+| [Biome](https://biomejs.dev) | Linter & formatter |
+| [openapi-typescript](https://openapi-ts.dev) | Generate TS types from OpenAPI |
+
+## Project Structure
+
+```
+├── apps/
+│   ├── be/                 # Backend
+│   │   ├── db/             # Database & migrations
+│   │   │   ├── index.ts    # DB connection
+│   │   │   ├── migrate.ts  # Migration runner
+│   │   │   └── migrations/ # Migration files
+│   │   ├── src/
+│   │   │   ├── main.ts     # Server entry
+│   │   │   ├── data/       # Data stores
+│   │   │   └── routes/     # API routes
+│   │   └── public/         # Static files (swagger)
+│   │
+│   └── fe/                 # Frontend
+│       └── src/
+│           ├── App.tsx     # Main component
+│           └── open-api/   # Generated API types
+│
+├── Makefile                # Dev commands
+├── biome.json              # Linter config
+└── pnpm-workspace.yaml     # Monorepo config
+```
+
+## API
+
+The backend provides REST endpoints for:
+
+- **Stacks** - Collections/folders for organizing cards
+- **Cards** - Items within stacks
+
+Run `make api-gen` after backend changes to regenerate frontend types.
+
+## Database
+
+SQLite database stored at `apps/be/data.db`. Migrations run automatically before server start.
+
+```bash
+# Run migrations manually
+cd apps/be && pnpm db:migrate
+```
+
