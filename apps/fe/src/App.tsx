@@ -82,21 +82,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 pb-48">
-      {/* Header */}
-      <header className="sticky top-0 z-30 bg-slate-900/80 backdrop-blur-lg border-b border-slate-700">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <h1 className="text-3xl font-bold bg-gradient-to-r from-cyan-400 via-violet-400 to-fuchsia-400 bg-clip-text text-transparent">
-              Plugilo
-            </h1>
-            <div className="text-sm text-gray-400">
-              {activeCards.length} {activeCards.length === 1 ? 'card' : 'cards'}
-            </div>
-          </div>
-        </div>
-      </header>
-
+    <div className="min-h-screen pb-32">
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 py-8">
         {stacks.length === 0 ? (
