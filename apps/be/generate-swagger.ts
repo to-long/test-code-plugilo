@@ -18,7 +18,7 @@ const options: swaggerJsdoc.Options = {
     },
     servers: [{ url: 'http://localhost:8000', description: 'Development' }],
   },
-  apis: ['./src/routes/*.ts'],
+  apis: ['./src/features/**/routes.ts'],
 };
 
 const spec = swaggerJsdoc(options);
@@ -41,4 +41,3 @@ writeFileSync(
 </body></html>`
 );
 console.log('✅ Generated: public/swagger.html');
-

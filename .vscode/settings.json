@@ -1,6 +1,8 @@
 {
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "biomejs.biome",
+  "editor.autoClosingBrackets": "always",
+  "editor.autoClosingComments": "always",
   "editor.codeActionsOnSave": {
     "quickfix.biome": "explicit",
     "source.organizeImports.biome": "explicit"
@@ -23,10 +25,5 @@
   "[jsonc]": {
     "editor.defaultFormatter": "biomejs.biome"
   },
-  "typescript.tsdk": "node_modules/typescript/lib",
-  "deno.enable": true,
-  "deno.enablePaths": ["apps/be"],
-  "deno.lint": true,
-  "deno.unstable": false
+  "typescript.tsdk": "node_modules/typescript/lib"
 }
-

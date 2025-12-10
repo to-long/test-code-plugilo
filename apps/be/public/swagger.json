@@ -26,27 +26,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "type": "object",
-                    "properties": {
-                      "id": {
-                        "type": "integer"
-                      },
-                      "stackId": {
-                        "type": "integer"
-                      },
-                      "name": {
-                        "type": "string"
-                      },
-                      "cover": {
-                        "type": "string"
-                      },
-                      "description": {
-                        "type": "string"
-                      },
-                      "createdAt": {
-                        "type": "string"
-                      }
-                    }
+                    "$ref": "#/components/schemas/Card"
                   }
                 }
               }
@@ -77,33 +57,20 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "integer"
-                    },
-                    "stackId": {
-                      "type": "integer"
-                    },
-                    "name": {
-                      "type": "string"
-                    },
-                    "cover": {
-                      "type": "string"
-                    },
-                    "description": {
-                      "type": "string"
-                    },
-                    "createdAt": {
-                      "type": "string"
-                    }
-                  }
+                  "$ref": "#/components/schemas/Card"
                 }
               }
             }
           },
           "404": {
-            "description": "Card not found"
+            "description": "Card not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
           }
         }
       },
@@ -139,8 +106,7 @@
                     "type": "string"
                   },
                   "stackId": {
-                    "type": "integer",
-                    "description": "Move card to a different stack"
+                    "type": "integer"
                   }
                 }
               }
@@ -153,33 +119,20 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "integer"
-                    },
-                    "stackId": {
-                      "type": "integer"
-                    },
-                    "name": {
-                      "type": "string"
-                    },
-                    "cover": {
-                      "type": "string"
-                    },
-                    "description": {
-                      "type": "string"
-                    },
-                    "createdAt": {
-                      "type": "string"
-                    }
-                  }
+                  "$ref": "#/components/schemas/Card"
                 }
               }
             }
           },
           "404": {
-            "description": "Card not found"
+            "description": "Card not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
           }
         }
       },
@@ -200,10 +153,29 @@
         ],
         "responses": {
           "200": {
-            "description": "Card deleted"
+            "description": "Card deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
           },
           "404": {
-            "description": "Card not found"
+            "description": "Card not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
           }
         }
       }
@@ -232,34 +204,21 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "type": "object",
-                    "properties": {
-                      "id": {
-                        "type": "integer"
-                      },
-                      "stackId": {
-                        "type": "integer"
-                      },
-                      "name": {
-                        "type": "string"
-                      },
-                      "cover": {
-                        "type": "string"
-                      },
-                      "description": {
-                        "type": "string"
-                      },
-                      "createdAt": {
-                        "type": "string"
-                      }
-                    }
+                    "$ref": "#/components/schemas/Card"
                   }
                 }
               }
             }
           },
           "404": {
-            "description": "Stack not found"
+            "description": "Stack not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
           }
         }
       },
@@ -293,8 +252,7 @@
                     "type": "string"
                   },
                   "cover": {
-                    "type": "string",
-                    "description": "Image URL for the card cover"
+                    "type": "string"
                   },
                   "description": {
                     "type": "string"
@@ -310,33 +268,20 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "integer"
-                    },
-                    "stackId": {
-                      "type": "integer"
-                    },
-                    "name": {
-                      "type": "string"
-                    },
-                    "cover": {
-                      "type": "string"
-                    },
-                    "description": {
-                      "type": "string"
-                    },
-                    "createdAt": {
-                      "type": "string"
-                    }
-                  }
+                  "$ref": "#/components/schemas/Card"
                 }
               }
             }
           },
           "404": {
-            "description": "Stack not found"
+            "description": "Stack not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
           }
         }
       }
@@ -368,8 +313,7 @@
                 ],
                 "properties": {
                   "stackId": {
-                    "type": "integer",
-                    "description": "Target stack ID"
+                    "type": "integer"
                   }
                 }
               }
@@ -378,37 +322,24 @@
         },
         "responses": {
           "200": {
-            "description": "Card moved successfully",
+            "description": "Card moved",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "integer"
-                    },
-                    "stackId": {
-                      "type": "integer"
-                    },
-                    "name": {
-                      "type": "string"
-                    },
-                    "cover": {
-                      "type": "string"
-                    },
-                    "description": {
-                      "type": "string"
-                    },
-                    "createdAt": {
-                      "type": "string"
-                    }
-                  }
+                  "$ref": "#/components/schemas/Card"
                 }
               }
             }
           },
           "404": {
-            "description": "Card or stack not found"
+            "description": "Card or stack not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
           }
         }
       }
@@ -447,43 +378,13 @@
         "summary": "Get all stacks with card counts",
         "responses": {
           "200": {
-            "description": "List of stacks with card counts",
+            "description": "List of stacks",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "array",
                   "items": {
-                    "type": "object",
-                    "properties": {
-                      "id": {
-                        "type": "integer"
-                      },
-                      "name": {
-                        "type": "string"
-                      },
-                      "cover": {
-                        "type": "object",
-                        "properties": {
-                          "type": {
-                            "type": "string",
-                            "enum": [
-                              "color",
-                              "gradient",
-                              "image"
-                            ]
-                          },
-                          "value": {
-                            "type": "string"
-                          }
-                        }
-                      },
-                      "cardCount": {
-                        "type": "integer"
-                      },
-                      "createdAt": {
-                        "type": "string"
-                      }
-                    }
+                    "$ref": "#/components/schemas/Stack"
                   }
                 }
               }
@@ -510,20 +411,7 @@
                     "type": "string"
                   },
                   "cover": {
-                    "type": "object",
-                    "properties": {
-                      "type": {
-                        "type": "string",
-                        "enum": [
-                          "color",
-                          "gradient",
-                          "image"
-                        ]
-                      },
-                      "value": {
-                        "type": "string"
-                      }
-                    }
+                    "$ref": "#/components/schemas/Cover"
                   }
                 }
               }
@@ -536,21 +424,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "integer"
-                    },
-                    "name": {
-                      "type": "string"
-                    },
-                    "cover": {
-                      "type": "object"
-                    },
-                    "createdAt": {
-                      "type": "string"
-                    }
-                  }
+                  "$ref": "#/components/schemas/Stack"
                 }
               }
             }
@@ -580,66 +454,20 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "integer"
-                    },
-                    "name": {
-                      "type": "string"
-                    },
-                    "cover": {
-                      "type": "object",
-                      "properties": {
-                        "type": {
-                          "type": "string",
-                          "enum": [
-                            "color",
-                            "gradient",
-                            "image"
-                          ]
-                        },
-                        "value": {
-                          "type": "string"
-                        }
-                      }
-                    },
-                    "cards": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "id": {
-                            "type": "integer"
-                          },
-                          "stackId": {
-                            "type": "integer"
-                          },
-                          "name": {
-                            "type": "string"
-                          },
-                          "cover": {
-                            "type": "string"
-                          },
-                          "description": {
-                            "type": "string"
-                          },
-                          "createdAt": {
-                            "type": "string"
-                          }
-                        }
-                      }
-                    },
-                    "createdAt": {
-                      "type": "string"
-                    }
-                  }
+                  "$ref": "#/components/schemas/StackWithCards"
                 }
               }
             }
           },
           "404": {
-            "description": "Stack not found"
+            "description": "Stack not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
           }
         }
       },
@@ -669,20 +497,7 @@
                     "type": "string"
                   },
                   "cover": {
-                    "type": "object",
-                    "properties": {
-                      "type": {
-                        "type": "string",
-                        "enum": [
-                          "color",
-                          "gradient",
-                          "image"
-                        ]
-                      },
-                      "value": {
-                        "type": "string"
-                      }
-                    }
+                    "$ref": "#/components/schemas/Cover"
                   }
                 }
               }
@@ -691,10 +506,24 @@
         },
         "responses": {
           "200": {
-            "description": "Stack updated"
+            "description": "Stack updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Stack"
+                }
+              }
+            }
           },
           "404": {
-            "description": "Stack not found"
+            "description": "Stack not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
           }
         }
       },
@@ -715,15 +544,128 @@
         ],
         "responses": {
           "200": {
-            "description": "Stack deleted"
+            "description": "Stack deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
           },
           "404": {
-            "description": "Stack not found"
+            "description": "Stack not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
           }
         }
       }
     }
   },
-  "components": {},
+  "components": {
+    "schemas": {
+      "Card": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "stackId": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "cover": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string"
+          }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string"
+          }
+        }
+      },
+      "Cover": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "color",
+              "gradient",
+              "image"
+            ]
+          },
+          "value": {
+            "type": "string"
+          }
+        }
+      },
+      "Stack": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "cover": {
+            "$ref": "#/components/schemas/Cover"
+          },
+          "cardCount": {
+            "type": "integer"
+          },
+          "createdAt": {
+            "type": "string"
+          }
+        }
+      },
+      "StackWithCards": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "cover": {
+            "$ref": "#/components/schemas/Cover"
+          },
+          "cards": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Card"
+            }
+          },
+          "createdAt": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
   "tags": []
 }

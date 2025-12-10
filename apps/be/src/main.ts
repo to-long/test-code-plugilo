@@ -3,10 +3,9 @@ import { serveStatic } from '@hono/node-server/serve-static';
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
 import { initDb } from '../db/index.js';
-import { cardsRoutes } from './routes/cards.route.js';
-import { generalRoutes } from './routes/general.route.js';
-import { stacksRoutes } from './routes/stacks.route.js';
-import { usersRoutes } from './routes/users.route.js';
+import { generalRoutes } from './features/general/index.js';
+import { stacksRoutes } from './features/stacks/index.js';
+import { cardsRoutes } from './features/cards/index.js';
 
 const app = new Hono();
 const PORT = Number(process.env.PORT) || 8000;

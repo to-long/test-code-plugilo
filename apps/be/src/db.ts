@@ -1,4 +1,4 @@
-import { getDb, saveDb } from '../../db/index.js';
+import { getDb, saveDb } from '../db/index.js';
 
 export function rowToObject<T>(columns: string[], values: unknown[]): T {
   const obj: Record<string, unknown> = {};

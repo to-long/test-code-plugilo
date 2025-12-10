@@ -27,14 +27,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": {
-                            id?: number;
-                            stackId?: number;
-                            name?: string;
-                            cover?: string;
-                            description?: string;
-                            createdAt?: string;
-                        }[];
+                        "application/json": components["schemas"]["Card"][];
                     };
                 };
             };
@@ -72,14 +65,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": {
-                            id?: number;
-                            stackId?: number;
-                            name?: string;
-                            cover?: string;
-                            description?: string;
-                            createdAt?: string;
-                        };
+                        "application/json": components["schemas"]["Card"];
                     };
                 };
                 /** @description Card not found */
@@ -87,7 +73,9 @@ export interface paths {
                     headers: {
                         [name: string]: unknown;
                     };
-                    content?: never;
+                    content: {
+                        "application/json": components["schemas"]["Error"];
+                    };
                 };
             };
         };
@@ -107,7 +95,6 @@ export interface paths {
                         name?: string;
                         cover?: string;
                         description?: string;
-                        /** @description Move card to a different stack */
                         stackId?: number;
                     };
                 };
@@ -119,14 +106,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": {
-                            id?: number;
-                            stackId?: number;
-                            name?: string;
-                            cover?: string;
-                            description?: string;
-                            createdAt?: string;
-                        };
+                        "application/json": components["schemas"]["Card"];
                     };
                 };
                 /** @description Card not found */
@@ -134,7 +114,9 @@ export interface paths {
                     headers: {
                         [name: string]: unknown;
                     };
-                    content?: never;
+                    content: {
+                        "application/json": components["schemas"]["Error"];
+                    };
                 };
             };
         };
@@ -156,14 +138,20 @@ export interface paths {
                     headers: {
                         [name: string]: unknown;
                     };
-                    content?: never;
+                    content: {
+                        "application/json": {
+                            message?: string;
+                        };
+                    };
                 };
                 /** @description Card not found */
                 404: {
                     headers: {
                         [name: string]: unknown;
                     };
-                    content?: never;
+                    content: {
+                        "application/json": components["schemas"]["Error"];
+                    };
                 };
             };
         };
@@ -197,14 +185,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": {
-                            id?: number;
-                            stackId?: number;
-                            name?: string;
-                            cover?: string;
-                            description?: string;
-                            createdAt?: string;
-                        }[];
+                        "application/json": components["schemas"]["Card"][];
                     };
                 };
                 /** @description Stack not found */
@@ -212,7 +193,9 @@ export interface paths {
                     headers: {
                         [name: string]: unknown;
                     };
-                    content?: never;
+                    content: {
+                        "application/json": components["schemas"]["Error"];
+                    };
                 };
             };
         };
@@ -231,7 +214,6 @@ export interface paths {
                 content: {
                     "application/json": {
                         name: string;
-                        /** @description Image URL for the card cover */
                         cover: string;
                         description?: string;
                     };
@@ -244,14 +226,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": {
-                            id?: number;
-                            stackId?: number;
-                            name?: string;
-                            cover?: string;
-                            description?: string;
-                            createdAt?: string;
-                        };
+                        "application/json": components["schemas"]["Card"];
                     };
                 };
                 /** @description Stack not found */
@@ -259,7 +234,9 @@ export interface paths {
                     headers: {
                         [name: string]: unknown;
                     };
-                    content?: never;
+                    content: {
+                        "application/json": components["schemas"]["Error"];
+                    };
                 };
             };
         };
@@ -295,26 +272,18 @@ export interface paths {
             requestBody: {
                 content: {
                     "application/json": {
-                        /** @description Target stack ID */
                         stackId: number;
                     };
                 };
             };
             responses: {
-                /** @description Card moved successfully */
+                /** @description Card moved */
                 200: {
                     headers: {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": {
-                            id?: number;
-                            stackId?: number;
-                            name?: string;
-                            cover?: string;
-                            description?: string;
-                            createdAt?: string;
-                        };
+                        "application/json": components["schemas"]["Card"];
                     };
                 };
                 /** @description Card or stack not found */
@@ -322,7 +291,9 @@ export interface paths {
                     headers: {
                         [name: string]: unknown;
                     };
-                    content?: never;
+                    content: {
+                        "application/json": components["schemas"]["Error"];
+                    };
                 };
             };
         };
@@ -413,23 +384,13 @@ export interface paths {
             };
             requestBody?: never;
             responses: {
-                /** @description List of stacks with card counts */
+                /** @description List of stacks */
                 200: {
                     headers: {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": {
-                            id?: number;
-                            name?: string;
-                            cover?: {
-                                /** @enum {string} */
-                                type?: "color" | "gradient" | "image";
-                                value?: string;
-                            };
-                            cardCount?: number;
-                            createdAt?: string;
-                        }[];
+                        "application/json": components["schemas"]["Stack"][];
                     };
                 };
             };
@@ -447,11 +408,7 @@ export interface paths {
                 content: {
                     "application/json": {
                         name: string;
-                        cover?: {
-                            /** @enum {string} */
-                            type?: "color" | "gradient" | "image";
-                            value?: string;
-                        };
+                        cover?: components["schemas"]["Cover"];
                     };
                 };
             };
@@ -462,12 +419,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": {
-                            id?: number;
-                            name?: string;
-                            cover?: Record<string, never>;
-                            createdAt?: string;
-                        };
+                        "application/json": components["schemas"]["Stack"];
                     };
                 };
             };
@@ -503,24 +455,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": {
-                            id?: number;
-                            name?: string;
-                            cover?: {
-                                /** @enum {string} */
-                                type?: "color" | "gradient" | "image";
-                                value?: string;
-                            };
-                            cards?: {
-                                id?: number;
-                                stackId?: number;
-                                name?: string;
-                                cover?: string;
-                                description?: string;
-                                createdAt?: string;
-                            }[];
-                            createdAt?: string;
-                        };
+                        "application/json": components["schemas"]["StackWithCards"];
                     };
                 };
                 /** @description Stack not found */
@@ -528,7 +463,9 @@ export interface paths {
                     headers: {
                         [name: string]: unknown;
                     };
-                    content?: never;
+                    content: {
+                        "application/json": components["schemas"]["Error"];
+                    };
                 };
             };
         };
@@ -546,11 +483,7 @@ export interface paths {
                 content: {
                     "application/json": {
                         name?: string;
-                        cover?: {
-                            /** @enum {string} */
-                            type?: "color" | "gradient" | "image";
-                            value?: string;
-                        };
+                        cover?: components["schemas"]["Cover"];
                     };
                 };
             };
@@ -560,14 +493,18 @@ export interface paths {
                     headers: {
                         [name: string]: unknown;
                     };
-                    content?: never;
+                    content: {
+                        "application/json": components["schemas"]["Stack"];
+                    };
                 };
                 /** @description Stack not found */
                 404: {
                     headers: {
                         [name: string]: unknown;
                     };
-                    content?: never;
+                    content: {
+                        "application/json": components["schemas"]["Error"];
+                    };
                 };
             };
         };
@@ -589,14 +526,20 @@ export interface paths {
                     headers: {
                         [name: string]: unknown;
                     };
-                    content?: never;
+                    content: {
+                        "application/json": {
+                            message?: string;
+                        };
+                    };
                 };
                 /** @description Stack not found */
                 404: {
                     headers: {
                         [name: string]: unknown;
                     };
-                    content?: never;
+                    content: {
+                        "application/json": components["schemas"]["Error"];
+                    };
                 };
             };
         };
@@ -608,7 +551,38 @@ export interface paths {
 }
 export type webhooks = Record<string, never>;
 export interface components {
-    schemas: never;
+    schemas: {
+        Card: {
+            id?: number;
+            stackId?: number;
+            name?: string;
+            cover?: string;
+            description?: string | null;
+            createdAt?: string;
+        };
+        Error: {
+            error?: string;
+        };
+        Cover: {
+            /** @enum {string} */
+            type?: "color" | "gradient" | "image";
+            value?: string;
+        };
+        Stack: {
+            id?: number;
+            name?: string;
+            cover?: components["schemas"]["Cover"];
+            cardCount?: number;
+            createdAt?: string;
+        };
+        StackWithCards: {
+            id?: number;
+            name?: string;
+            cover?: components["schemas"]["Cover"];
+            cards?: components["schemas"]["Card"][];
+            createdAt?: string;
+        };
+    };
     responses: never;
     parameters: never;
     requestBodies: never;

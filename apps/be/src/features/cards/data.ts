@@ -1,5 +1,5 @@
-import type { Card } from '../../db/index.js';
-import { insert, queryAll, queryOne, run } from './db.js';
+import type { Card } from '../../../db/index.js';
+import { insert, queryAll, queryOne, run } from '../../db.js';
 
 export type { Card };
 
@@ -55,3 +55,4 @@ export const cardRepo = {
     return run('DELETE FROM cards WHERE id = ?', [id]) > 0;
   },
 };
+

@@ -1,7 +1,7 @@
-import { type Card, type Stack, generateRandomCover } from '../../db/index.js';
-import { insert, queryAll, queryOne, run } from './db.js';
+import { type Card, type Stack, generateRandomCover } from '../../../db/index.js';
+import { insert, queryAll, queryOne, run } from '../../db.js';
 
-export type { Stack };
+export type { Stack, Card };
 export { generateRandomCover };
 
 export const stackRepo = {
