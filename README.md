@@ -64,7 +64,7 @@ make dev
 | [Tailwind CSS](https://tailwindcss.com) | Utility-first CSS |
 | [Zustand](https://zustand-demo.pmnd.rs) | State management |
 | [openapi-fetch](https://openapi-ts.dev/openapi-fetch) | Type-safe API client |
-| [@use-gesture/react](https://use-gesture.netlify.app) | Gesture handling |
+| [Framer Motion](https://www.framer.com/motion/) | Animation & gesture library |
 
 ### Tooling
 
