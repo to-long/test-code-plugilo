@@ -45,7 +45,6 @@ clean:
 api-gen:
 	@echo "📝 Generating BE OpenAPI spec and copying to FE..."
 	@cd apps/be && bun run generate:swagger
-	@mkdir -p apps/fe/swagger
 	@cp apps/be/public/swagger.json apps/fe/swagger.json
 	@cd apps/fe && bun run api-gen
 	@rm -f apps/fe/swagger.json
