@@ -1,1 +1,1 @@
-export { generalRoutes } from './route.js';
+export { generalRoutes } from './routes.js';
