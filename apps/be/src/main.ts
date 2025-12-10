@@ -11,7 +11,14 @@ import { usersRoutes } from './routes/users.route.js';
 const app = new Hono();
 const PORT = Number(process.env.PORT) || 8000;
 
-app.use('*', cors());
+app.use(
+  '*',
+  cors({
+    origin: 'http://localhost:3000',
+    allowMethods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    allowHeaders: ['Content-Type', 'Authorization'],
+  }),
+);
 
 // Routes
 app.route('/', generalRoutes);

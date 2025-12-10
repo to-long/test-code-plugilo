@@ -1,4 +1,4 @@
-# Frontend Application Documentation (AGENTS.md)
+# Frontend Application Documentation 
 
 ## Overview
 This is a modern React 19 frontend application built with TypeScript, Tailwind CSS, and Rsbuild. It serves as a landing page for the Plugilo project.
