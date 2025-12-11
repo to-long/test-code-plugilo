@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { BottomNavigation } from './components/BottomNavigation';
 import { CardForm } from './components/CardForm';
 import { CreateMenu } from './components/CreateMenu';
 import { Modal } from './components/Modal';
 import { StackForm } from './components/StackForm';
 import { SwipeableCardDeck } from './components/SwipeableCardDeck';
+import { Dock } from './features/dock/components/Dock';
 import { useStore } from './store/useStore';
 import type { Card, ModalType } from './types';
 
@@ -30,7 +30,12 @@ export default function App() {
 
   const activeCards = getActiveCards();
 
-  const handleCreateCard = async (data: { name: string; description: string; cover: string; stackId: string }) => {
+  const handleCreateCard = async (data: {
+    name: string;
+    description: string;
+    cover: string;
+    stackId: string;
+  }) => {
     try {
       await createCard(data);
       setModalType(null);
@@ -39,7 +44,12 @@ export default function App() {
     }
   };
 
-  const handleUpdateCard = async (data: { name: string; description: string; cover: string; stackId: string }) => {
+  const handleUpdateCard = async (data: {
+    name: string;
+    description: string;
+    cover: string;
+    stackId: string;
+  }) => {
     if (!editingCard) return;
     try {
       await updateCard(editingCard.id, data);
@@ -88,8 +98,18 @@ export default function App() {
         {stacks.length === 0 ? (
           <div className="flex flex-col items-center justify-center min-h-[60vh] text-center">
             <div className="mb-8">
-              <svg className="w-32 h-32 mx-auto text-gray-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+              <svg
+                className="w-32 h-32 mx-auto text-gray-600 mb-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={1.5}
+                  d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
+                />
               </svg>
               <h2 className="text-2xl font-bold text-white mb-2">No Stacks Yet</h2>
               <p className="text-gray-400 mb-6">Create your first stack to get started</p>
@@ -129,7 +149,7 @@ export default function App() {
       )}
 
       {/* Bottom Navigation */}
-      <BottomNavigation
+      <Dock
         stacks={stacks}
         activeStackId={activeStackId}
         onStackSelect={setActiveStack}
@@ -157,11 +177,7 @@ export default function App() {
         onClose={() => setModalType(null)}
         title="Create Card"
       >
-        <CardForm
-          stacks={stacks}
-          onSubmit={handleCreateCard}
-          onCancel={() => setModalType(null)}
-        />
+        <CardForm stacks={stacks} onSubmit={handleCreateCard} onCancel={() => setModalType(null)} />
       </Modal>
 
       {/* Edit Card Modal */}
@@ -190,12 +206,8 @@ export default function App() {
         onClose={() => setModalType(null)}
         title="Create Stack"
       >
-        <StackForm
-          onSubmit={handleCreateStack}
-          onCancel={() => setModalType(null)}
-        />
+        <StackForm onSubmit={handleCreateStack} onCancel={() => setModalType(null)} />
       </Modal>
     </div>
   );
 }
-
