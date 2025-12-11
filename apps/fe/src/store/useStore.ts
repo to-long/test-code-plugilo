@@ -1,83 +1,33 @@
 import { create } from 'zustand';
 import type { AppState, Card, Stack } from '../types';
-import { api, getPlaceholderImage, getRandomColor } from '../services/api';
-
-// Initialize with sample data
-const initialStacks: Stack[] = [
-  {
-    id: '1',
-    name: 'Wishlist',
-    cover: getRandomColor(),
-    cardCount: 3,
-    createdAt: Date.now() - 86400000,
-    updatedAt: Date.now() - 86400000,
-  },
-  {
-    id: '2',
-    name: 'Favorites',
-    cover: getRandomColor(),
-    cardCount: 2,
-    createdAt: Date.now() - 172800000,
-    updatedAt: Date.now() - 172800000,
-  },
-];
-
-const initialCards: Card[] = [
-  {
-    id: 'c1',
-    name: 'MacBook Pro M3',
-    description: 'Latest MacBook Pro with M3 chip',
-    cover: getPlaceholderImage('MacBook Pro'),
-    stackId: '1',
-    createdAt: Date.now() - 86400000,
-    updatedAt: Date.now() - 86400000,
-  },
-  {
-    id: 'c2',
-    name: 'Sony WH-1000XM5',
-    description: 'Premium noise-canceling headphones',
-    cover: getPlaceholderImage('Sony Headphones'),
-    stackId: '1',
-    createdAt: Date.now() - 86400000,
-    updatedAt: Date.now() - 86400000,
-  },
-  {
-    id: 'c3',
-    name: 'iPad Air',
-    description: 'Perfect for drawing and notes',
-    cover: getPlaceholderImage('iPad Air'),
-    stackId: '1',
-    createdAt: Date.now() - 86400000,
-    updatedAt: Date.now() - 86400000,
-  },
-  {
-    id: 'c4',
-    name: 'Mechanical Keyboard',
-    description: 'Custom mechanical keyboard',
-    cover: getPlaceholderImage('Keyboard'),
-    stackId: '2',
-    createdAt: Date.now() - 172800000,
-    updatedAt: Date.now() - 172800000,
-  },
-  {
-    id: 'c5',
-    name: 'Ergonomic Chair',
-    description: 'Herman Miller Aeron',
-    cover: getPlaceholderImage('Chair'),
-    stackId: '2',
-    createdAt: Date.now() - 172800000,
-    updatedAt: Date.now() - 172800000,
-  },
-];
+import { api } from '../services/api';
 
 export const useStore = create<AppState>((set, get) => ({
-  stacks: initialStacks,
-  cards: initialCards,
-  activeStackId: initialStacks[0]?.id || null,
-  isLoading: false,
-  error: null,
+	  stacks: [],
+	  cards: [],
+	  activeStackId: null,
+	  isLoading: false,
+	  error: null,
 
-  // Stack actions
+	  loadInitialData: async () => {
+	    set({ isLoading: true, error: null });
+	    try {
+	      const { stacks, cards } = await api.fetchInitialData();
+	      set({
+	        stacks,
+	        cards,
+	        activeStackId: stacks[0]?.id ?? null,
+	        isLoading: false,
+	      });
+	    } catch (error) {
+	      set({
+	        isLoading: false,
+	        error: error instanceof Error ? error.message : 'Failed to load data',
+	      });
+	    }
+	  },
+
+	  // Stack actions
   createStack: async (name: string, cover: string) => {
     const tempId = `temp-${Date.now()}`;
     const optimisticStack: Stack = {

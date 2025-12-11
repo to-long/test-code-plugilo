@@ -24,6 +24,9 @@ export interface AppState {
   isLoading: boolean;
   error: string | null;
   
+  // Lifecycle
+  loadInitialData: () => Promise<void>;
+  
   // Stack actions
   createStack: (name: string, cover: string) => Promise<void>;
   updateStack: (id: string, updates: Partial<Stack>) => Promise<void>;

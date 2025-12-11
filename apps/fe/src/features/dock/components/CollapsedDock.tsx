@@ -3,11 +3,14 @@ import ExpandSvg from '~/public/icons/expand.svg?react';
 import LogoSvg from '~/public/icons/logo.svg?react';
 
 type CollapsedDockProps = {
-  expandDock: () => void;
+	expandDock: () => void;
+	stacksCount: number;
 };
 
-export const CollapsedDock = ({ expandDock }: CollapsedDockProps) => {
-  return (
+export const CollapsedDock = ({ expandDock, stacksCount }: CollapsedDockProps) => {
+	const label = `${stacksCount} stack${stacksCount === 1 ? '' : 's'}`;
+
+	return (
     <motion.div
       key="collapsed"
       className="pointer-events-auto"
@@ -19,15 +22,31 @@ export const CollapsedDock = ({ expandDock }: CollapsedDockProps) => {
       <motion.button
         type="button"
         onClick={expandDock}
-        className="flex items-center gap-2 ps-2 py-1 rounded-full bg-gray/95 border border-slate-200 shadow-xl backdrop-blur-lg hover:bg-gray transition-colors duration-200 text-gray-400"
+	        className="relative flex items-center gap-2 ps-3 pe-2 py-1.5 rounded-full text-slate-50 shadow-[0_18px_40px_rgba(15,23,42,0.85)] backdrop-blur-2xl border border-white/25 overflow-hidden group"
         aria-label="Expand dock"
         whileTap={{ scale: 0.96 }}
       >
-        <LogoSvg className="w-16" />
-        <span className="w-48 text-left">| 6 stacks</span>
-        <div className="flex items-center justify-center rounded-full w-6 h-6 hover:bg-slate-200/10 duration-200">
-          <ExpandSvg className="w-3" />
-        </div>
+	        {/* Base glass layer */}
+	        <div className="absolute inset-0 bg-white/10" />
+
+	        {/* Highlight sweep */}
+	        <div className="absolute inset-0 bg-gradient-to-r from-white/35 via-white/10 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-300" />
+
+	        {/* Inner pill border */}
+	        <div className="absolute inset-[1px] rounded-full border border-white/25" />
+
+	        {/* Content */}
+	        <div className="relative flex items-center gap-2">
+	          <LogoSvg className="w-16 drop-shadow-[0_6px_18px_rgba(15,23,42,0.9)]" />
+
+	          <span className="w-32 text-left text-xs text-slate-100/80 truncate">
+	            | {label}
+	          </span>
+
+	          <div className="flex items-center justify-center rounded-full w-6 h-6 bg-gradient-to-br from-violet-500/80 to-fuchsia-500/80 text-white shadow-md shadow-violet-500/40 group-hover:shadow-lg group-hover:from-violet-400 group-hover:to-fuchsia-400 transition-all duration-300">
+	            <ExpandSvg className="w-3" />
+	          </div>
+	        </div>
       </motion.button>
     </motion.div>
   );
