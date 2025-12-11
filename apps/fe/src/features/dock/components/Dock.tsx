@@ -1,11 +1,11 @@
 import { Logo } from '@/shared/components/Logo';
 import { AnimatePresence, motion } from 'framer-motion';
-import type React from 'react';
 import { useMemo, useState } from 'react';
+import CollapseSvg from '~/public/icons/collapse.svg?react';
 import type { Stack } from '../../../types';
 import { CollapsedDock } from './CollapsedDock';
-import { StackFilterBar } from './StackFilterBar';
 import { StackDockItem } from './StackDockItem';
+import { StackFilterBar } from './StackFilterBar';
 
 type DockProps = {
   stacks: Stack[];
@@ -38,13 +38,10 @@ export function Dock({
 
   return (
     <div className="fixed inset-x-0 bottom-6 z-40 flex justify-center pointer-events-none">
-	      <AnimatePresence initial={false} mode="wait">
-	        {isCollapsed ? (
-	          <CollapsedDock
-	            expandDock={() => setIsCollapsed(false)}
-	            stacksCount={stacks.length}
-	          />
-	        ) : (
+      <AnimatePresence initial={false} mode="wait">
+        {isCollapsed ? (
+          <CollapsedDock expandDock={() => setIsCollapsed(false)} stacksCount={stacks.length} />
+        ) : (
           <motion.div
             key="expanded"
             className="flex flex-col items-center gap-3 pointer-events-auto"
@@ -53,12 +50,12 @@ export function Dock({
             exit={{ opacity: 0, y: 40, scale: 0.9, filter: 'blur(8px)' }}
             transition={{ duration: 0.22, ease: 'easeOut' }}
           >
-	            {/* Search / filter bar */}
-	            <StackFilterBar
-	              isOpen={isSearchOpen}
-	              query={searchQuery}
-	              onQueryChange={(value) => setSearchQuery(value)}
-	            />
+            {/* Search / filter bar */}
+            <StackFilterBar
+              isOpen={isSearchOpen}
+              query={searchQuery}
+              onQueryChange={(value) => setSearchQuery(value)}
+            />
 
             {/* Dock Container with Liquid Glass Effect */}
             <div className="relative">
@@ -76,31 +73,31 @@ export function Dock({
                     <Logo />
                   </div>
 
-	                  {/* Stack Items - horizontally scrollable */}
-	                  <div className="flex-1 overflow-x-auto overflow-y-visible">
-	                    <div className="flex items-end gap-3 pr-6">
-	                      {visibleStacks.map((stack) => {
-	                        const isActive = activeStackId === stack.id;
+                  {/* Stack Items - horizontally scrollable */}
+                  <div className="flex-1 overflow-x-auto overflow-y-visible">
+                    <div className="flex items-end gap-3 pr-6">
+                      {visibleStacks.map((stack) => {
+                        const isActive = activeStackId === stack.id;
 
-	                        return (
-	                          <StackDockItem
-	                            key={stack.id}
-	                            stack={stack}
-	                            isActive={isActive}
-	                            isDraggingCard={isDraggingCard}
-	                            onSelect={() => onStackSelect(stack.id)}
-	                            onStackDrop={
-	                              onStackDrop
-	                                ? () => {
-	                                    onStackDrop(stack.id);
-	                                  }
-	                                : undefined
-	                            }
-	                          />
-	                        );
-	                      })}
-	                    </div>
-	                  </div>
+                        return (
+                          <StackDockItem
+                            key={stack.id}
+                            stack={stack}
+                            isActive={isActive}
+                            isDraggingCard={isDraggingCard}
+                            onSelect={() => onStackSelect(stack.id)}
+                            onStackDrop={
+                              onStackDrop
+                                ? () => {
+                                    onStackDrop(stack.id);
+                                  }
+                                : undefined
+                            }
+                          />
+                        );
+                      })}
+                    </div>
+                  </div>
 
                   {/* Divider */}
                   <div className="w-px h-12 bg-white/20 mx-1 flex-shrink-0" />
@@ -174,7 +171,7 @@ export function Dock({
                   whileHover={{ scale: 1.1, rotate: 0 }}
                   whileTap={{ scale: 0.9, rotate: 90 }}
                 >
-                  <MinimizeIcon className="w-3.5 h-3.5" />
+                  <CollapseSvg className="w-3.5 h-3.5" />
                 </motion.button>
               </div>
             </div>
@@ -182,45 +179,5 @@ export function Dock({
         )}
       </AnimatePresence>
     </div>
-  );
-}
-
-type IconProps = React.SVGProps<SVGSVGElement>;
-
-function ExpandIcon(props: IconProps) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      aria-hidden="true"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={2}
-      className="w-4 h-4"
-      {...props}
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M4 10V4h6M4 14v6h6M20 10V4h-6M20 14v6h-6"
-      />
-    </svg>
-  );
-}
-
-function MinimizeIcon(props: IconProps) {
-  return (
-    <svg
-	      data-prefix="pl"
-	      data-icon="minimize"
-	      role="img"
-	      viewBox="0 0 24 24"
-	      aria-hidden="true"
-	      {...props}
-	    >
-	      <path
-	        fill="currentColor"
-	        d="M15 2C15 1.44772 14.5523 1 14 1C13.4477 1 13 1.44772 13 2V10C13 10.5523 13.4477 11 14 11H22C22.5523 11 23 10.5523 23 10C23 9.44772 22.5523 9 22 9H15V2ZM2 13C1.44772 13 1 13.4477 1 14C1 14.5523 1.44772 15 2 15H9V22C9 22.5523 9.44772 23 10 23C10.5523 23 11 22.5523 11 22V14C11 13.4477 10.5523 13 10 13H2Z"
-	      />
-    </svg>
   );
 }
