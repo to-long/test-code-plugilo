@@ -136,9 +136,6 @@ export default function App() {
             cards={activeCards}
             onEdit={handleEditCard}
             onDelete={handleDeleteCard}
-            onMove={handleMoveCard}
-            stacks={stacks}
-            isDraggingToStacks={isDraggingToStacks}
             onDragStart={(cardId) => {
               setIsDraggingToStacks(true);
               setDraggingCardId(cardId);
