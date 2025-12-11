@@ -25,8 +25,9 @@ export function queryOne<T>(sql: string, params: BindParams = []): T | undefined
 export function run(sql: string, params: BindParams = []): number {
   const db = getDb();
   db.run(sql, params);
+  const modified = db.getRowsModified();
   saveDb();
-  return db.getRowsModified();
+  return modified;
 }
 
 export function insert(sql: string, params: BindParams = []): number {

@@ -8,7 +8,8 @@
     "start": "tsx src/main.ts",
     "build": "tsc",
     "generate:swagger": "tsx generate-swagger.ts",
-    "db:migrate": "tsx db/migrate.ts"
+    "db:migrate": "tsx db/migrate.ts",
+    "db:reset": "rm -f data.db && tsx db/migrate.ts"
   },
   "dependencies": {
     "@hono/node-server": "^1.13.0",

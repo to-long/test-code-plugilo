@@ -1,4 +1,4 @@
-.PHONY: dev dev-fe dev-be install lint format build clean
+.PHONY: dev dev-fe dev-be install lint format build clean db-reset api-gen
 
 # Run both FE and BE in parallel
 dev:
@@ -41,6 +41,11 @@ build:
 clean:
 	@echo "🧹 Cleaning..."
 	@rm -rf node_modules apps/*/node_modules apps/*/dist
+
+db-reset:
+	@echo "🗑️  Resetting database..."
+	@cd apps/be && bun run db:reset
+	@echo "✨ Database reset complete!"
 
 api-gen:
 	@echo "📝 Generating BE OpenAPI spec and copying to FE..."
