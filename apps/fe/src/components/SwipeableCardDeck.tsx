@@ -1,5 +1,5 @@
-import { motion, useMotionValue, useTransform, PanInfo } from 'framer-motion';
-import { useState, useEffect } from 'react';
+import { type PanInfo, motion, useMotionValue, useTransform } from 'framer-motion';
+import { useEffect, useState } from 'react';
 import type { Card } from '../types';
 import { CardItem } from './CardItem';
 
@@ -90,8 +90,18 @@ export function SwipeableCardDeck({
     return (
       <div className="flex items-center justify-center h-96 text-gray-400">
         <div className="text-center">
-          <svg className="w-24 h-24 mx-auto mb-4 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
+          <svg
+            className="w-24 h-24 mx-auto mb-4 opacity-50"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={1.5}
+              d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"
+            />
           </svg>
           <p className="text-xl">No cards in this stack</p>
         </div>
@@ -111,11 +121,16 @@ export function SwipeableCardDeck({
         >
           <motion.div
             animate={{ y: [0, -10, 0] }}
-            transition={{ repeat: Infinity, duration: 0.6 }}
+            transition={{ repeat: Number.POSITIVE_INFINITY, duration: 0.6 }}
             className="bg-red-500 text-white p-4 rounded-full shadow-2xl"
           >
             <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+              />
             </svg>
           </motion.div>
         </motion.div>
@@ -137,12 +152,14 @@ export function SwipeableCardDeck({
           // Y offset increases to show top edge of cards behind
           const baseTranslateY = stackIndex * 15;
           // When dragging, next card moves up slightly
-          const translateY = isDraggingCard && stackIndex === 1 ? baseTranslateY - 8 : baseTranslateY;
+          const translateY =
+            isDraggingCard && stackIndex === 1 ? baseTranslateY - 8 : baseTranslateY;
 
           // X offset alternates left/right to show side corners - increased for better visibility
           const baseTranslateX = stackIndex % 2 === 0 ? stackIndex * 15 : -stackIndex * 15;
           // When dragging, next card centers slightly
-          const translateX = isDraggingCard && stackIndex === 1 ? baseTranslateX * 0.5 : baseTranslateX;
+          const translateX =
+            isDraggingCard && stackIndex === 1 ? baseTranslateX * 0.5 : baseTranslateX;
 
           // Rotation for stacking effect - alternates left/right
           const baseRotate = stackIndex % 2 === 0 ? stackIndex * 2 : -stackIndex * 2;
@@ -163,9 +180,10 @@ export function SwipeableCardDeck({
                 opacity: cardOpacity,
                 transformOrigin: 'top center',
                 zIndex: 10 - stackIndex,
-                transition: isDraggingCard && stackIndex === 1
-                  ? 'transform 0.3s ease-out, opacity 0.3s ease-out'
-                  : 'none',
+                transition:
+                  isDraggingCard && stackIndex === 1
+                    ? 'transform 0.3s ease-out, opacity 0.3s ease-out'
+                    : 'none',
               }}
             >
               <CardItem card={card} onEdit={() => {}} onDelete={() => {}} />
@@ -203,10 +221,9 @@ export function SwipeableCardDeck({
       </div>
 
       {/* Card Counter */}
-      <div className="text-center mt-4 text-gray-400">
+      {/* <div className="text-center mt-4 text-gray-400">
         {currentIndex + 1} / {cards.length}
-      </div>
+      </div> */}
     </div>
   );
 }
-
