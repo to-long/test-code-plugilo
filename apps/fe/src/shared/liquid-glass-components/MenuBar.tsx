@@ -1,11 +1,13 @@
-import { liquidGlassBase } from './effects';
-
 type MenuBarProps = React.HTMLAttributes<HTMLDivElement>;
 
-export function MenuBar({ className, children, ...props }: React.PropsWithChildren<MenuBarProps>) {
+export function MenuBar({
+  className = '',
+  children,
+  ...props
+}: React.PropsWithChildren<MenuBarProps>) {
   return (
     <div
-      className={`${liquidGlassBase} inline-flex items-center justify-center align-middle select-none px-6 pt-3 pb-1 text-white text-sm gap-4 
+      className={` flex gap-4 max-w-lg bg-black/20 backdrop-blur-sm border border-white/50 shadow-[inset_0_1px_0px_rgba(255,255,255,0.75),0_0_9px_rgba(0,0,0,0.2),0_3px_8px_rgba(0,0,0,0.15)] p-3 text-white relative before:absolute before:inset-0 before:bg-gradient-to-br before:from-white/60 before:via-transparent before:to-transparent before:opacity-70 before:pointer-events-none after:absolute after:inset-0 after:bg-gradient-to-tl after:from-white/30 after:via-transparent after:to-transparent after:opacity-50 after:pointer-events-none
       rounded-3xl before:rounded-3xl after:rounded-3xl 
       ${className}`}
       {...props}
