@@ -17,7 +17,7 @@ export function Card({
   return (
     <div
       className={`
-        flex flex-col bg-black/20 backdrop-blur-lg border border-white/50 shadow-[inset_0_1px_0px_rgba(255,255,255,0.75),0_0_9px_rgba(0,0,0,0.2),0_3px_8px_rgba(0,0,0,0.15)] px-4 py-6 text-white relative rounded-xl before:rounded-xl after:rounded-xl 
+        flex flex-col bg-black/20 backdrop-blur-lg border border-white/50 shadow-[inset_0_1px_0px_rgba(255,255,255,0.75),0_0_9px_rgba(0,0,0,0.2),0_3px_8px_rgba(0,0,0,0.15)] px-2 py-3 text-white relative rounded-xl before:rounded-xl after:rounded-xl 
         hover:bg-black/10 transition-all duration-300 w-[250px]
         
         before:absolute before:inset-0 before:bg-gradient-to-br before:from-white/60 before:via-transparent before:to-transparent before:opacity-70 before:pointer-events-none 

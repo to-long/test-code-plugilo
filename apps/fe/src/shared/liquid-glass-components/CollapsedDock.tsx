@@ -18,8 +18,8 @@ export const CollapsedDock = ({ expandDock, stacksCount }: CollapsedDockProps) =
       <Delimiter className="h-[50%]" />
       <span className="w-32 text-left text-xs text-slate-100/80 truncate">{label}</span>
 
-      <RoundButton className="ms-auto">
-        <ExpandSvg className="w-3" />
+      <RoundButton className="ms-auto flex-shrink-0">
+        <ExpandSvg className="w-3 h-3 " />
       </RoundButton>
     </MenuBar>
   );

@@ -53,10 +53,10 @@ export function Dock() {
       </Button>
       <div className="w-10 items-end flex gap-2 flex-col ms-auto">
         <RoundButton>
-          <MagnifierSvg className="w-3.5 h-3.5" />
+          <MagnifierSvg className="w-3 h-3" />
         </RoundButton>
         <RoundButton>
-          <CollapseSvg className="w-3.5 h-3.5" />
+          <CollapseSvg className="w-3 h-3" />
         </RoundButton>
       </div>
     </MenuBar>
