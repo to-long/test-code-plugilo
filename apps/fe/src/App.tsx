@@ -5,6 +5,7 @@ import { Modal } from './components/Modal';
 import { StackForm } from './components/StackForm';
 import { SwipeableCardDeck } from './components/SwipeableCardDeck';
 import { Dock } from './features/dock/components/Dock';
+import { Demo } from './shared/liquid-glass-components/Demo';
 import { useStore } from './store/useStore';
 import type { Card, ModalType } from './types';
 
@@ -13,7 +14,7 @@ export default function App() {
     stacks,
     activeStackId,
     error,
-	    isLoading,
+    isLoading,
     createStack,
     setActiveStack,
     createCard,
@@ -21,12 +22,12 @@ export default function App() {
     deleteCard,
     moveCard,
     getActiveCards,
-	    loadInitialData,
+    loadInitialData,
   } = useStore();
 
-	  useEffect(() => {
-	    loadInitialData();
-	  }, [loadInitialData]);
+  useEffect(() => {
+    loadInitialData();
+  }, [loadInitialData]);
 
   const [modalType, setModalType] = useState<ModalType>(null);
   const [editingCard, setEditingCard] = useState<Card | null>(null);
@@ -99,39 +100,40 @@ export default function App() {
 
   return (
     <div className="min-h-screen pb-32">
+      <Demo />
       {/* Main Content */}
-	      <main className="max-w-7xl mx-auto px-4 py-8">
-	        {isLoading ? (
-	          <div className="flex flex-col items-center justify-center min-h-[60vh] text-center">
-	            <p className="text-gray-400">Loading stacks...</p>
-	          </div>
-	        ) : stacks.length === 0 ? (
-	          <div className="flex flex-col items-center justify-center min-h-[60vh] text-center">
-	            <div className="mb-8">
-	              <svg
-	                className="w-32 h-32 mx-auto text-gray-600 mb-4"
-	                fill="none"
-	                stroke="currentColor"
-	                viewBox="0 0 24 24"
-	              >
-	                <path
-	                  strokeLinecap="round"
-	                  strokeLinejoin="round"
-	                  strokeWidth={1.5}
-	                  d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
-	                />
-	              </svg>
-	              <h2 className="text-2xl font-bold text-white mb-2">No Stacks Yet</h2>
-	              <p className="text-gray-400 mb-6">Create your first stack to get started</p>
-	              <button
-	                onClick={() => setModalType('create-stack')}
-	                className="px-6 py-3 bg-gradient-to-r from-violet-600 to-fuchsia-600 hover:from-violet-500 hover:to-fuchsia-500 text-white rounded-lg font-medium transition-all"
-	              >
-	                Create Stack
-	              </button>
-	            </div>
-	          </div>
-	        ) : (
+      <main className="max-w-7xl mx-auto px-4 py-8">
+        {isLoading ? (
+          <div className="flex flex-col items-center justify-center min-h-[60vh] text-center">
+            <p className="text-gray-400">Loading stacks...</p>
+          </div>
+        ) : stacks.length === 0 ? (
+          <div className="flex flex-col items-center justify-center min-h-[60vh] text-center">
+            <div className="mb-8">
+              <svg
+                className="w-32 h-32 mx-auto text-gray-600 mb-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={1.5}
+                  d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
+                />
+              </svg>
+              <h2 className="text-2xl font-bold text-white mb-2">No Stacks Yet</h2>
+              <p className="text-gray-400 mb-6">Create your first stack to get started</p>
+              <button
+                onClick={() => setModalType('create-stack')}
+                className="px-6 py-3 bg-gradient-to-r from-violet-600 to-fuchsia-600 hover:from-violet-500 hover:to-fuchsia-500 text-white rounded-lg font-medium transition-all"
+              >
+                Create Stack
+              </button>
+            </div>
+          </div>
+        ) : (
           <SwipeableCardDeck
             cards={activeCards}
             onEdit={handleEditCard}
