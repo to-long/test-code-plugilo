@@ -7,7 +7,7 @@ export function Button({ className = '', children, highlight = '', ...props }: B
     <button
       className={`
         inline-flex items-center justify-center align-middle select-none px-4 py-2 text-white text-sm rounded-lg 
-        font-sans font-medium text-center antialiased rounded-lg before:rounded-lg after:rounded-lg
+        font-sans font-medium text-center antialiased before:rounded-lg after:rounded-lg
         transition-all duration-300 
         border border-white/50
         bg-white/2.5 backdrop-blur-sm shadow-[inset_0_1px_0px_rgba(255,255,255,0.55),0_0_9px_rgba(0,0,0,0.15),0_3px_8px_rgba(0,0,0,0.1)] 
