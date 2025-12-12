@@ -1,6 +1,6 @@
 import { CollapsedDock } from './CollapsedDock';
 import { Dock } from './Dock';
-import { SearchInput } from './Search';
+import { Search } from './Search';
 import { Button } from './button';
 
 export function Demo() {
@@ -15,7 +15,7 @@ export function Demo() {
         <Button highlight="5">Button 6</Button>
       </div>
       <div className="w-full">
-        <SearchInput />
+        <Search />
       </div>
       <div className="w-full">
         <Dock />
