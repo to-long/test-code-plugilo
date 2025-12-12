@@ -1,3 +1,4 @@
+import { Card } from './Card';
 import { CollapsedDock } from './CollapsedDock';
 import { Dock } from './Dock';
 import { Search } from './Search';
@@ -22,6 +23,18 @@ export function Demo() {
       </div>
       <div className="w-full">
         <CollapsedDock expandDock={() => {}} stacksCount={3} />
+      </div>
+      <div className="w-full relative">
+        <div className="absolute top-0 left-0">
+          <Card
+            image="https://picsum.photos/seed/card5/300/200"
+            name="Blog post"
+            description="Travel to Laocai"
+          />
+        </div>
+        <div className="absolute top-0 left-0 rotate-2 origin-bottom-left">
+          <Card image="https://picsum.photos/seed/card4/300/200" name="Book" description="Love" />
+        </div>
       </div>
     </div>
   );
