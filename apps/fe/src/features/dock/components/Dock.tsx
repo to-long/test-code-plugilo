@@ -37,7 +37,7 @@ export function Dock({
   }, [stacks, searchQuery]);
 
   return (
-    <div className="fixed inset-x-0 bottom-6 z-40 flex justify-center pointer-events-none">
+    <div className="fixed inset-x-0 bottom-5 z-40 flex justify-center pointer-events-none">
       <AnimatePresence initial={false} mode="wait">
         {isCollapsed ? (
           <CollapsedDock expandDock={() => setIsCollapsed(false)} stacksCount={stacks.length} />
