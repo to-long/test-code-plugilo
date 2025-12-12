@@ -22,7 +22,6 @@ export function Dock() {
             <StarSvg className="w-4 h-4" />
           </motion.div>
         }
-        cardCount={10}
       />
       <Delimiter />
       <Stack
@@ -30,6 +29,7 @@ export function Dock() {
         cover={<ExpandSvg className="w-6 h-6" />}
         cardCount={20}
         highlight="1"
+        active={true}
       />
       <Stack
         name="Stack 3"
@@ -44,14 +44,14 @@ export function Dock() {
         highlight="3"
       />
       <Stack name="Stack 5" cover={<MenuSvg className="w-6 h-6" />} cardCount={40} highlight="4" />
-      <Stack name="Stack 6" cover={'6'} cardCount={40} highlight="5" />
+      <Stack name="Stack 6" cover={'6'} cardCount={40} highlight="5" active={true} />
       <Delimiter />
       <Button className="w-12 h-12" highlight="1">
         <motion.div whileHover={{ rotate: 90, scale: 1.2 }}>
           <PlusSvg className="w-6 h-6" />
         </motion.div>
       </Button>
-      <div className="w-10 items-end flex gap-2 flex-col ms-auto">
+      <div className="w-10 items-end flex gap-1 flex-col ms-auto">
         <RoundButton>
           <MagnifierSvg className="w-3 h-3" />
         </RoundButton>
