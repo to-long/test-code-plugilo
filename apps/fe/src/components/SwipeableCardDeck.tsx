@@ -209,27 +209,38 @@ export function SwipeableCardDeck({
       Math.abs(velocity.x) > 400;
 
     if (shouldSwipe && currentCard) {
-      // Set exiting card with current position (where mouse was released)
-      const currentRotation = (offset.x / 200) * 25; // Match rotate transform
-      // Calculate current scale based on drag distance
-      const distance = Math.sqrt(offset.x * offset.x + offset.y * offset.y);
-      const minScale = 0.85;
-      const scaleRange = 1 - minScale;
-      const progress = Math.min(distance / 150, 1);
-      const currentScale = 1 - progress * scaleRange;
+      // Only create exit animation if there's more than 1 card
+      // With only 1 card, the next card would be the same card, causing duplicate animations
+      if (cards.length > 1) {
+        // Set exiting card with current position (where mouse was released)
+        const currentRotation = (offset.x / 200) * 25; // Match rotate transform
+        // Calculate current scale based on drag distance
+        const distance = Math.sqrt(offset.x * offset.x + offset.y * offset.y);
+        const minScale = 0.85;
+        const scaleRange = 1 - minScale;
+        const progress = Math.min(distance / 150, 1);
+        const currentScale = 1 - progress * scaleRange;
 
-      setExitingCard({
-        card: currentCard,
-        startX: offset.x,
-        startY: offset.y,
-        startRotate: currentRotation,
-        startScale: currentScale,
-      });
+        setExitingCard({
+          card: currentCard,
+          startX: offset.x,
+          startY: offset.y,
+          startRotate: currentRotation,
+          startScale: currentScale,
+        });
 
-      // Immediately move to next card
-      setCurrentIndex((i) => (i + 1) % cards.length);
+        // Immediately move to next card
+        setCurrentIndex((i) => (i + 1) % cards.length);
+        resetState();
+        resetMotionValues();
+        onDragEnd();
+        return;
+      }
+
+      // For single card, just animate back to original position
+      animate(x, 0, { type: 'spring', stiffness: 400, damping: 30 });
+      animate(y, 0, { type: 'spring', stiffness: 400, damping: 30 });
       resetState();
-      resetMotionValues();
       onDragEnd();
       return;
     }

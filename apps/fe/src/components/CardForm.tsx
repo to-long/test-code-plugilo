@@ -99,8 +99,8 @@ export function CardForm({ card, stacks, onSubmit, onCancel }: CardFormProps) {
         </select>
       </div>
 
-      {/* Actions */}
-      <div className="flex gap-3 pt-4">
+      {/* Actions - Sticky at bottom */}
+      <div className="flex gap-3 pt-4 sticky bottom-0 -mx-6 px-6 -mb-6 pb-6">
         <Button
           type="button"
           onClick={onCancel}
