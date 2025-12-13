@@ -1,21 +1,23 @@
-import { type PanInfo, motion, useMotionValue, useTransform } from 'framer-motion';
+import { type PanInfo, animate, motion, useMotionValue, useTransform } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import type { Card } from '../types';
 import { CardItem } from './CardItem';
 
 // Constants
-const BASE_CARD_SCALE = 0.65;
+const BASE_CARD_SCALE = 1;
 const DELETE_OFFSET_THRESHOLD = -180;
 const MAX_DELETE_HORIZONTAL_OFFSET = 120;
-const SWIPE_THRESHOLD = 150;
-const MIN_DRAG_SCALE = BASE_CARD_SCALE * 0.5;
+const SWIPE_THRESHOLD = 100;
 
-// Deck stack constants
-const DECK_OFFSET_X = 6;
-const DECK_OFFSET_Y = 8;
-const DECK_SCALE_STEP = 0.012;
-const DECK_ROTATE_STEP = 1.5;
+// Deck stack constants - fan out to the right, cards behind are smaller
+const DECK_OFFSET_X = 15;
+const DECK_OFFSET_Y = 0;
+const DECK_SCALE_STEP = 0.04;
+const DECK_ROTATE_STEP = 4;
 const MAX_VISIBLE_CARDS = 4;
+
+// Exit animation duration
+const EXIT_ANIMATION_DURATION = 0.6;
 
 interface SwipeableCardDeckProps {
   cards: Card[];
@@ -37,22 +39,38 @@ export function SwipeableCardDeck({
   const [isOverDeleteIcon, setIsOverDeleteIcon] = useState(false);
   const [swipeProgress, setSwipeProgress] = useState(0);
 
+  // Track exiting card for animation
+  const [exitingCard, setExitingCard] = useState<{
+    card: Card;
+    startX: number;
+    startY: number;
+    startRotate: number;
+    startScale: number;
+  } | null>(null);
+
   // Motion values
   const x = useMotionValue(0);
   const y = useMotionValue(0);
-
-  // Transform y position to scale (shrink when dragging up toward delete)
-  const scale = useTransform(
-    y,
-    [DELETE_OFFSET_THRESHOLD, -80, 0, 200],
-    [MIN_DRAG_SCALE, BASE_CARD_SCALE * 0.7, BASE_CARD_SCALE, BASE_CARD_SCALE]
-  );
 
   // Transform x position to rotation for natural card tilt
   const rotate = useTransform(x, [-200, 200], [-25, 25]);
 
   // Transform x position to opacity for fade effect
   const opacity = useTransform(x, [-200, -100, 0, 100, 200], [0.5, 1, 1, 1, 0.5]);
+
+  // Transform drag distance to scale - gradually shrink as dragging further
+  const scale = useTransform(
+    () => {
+      const xVal = Math.abs(x.get());
+      const yVal = Math.abs(y.get());
+      const distance = Math.sqrt(xVal * xVal + yVal * yVal);
+      // Scale from 1 to 0.85 as distance goes from 0 to 150
+      const minScale = 0.85;
+      const scaleRange = 1 - minScale;
+      const progress = Math.min(distance / 150, 1);
+      return 1 - progress * scaleRange;
+    }
+  );
 
   const currentCard = cards[currentIndex];
 
@@ -113,26 +131,55 @@ export function SwipeableCardDeck({
       Math.abs(offset.x) < MAX_DELETE_HORIZONTAL_OFFSET;
 
     if (isDeleteAttempt && currentCard) {
-      onDelete(currentCard.id);
-      setCurrentIndex((i) => (i >= cards.length - 1 ? 0 : i));
+      // Animate card up and fade out before deleting
+      Promise.all([
+        animate(y, -300, { duration: 0.2 }),
+        animate(x, 0, { duration: 0.2 }),
+      ]).then(() => {
+        onDelete(currentCard.id);
+        setCurrentIndex((i) => (i >= cards.length - 1 ? 0 : i));
+        resetState();
+        resetMotionValues();
+        onDragEnd();
+      });
+      return;
+    }
+
+    // Check for swipe - should swipe if past 50% progress OR high velocity
+    const shouldSwipe =
+      swipeProgress >= 0.5 ||
+      Math.abs(velocity.x) > 400;
+
+    if (shouldSwipe && currentCard) {
+      // Set exiting card with current position (where mouse was released)
+      const currentRotation = (offset.x / 200) * 25; // Match rotate transform
+      // Calculate current scale based on drag distance
+      const distance = Math.sqrt(offset.x * offset.x + offset.y * offset.y);
+      const minScale = 0.85;
+      const scaleRange = 1 - minScale;
+      const progress = Math.min(distance / 150, 1);
+      const currentScale = 1 - progress * scaleRange;
+
+      setExitingCard({
+        card: currentCard,
+        startX: offset.x,
+        startY: offset.y,
+        startRotate: currentRotation,
+        startScale: currentScale,
+      });
+
+      // Immediately move to next card
+      setCurrentIndex((i) => (i + 1) % cards.length);
       resetState();
       resetMotionValues();
       onDragEnd();
       return;
     }
 
-    // Check for swipe
-    const shouldSwipe =
-      Math.abs(offset.x) > SWIPE_THRESHOLD ||
-      Math.abs(velocity.x) > 500 ||
-      Math.abs(offset.y) > SWIPE_THRESHOLD;
-
-    if (shouldSwipe) {
-      setCurrentIndex((i) => (i + 1) % cards.length);
-    }
-
+    // Return to original position (not past 50%)
+    animate(x, 0, { type: 'spring', stiffness: 400, damping: 30 });
+    animate(y, 0, { type: 'spring', stiffness: 400, damping: 30 });
     resetState();
-    resetMotionValues();
     onDragEnd();
   };
 
@@ -172,6 +219,11 @@ export function SwipeableCardDeck({
       const card = cards[cardIndex];
       const isNextCard = depth === 1;
 
+      // Skip rendering if this card is currently animating as exitingCard
+      if (exitingCard && exitingCard.card.id === card.id) {
+        return null;
+      }
+
       // Default positions
       let translateX = depth * DECK_OFFSET_X;
       let translateY = depth * DECK_OFFSET_Y;
@@ -193,7 +245,8 @@ export function SwipeableCardDeck({
       return (
         <motion.div
           key={card.id}
-          className="absolute w-full pointer-events-none"
+          className="absolute pointer-events-none"
+          initial={false}
           animate={{
             x: translateX,
             y: translateY,
@@ -202,7 +255,7 @@ export function SwipeableCardDeck({
             opacity: cardOpacity,
           }}
           transition={{ type: 'tween', duration: 0.15, ease: 'easeOut' }}
-          style={{ transformOrigin: 'center center', zIndex: cardZIndex }}
+          style={{ transformOrigin: 'bottom center', zIndex: cardZIndex }}
         >
           <CardItem card={card} onEdit={() => {}} onDelete={() => {}} />
         </motion.div>
@@ -261,6 +314,47 @@ export function SwipeableCardDeck({
       <div className="relative h-[600px] w-full max-w-sm mx-auto flex items-center justify-center">
         {renderBackgroundCards()}
 
+        {/* Exiting card - animates from release position to back of deck */}
+        {exitingCard && (() => {
+          // Calculate the exact depth where this card will end up
+          const totalBackground = Math.min(MAX_VISIBLE_CARDS, cards.length - 1);
+          const targetDepth = totalBackground;
+          const targetX = targetDepth * DECK_OFFSET_X;
+          const targetY = targetDepth * DECK_OFFSET_Y;
+          const targetRotate = targetDepth * DECK_ROTATE_STEP;
+          const targetScale = BASE_CARD_SCALE - targetDepth * DECK_SCALE_STEP;
+          const targetOpacity = 1 - targetDepth * 0.08;
+
+          return (
+            <motion.div
+              key={`exiting-${exitingCard.card.id}`}
+              className="absolute pointer-events-none"
+              initial={{
+                x: exitingCard.startX,
+                y: exitingCard.startY,
+                rotate: exitingCard.startRotate,
+                scale: exitingCard.startScale,
+                opacity: 1,
+              }}
+              animate={{
+                x: targetX,
+                y: targetY,
+                rotate: targetRotate,
+                scale: targetScale,
+                opacity: targetOpacity,
+              }}
+              transition={{
+                duration: EXIT_ANIMATION_DURATION,
+                ease: 'easeInOut',
+              }}
+              onAnimationComplete={() => setExitingCard(null)}
+              style={{ transformOrigin: 'bottom center', zIndex: 5 }}
+            >
+              <CardItem card={exitingCard.card} onEdit={() => {}} onDelete={() => {}} />
+            </motion.div>
+          );
+        })()}
+
         {/* Current card */}
         <motion.div
           key={currentCard.id}
@@ -271,7 +365,7 @@ export function SwipeableCardDeck({
             rotate,
             opacity,
             scale,
-            transformOrigin: 'center center',
+            transformOrigin: 'bottom center',
             zIndex: isOver50 ? 15 : 20,
           }}
           drag
