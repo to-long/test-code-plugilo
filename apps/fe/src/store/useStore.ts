@@ -16,7 +16,7 @@ export const useStore = create<AppState>((set, get) => ({
 	      set({
 	        stacks,
 	        cards,
-	        activeStackId: stacks[0]?.id ?? null,
+	        activeStackId: null,
 	        isLoading: false,
 	      });
 	    } catch (error) {
@@ -98,7 +98,7 @@ export const useStore = create<AppState>((set, get) => ({
     }
   },
 
-  setActiveStack: (id: string) => {
+  setActiveStack: (id: string | null) => {
     set({ activeStackId: id });
   },
 

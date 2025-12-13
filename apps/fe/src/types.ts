@@ -31,7 +31,7 @@ export interface AppState {
   createStack: (name: string, cover: string) => Promise<void>;
   updateStack: (id: string, updates: Partial<Stack>) => Promise<void>;
   deleteStack: (id: string) => Promise<void>;
-  setActiveStack: (id: string) => void;
+  setActiveStack: (id: string | null) => void;
   
   // Card actions
   createCard: (card: Omit<Card, 'id' | 'createdAt' | 'updatedAt'>) => Promise<void>;

@@ -1,5 +1,5 @@
 import { type PanInfo, animate, motion, useMotionValue, useTransform } from 'framer-motion';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { Card } from '../types';
 import { CardItem } from './CardItem';
 
@@ -19,12 +19,18 @@ const MAX_VISIBLE_CARDS = 4;
 // Exit animation duration
 const EXIT_ANIMATION_DURATION = 0.6;
 
+// Vertical drag threshold to show thumbnail
+const VERTICAL_DRAG_THRESHOLD = 50;
+const THUMBNAIL_SCALE = 0.3;
+
 interface SwipeableCardDeckProps {
   cards: Card[];
   onEdit: (card: Card) => void;
   onDelete: (cardId: string) => void;
   onDragStart: (cardId: string) => void;
   onDragEnd: () => void;
+  onDragEndWithPosition?: (cardId: string, position: { x: number; y: number }) => void;
+  onDragPositionChange?: (position: { x: number; y: number } | null) => void;
 }
 
 export function SwipeableCardDeck({
@@ -33,6 +39,8 @@ export function SwipeableCardDeck({
   onDelete,
   onDragStart,
   onDragEnd,
+  onDragEndWithPosition,
+  onDragPositionChange,
 }: SwipeableCardDeckProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [showDeleteZone, setShowDeleteZone] = useState(false);
@@ -48,23 +56,37 @@ export function SwipeableCardDeck({
     startScale: number;
   } | null>(null);
 
+  // Track vertical drag mode with thumbnail position
+  const [verticalDragMode, setVerticalDragMode] = useState<{
+    active: boolean;
+    pointerX: number;
+    pointerY: number;
+  }>({ active: false, pointerX: 0, pointerY: 0 });
+
+  // Track drag direction: null = not determined, 'horizontal' or 'vertical'
+  // Once determined, it stays locked for the entire drag session
+  const dragDirectionRef = useRef<'horizontal' | 'vertical' | null>(null);
+
   // Motion values
   const x = useMotionValue(0);
   const y = useMotionValue(0);
 
-  // Transform x position to rotation for natural card tilt
+  // Transform x position to rotation for natural card tilt (only for horizontal swipes)
   const rotate = useTransform(x, [-200, 200], [-25, 25]);
 
   // Transform x position to opacity for fade effect
   const opacity = useTransform(x, [-200, -100, 0, 100, 200], [0.5, 1, 1, 1, 0.5]);
 
-  // Transform drag distance to scale - gradually shrink as dragging further
+  // Transform drag distance to scale - only for horizontal swipes
   const scale = useTransform(
     () => {
+      if (dragDirectionRef.current === 'vertical') return 1;
+
       const xVal = Math.abs(x.get());
       const yVal = Math.abs(y.get());
+
+      // For horizontal swipes, shrink slightly
       const distance = Math.sqrt(xVal * xVal + yVal * yVal);
-      // Scale from 1 to 0.85 as distance goes from 0 to 150
       const minScale = 0.85;
       const scaleRange = 1 - minScale;
       const progress = Math.min(distance / 150, 1);
@@ -89,59 +111,95 @@ export function SwipeableCardDeck({
     setShowDeleteZone(false);
     setIsOverDeleteIcon(false);
     setSwipeProgress(0);
+    dragDirectionRef.current = null;
   };
 
   const handleDragStart = () => {
-    // Can be used for haptic feedback or other effects
+    // Reset drag direction at start of new drag
+    dragDirectionRef.current = null;
   };
 
   const handleDrag = (_event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
-    const { offset } = info;
+    const { offset, point } = info;
 
-    // Calculate swipe progress (0 to 1)
-    const progress = Math.min(Math.abs(offset.x) / SWIPE_THRESHOLD, 1);
-    setSwipeProgress(progress);
+    // Determine drag direction ONCE at the start (when threshold is first exceeded)
+    if (dragDirectionRef.current === null) {
+      const absX = Math.abs(offset.x);
+      const absY = Math.abs(offset.y);
 
-    // Show delete zone when dragging up
-    if (offset.y < -50) {
-      setShowDeleteZone(true);
-      if (currentCard) onDragStart(currentCard.id);
+      // Only determine direction after moving enough in either direction
+      if (absX > 10 || absY > 10) {
+        // Whichever direction has more movement determines the mode
+        dragDirectionRef.current = absY > absX ? 'vertical' : 'horizontal';
+      }
+    }
 
-      const isOver =
-        offset.y < DELETE_OFFSET_THRESHOLD &&
-        Math.abs(offset.x) < MAX_DELETE_HORIZONTAL_OFFSET;
-      setIsOverDeleteIcon(isOver);
-    } else if (offset.y > 50) {
-      if (currentCard) onDragStart(currentCard.id);
-      setIsOverDeleteIcon(false);
-    } else {
-      setShowDeleteZone(false);
-      setIsOverDeleteIcon(false);
-      onDragEnd();
+    // If direction not yet determined, do nothing
+    if (dragDirectionRef.current === null) return;
+
+    // VERTICAL DRAG MODE - thumbnail follows cursor, card stays in place
+    if (dragDirectionRef.current === 'vertical') {
+      // Update thumbnail position to follow cursor
+      setVerticalDragMode({
+        active: true,
+        pointerX: point.x,
+        pointerY: point.y,
+      });
+
+      // Notify parent of position change for stack hover detection
+      onDragPositionChange?.({ x: point.x, y: point.y });
+
+      // Show delete zone when dragging up
+      if (offset.y < -VERTICAL_DRAG_THRESHOLD) {
+        setShowDeleteZone(true);
+        if (currentCard) onDragStart(currentCard.id);
+
+        const isOver =
+          offset.y < DELETE_OFFSET_THRESHOLD &&
+          Math.abs(offset.x) < MAX_DELETE_HORIZONTAL_OFFSET;
+        setIsOverDeleteIcon(isOver);
+      } else if (offset.y > VERTICAL_DRAG_THRESHOLD) {
+        // Dragging down towards dock
+        if (currentCard) onDragStart(currentCard.id);
+        setShowDeleteZone(false);
+        setIsOverDeleteIcon(false);
+      } else {
+        setShowDeleteZone(false);
+        setIsOverDeleteIcon(false);
+      }
+    }
+    // HORIZONTAL SWIPE MODE - card moves, no thumbnail
+    else {
+      // Clear position change when in horizontal mode
+      onDragPositionChange?.(null);
+
+      // Calculate swipe progress (0 to 1)
+      const progress = Math.min(Math.abs(offset.x) / SWIPE_THRESHOLD, 1);
+      setSwipeProgress(progress);
     }
   };
 
   const handleDragEnd = (_event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
-    const { offset, velocity } = info;
+    const { offset, velocity, point } = info;
 
-    // Check for delete attempt
-    const isDeleteAttempt =
-      showDeleteZone &&
-      offset.y < DELETE_OFFSET_THRESHOLD &&
-      Math.abs(offset.x) < MAX_DELETE_HORIZONTAL_OFFSET;
+    // Handle vertical drag mode ending
+    if (dragDirectionRef.current === 'vertical') {
+      // Check for delete attempt (dragging up)
+      const isDeleteAttempt = showDeleteZone && isOverDeleteIcon;
 
-    if (isDeleteAttempt && currentCard) {
-      // Animate card up and fade out before deleting
-      Promise.all([
-        animate(y, -300, { duration: 0.2 }),
-        animate(x, 0, { duration: 0.2 }),
-      ]).then(() => {
+      if (isDeleteAttempt && currentCard) {
         onDelete(currentCard.id);
         setCurrentIndex((i) => (i >= cards.length - 1 ? 0 : i));
-        resetState();
-        resetMotionValues();
-        onDragEnd();
-      });
+      } else if (offset.y > VERTICAL_DRAG_THRESHOLD && currentCard && onDragEndWithPosition) {
+        // Check for move to stack (dragging down)
+        onDragEndWithPosition(currentCard.id, { x: point.x, y: point.y });
+      }
+
+      // Reset everything
+      setVerticalDragMode({ active: false, pointerX: 0, pointerY: 0 });
+      resetState();
+      resetMotionValues();
+      onDragEnd();
       return;
     }
 
@@ -272,7 +330,7 @@ export function SwipeableCardDeck({
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: 20, scale: 0.8 }}
           transition={{ type: 'spring', stiffness: 260, damping: 20 }}
-          className="absolute top-24 left-1/2 -translate-x-1/2 z-50"
+          className="absolute top-8 left-1/2 -translate-x-1/2 z-50"
         >
           <div className="relative">
             <motion.div
@@ -355,7 +413,18 @@ export function SwipeableCardDeck({
           );
         })()}
 
-        {/* Current card */}
+        {/* Static ghost card shown at original position during vertical drag */}
+        {verticalDragMode.active && (
+          <div className="absolute opacity-30">
+            <CardItem
+              card={currentCard}
+              onEdit={() => {}}
+              onDelete={() => {}}
+            />
+          </div>
+        )}
+
+        {/* Current card - draggable */}
         <motion.div
           key={currentCard.id}
           className="absolute cursor-grab active:cursor-grabbing touch-none"
@@ -363,9 +432,9 @@ export function SwipeableCardDeck({
             x,
             y,
             rotate,
-            opacity,
+            opacity: verticalDragMode.active ? 0 : opacity,
             scale,
-            transformOrigin: 'bottom center',
+            transformOrigin: 'center center',
             zIndex: isOver50 ? 15 : 20,
           }}
           drag
@@ -384,6 +453,28 @@ export function SwipeableCardDeck({
           />
         </motion.div>
       </div>
+
+      {/* Thumbnail that follows cursor during vertical drag */}
+      {verticalDragMode.active && currentCard && (
+        <motion.div
+          className="fixed pointer-events-none z-[100]"
+          style={{
+            left: verticalDragMode.pointerX,
+            top: verticalDragMode.pointerY,
+            x: '-50%',
+            y: '-50%',
+          }}
+          initial={{ scale: 0.5, opacity: 0 }}
+          animate={{ scale: THUMBNAIL_SCALE, opacity: 1 }}
+          transition={{ type: 'spring', stiffness: 400, damping: 25 }}
+        >
+          <CardItem
+            card={currentCard}
+            onEdit={() => {}}
+            onDelete={() => {}}
+          />
+        </motion.div>
+      )}
     </div>
   );
 }

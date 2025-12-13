@@ -1,4 +1,3 @@
-import { Button } from '@/shared/liquid-glass-components';
 import { useEffect, useState } from 'react';
 import { CardForm } from './components/CardForm';
 import { CreateMenu } from './components/CreateMenu';
@@ -14,7 +13,6 @@ export default function App() {
     stacks,
     activeStackId,
     error,
-    isLoading,
     createStack,
     setActiveStack,
     createCard,
@@ -34,6 +32,7 @@ export default function App() {
   const [isDraggingToStacks, setIsDraggingToStacks] = useState(false);
   const [draggingCardId, setDraggingCardId] = useState<string | null>(null);
   const [showCreateMenu, setShowCreateMenu] = useState(false);
+  const [hoveredStackId, setHoveredStackId] = useState<string | null>(null);
 
   const activeCards = getActiveCards();
 
@@ -98,60 +97,68 @@ export default function App() {
     }
   };
 
+  // Helper to find stack ID at a given position
+  const getStackIdAtPosition = (position: { x: number; y: number }): string | null => {
+    const elementAtPoint = document.elementFromPoint(position.x, position.y);
+    if (!elementAtPoint) return null;
+
+    const stackElement = elementAtPoint.closest('[data-stack-id]');
+    if (!stackElement) return null;
+
+    return stackElement.getAttribute('data-stack-id');
+  };
+
+  const handleDragEndWithPosition = (cardId: string, position: { x: number; y: number }) => {
+    const targetStackId = getStackIdAtPosition(position);
+
+    // Clear hover state
+    setHoveredStackId(null);
+
+    if (!targetStackId) return;
+
+    // Don't move if dropping on the same stack
+    if (targetStackId === activeStackId) return;
+
+    // Move the card to the target stack
+    handleMoveCard(cardId, targetStackId);
+  };
+
+  const handleDragPositionChange = (position: { x: number; y: number } | null) => {
+    if (!position) {
+      setHoveredStackId(null);
+      return;
+    }
+
+    const stackId = getStackIdAtPosition(position);
+    // Only set hovered if it's a different stack than active
+    setHoveredStackId(stackId !== activeStackId ? stackId : null);
+  };
+
   return (
-    <div className="min-h-screen pb-32">
-      {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 py-8">
-        {isLoading ? (
-          <div className="flex flex-col items-center justify-center min-h-[60vh] text-center">
-            <div className="relative">
-              <div className="w-12 h-12 rounded-full border-2 border-white/20 border-t-white/60 animate-spin" />
-            </div>
-            <p className="text-white/60 mt-4">Loading stacks...</p>
-          </div>
-        ) : stacks.length === 0 ? (
-          <div className="flex flex-col items-center justify-center min-h-[60vh] text-center">
-            <div className="mb-8 p-8 rounded-3xl bg-white/5 backdrop-blur-sm border border-white/20 shadow-[inset_0_1px_0px_rgba(255,255,255,0.2)]">
-              <svg
-                className="w-24 h-24 mx-auto text-white/30 mb-6"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={1.5}
-                  d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
-                />
-              </svg>
-              <h2 className="text-2xl font-bold text-white mb-2">No Stacks Yet</h2>
-              <p className="text-white/60 mb-6">Create your first stack to get started</p>
-              <Button
-                onClick={() => setModalType('create-stack')}
-                highlight="1"
-                className="px-8 py-3"
-              >
-                Create Stack
-              </Button>
-            </div>
-          </div>
-        ) : (
-          <SwipeableCardDeck
-            cards={activeCards}
-            onEdit={handleEditCard}
-            onDelete={handleDeleteCard}
-            onDragStart={(cardId) => {
-              setIsDraggingToStacks(true);
-              setDraggingCardId(cardId);
-            }}
-            onDragEnd={() => {
-              setIsDraggingToStacks(false);
-              setDraggingCardId(null);
-            }}
-          />
-        )}
-      </main>
+    <>
+      {/* Card Deck - Only shown when a stack is selected */}
+      {activeStackId && (
+        <div className="fixed inset-0 z-40 pb-32">
+          <main className="max-w-7xl mx-auto px-4 py-8 h-full">
+            <SwipeableCardDeck
+              cards={activeCards}
+              onEdit={handleEditCard}
+              onDelete={handleDeleteCard}
+              onDragStart={(cardId) => {
+                setIsDraggingToStacks(true);
+                setDraggingCardId(cardId);
+              }}
+              onDragEnd={() => {
+                setIsDraggingToStacks(false);
+                setDraggingCardId(null);
+                setHoveredStackId(null);
+              }}
+              onDragEndWithPosition={handleDragEndWithPosition}
+              onDragPositionChange={handleDragPositionChange}
+            />
+          </main>
+        </div>
+      )}
 
       {/* Error Toast with Liquid Glass Effect */}
       {error && (
@@ -163,14 +170,22 @@ export default function App() {
         </div>
       )}
 
-      {/* Bottom Navigation */}
+      {/* Bottom Navigation - Always visible */}
       <Dock
         stacks={stacks}
         activeStackId={activeStackId}
-        onStackSelect={setActiveStack}
+        onStackSelect={(stackId) => {
+          // Toggle: if clicking active stack, close it; otherwise open it
+          if (activeStackId === stackId) {
+            setActiveStack(null);
+          } else {
+            setActiveStack(stackId);
+          }
+        }}
         onCreateClick={() => setShowCreateMenu(true)}
         onSearchClick={() => {}}
         isDraggingCard={isDraggingToStacks}
+        hoveredStackId={hoveredStackId}
         onStackDrop={(stackId) => {
           if (draggingCardId) {
             handleMoveCard(draggingCardId, stackId);
@@ -223,6 +238,6 @@ export default function App() {
       >
         <StackForm onSubmit={handleCreateStack} onCancel={() => setModalType(null)} />
       </Modal>
-    </div>
+    </>
   );
 }

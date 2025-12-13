@@ -27,6 +27,7 @@ type DockProps = {
   onCreateClick: () => void;
   onSearchClick: () => void;
   isDraggingCard: boolean;
+  hoveredStackId?: string | null;
   onStackDrop?: (stackId: string) => void;
 };
 
@@ -37,6 +38,7 @@ export function Dock({
   onCreateClick,
   onSearchClick,
   isDraggingCard,
+  hoveredStackId,
   onStackDrop,
 }: DockProps) {
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -100,16 +102,34 @@ export function Dock({
               {/* Stack Items */}
               {visibleStacks.map((stack, index) => {
                 const isActive = activeStackId === stack.id;
+                const isHovered = hoveredStackId === stack.id;
                 const highlight = HIGHLIGHT_COLORS[index % HIGHLIGHT_COLORS.length];
 
                 return (
-                  <div
+                  <motion.div
                     key={stack.id}
+                    data-stack-id={stack.id}
                     onClick={() => onStackSelect(stack.id)}
                     onDragOver={handleStackDragOver}
                     onDrop={(e) => handleStackDrop(e, stack.id)}
-                    className="cursor-pointer transition-transform duration-200 hover:scale-105"
+                    className="cursor-pointer relative"
+                    animate={{
+                      scale: isHovered ? 1.15 : 1,
+                    }}
+                    transition={{ type: 'spring', stiffness: 400, damping: 25 }}
                   >
+                    {/* Glow effect when hovered during drag */}
+                    {isHovered && (
+                      <motion.div
+                        className="absolute inset-0 rounded-2xl pointer-events-none"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        style={{
+                          boxShadow: '0 0 20px 8px rgba(255, 255, 255, 0.4), 0 0 40px 16px rgba(255, 255, 255, 0.2)',
+                          zIndex: -1,
+                        }}
+                      />
+                    )}
                     <StackItem
                       name={stack.name}
                       cover={
@@ -117,9 +137,9 @@ export function Dock({
                       }
                       cardCount={stack.cardCount}
                       highlight={highlight}
-                      active={isActive}
+                      active={isActive || isHovered}
                     />
-                  </div>
+                  </motion.div>
                 );
               })}
 
