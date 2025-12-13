@@ -1,11 +1,24 @@
-import { Logo } from '@/shared/components/Logo';
+import {
+  Button,
+  Delimiter,
+  MenuBar,
+  RoundButton,
+  Stack as StackItem,
+} from '@/shared/liquid-glass-components';
 import { AnimatePresence, motion } from 'framer-motion';
+import type React from 'react';
 import { useMemo, useState } from 'react';
 import CollapseSvg from '~/public/icons/collapse.svg?react';
+import LogoSvg from '~/public/icons/logo.svg?react';
+import MagnifierSvg from '~/public/icons/magnifier.svg?react';
+import PlusSvg from '~/public/icons/plus.svg?react';
+import StarSvg from '~/public/icons/star.svg?react';
 import type { Stack } from '../../../types';
 import { CollapsedDock } from './CollapsedDock';
-import { StackDockItem } from './StackDockItem';
 import { StackFilterBar } from './StackFilterBar';
+
+// Highlight colors to cycle through for stacks
+const HIGHLIGHT_COLORS: Array<'1' | '2' | '3' | '4' | '5'> = ['1', '2', '3', '4', '5'];
 
 type DockProps = {
   stacks: Stack[];
@@ -36,6 +49,19 @@ export function Dock({
     return stacks.filter((stack) => stack.name.toLowerCase().includes(query));
   }, [stacks, searchQuery]);
 
+  const handleStackDragOver = (event: React.DragEvent<HTMLDivElement>) => {
+    if (isDraggingCard) {
+      event.preventDefault();
+    }
+  };
+
+  const handleStackDrop = (event: React.DragEvent<HTMLDivElement>, stackId: string) => {
+    event.preventDefault();
+    if (isDraggingCard && onStackDrop) {
+      onStackDrop(stackId);
+    }
+  };
+
   return (
     <div className="fixed inset-x-0 bottom-5 z-40 flex justify-center pointer-events-none">
       <AnimatePresence initial={false} mode="wait">
@@ -57,81 +83,61 @@ export function Dock({
               onQueryChange={(value) => setSearchQuery(value)}
             />
 
-            {/* Dock Container with Liquid Glass Effect */}
-            <div className="relative">
-              {/* Glass Background */}
-              <div className="absolute inset-0 bg-white/10 backdrop-blur-2xl rounded-3xl border border-white/20 shadow-2xl" />
+            {/* Dock Container with MenuBar */}
+            <MenuBar className="pe-2 items-end">
+              {/* Logo / Brand */}
+              <StackItem
+                name={<LogoSvg className="w-10" />}
+                cover={
+                  <motion.div whileHover={{ rotate: 90, scale: 1.2 }}>
+                    <StarSvg className="w-4 h-4" />
+                  </motion.div>
+                }
+              />
 
-              {/* Gradient Overlay for Depth */}
-              <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent rounded-3xl" />
+              <Delimiter />
 
-              {/* Content */}
-              <div className="relative px-4 py-3">
-                <div className="flex items-center gap-3 overflow-visible max-w-full">
-                  {/* Brand / favorite section */}
-                  <div className="flex items-center gap-2 pr-4 mr-1 border-r border-white/20 flex-shrink-0">
-                    <Logo />
+              {/* Stack Items */}
+              {visibleStacks.map((stack, index) => {
+                const isActive = activeStackId === stack.id;
+                const highlight = HIGHLIGHT_COLORS[index % HIGHLIGHT_COLORS.length];
+
+                return (
+                  <div
+                    key={stack.id}
+                    onClick={() => onStackSelect(stack.id)}
+                    onDragOver={handleStackDragOver}
+                    onDrop={(e) => handleStackDrop(e, stack.id)}
+                    className="cursor-pointer transition-transform duration-200 hover:scale-105"
+                  >
+                    <StackItem
+                      name={stack.name}
+                      cover={
+                        <span className="text-lg font-bold">{stack.name.charAt(0).toUpperCase()}</span>
+                      }
+                      cardCount={stack.cardCount}
+                      highlight={highlight}
+                      active={isActive}
+                    />
                   </div>
+                );
+              })}
 
-                  {/* Stack Items - horizontally scrollable */}
-                  <div className="flex-1 overflow-x-auto overflow-y-visible">
-                    <div className="flex items-end gap-3 pr-6">
-                      {visibleStacks.map((stack) => {
-                        const isActive = activeStackId === stack.id;
+              <Delimiter />
 
-                        return (
-                          <StackDockItem
-                            key={stack.id}
-                            stack={stack}
-                            isActive={isActive}
-                            isDraggingCard={isDraggingCard}
-                            onSelect={() => onStackSelect(stack.id)}
-                            onStackDrop={
-                              onStackDrop
-                                ? () => {
-                                    onStackDrop(stack.id);
-                                  }
-                                : undefined
-                            }
-                          />
-                        );
-                      })}
-                    </div>
-                  </div>
+              {/* Create Button - wrapped to align with stacks */}
+              <div className="flex flex-col gap-1 items-center w-14">
+                <Button className="w-12 h-12" highlight="1" onClick={onCreateClick}>
+                  <motion.div whileHover={{ rotate: 90, scale: 1.2 }}>
+                    <PlusSvg className="w-6 h-6" />
+                  </motion.div>
+                </Button>
+                <span className="h-[24px]" />
+              </div>
 
-                  {/* Divider */}
-                  <div className="w-px h-12 bg-white/20 mx-1 flex-shrink-0" />
-
-                  {/* Create button */}
-                  <div className="flex flex-col items-center transition-transform duration-300 ease-out hover:scale-110 flex-shrink-0">
-                    <button
-                      onClick={onCreateClick}
-                      className="w-14 h-14 rounded-2xl bg-gradient-to-br from-violet-500 to-fuchsia-600 hover:from-violet-400 hover:to-fuchsia-500 text-white shadow-lg shadow-violet-500/50 hover:shadow-2xl hover:shadow-violet-500/70 transition-all duration-300 flex items-center justify-center group relative overflow-hidden"
-                      aria-label="Create"
-                    >
-                      {/* Glass Overlay */}
-                      <div className="absolute inset-0 bg-gradient-to-b from-white/20 to-transparent" />
-
-                      <svg
-                        className="w-7 h-7 relative z-10 transition-transform group-hover:rotate-90 duration-300"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2.5}
-                          d="M12 4v16m8-8H4"
-                        />
-                      </svg>
-                    </button>
-                  </div>
-                </div>
-
-                {/* Small search toggle above the minimize button */}
-                <motion.button
-                  type="button"
+              {/* Action Buttons */}
+              <div className="w-10 items-end flex gap-1 flex-col ms-auto">
+                <RoundButton
                   onClick={() => {
                     setIsSearchOpen((previous) => {
                       const next = !previous;
@@ -141,40 +147,15 @@ export function Dock({
                       return next;
                     });
                   }}
-                  className="absolute -right-4 top-1 w-7 h-7 rounded-full bg-white/15 hover:bg-white/25 border border-white/30 flex items-center justify-center text-white shadow-md"
                   aria-label="Search"
-                  whileHover={{ scale: 1.07 }}
-                  whileTap={{ scale: 0.94 }}
                 >
-                  <svg
-                    className="w-3.5 h-3.5"
-                    viewBox="0 0 24 24"
-                    aria-hidden="true"
-                    fill="none"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                    />
-                  </svg>
-                </motion.button>
-
-                {/* Minimize / collapse into floating button */}
-                <motion.button
-                  type="button"
-                  onClick={() => setIsCollapsed(true)}
-                  className="absolute -right-4 bottom-3 w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 border border-white/30 flex items-center justify-center text-white shadow-lg"
-                  aria-label="Minimize dock"
-                  whileHover={{ scale: 1.1, rotate: 0 }}
-                  whileTap={{ scale: 0.9, rotate: 90 }}
-                >
-                  <CollapseSvg className="w-3.5 h-3.5" />
-                </motion.button>
+                  <MagnifierSvg className="w-3 h-3" />
+                </RoundButton>
+                <RoundButton onClick={() => setIsCollapsed(true)} aria-label="Minimize dock">
+                  <CollapseSvg className="w-3 h-3" />
+                </RoundButton>
               </div>
-            </div>
+            </MenuBar>
           </motion.div>
         )}
       </AnimatePresence>
