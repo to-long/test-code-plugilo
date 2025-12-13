@@ -1,3 +1,4 @@
+import { Button } from '@/shared/liquid-glass-components';
 import { useState } from 'react';
 import type { Stack } from '../types';
 import { getRandomColor } from '../services/api';
@@ -7,6 +8,10 @@ interface StackFormProps {
   onSubmit: (data: { name: string; cover: string }) => void;
   onCancel: () => void;
 }
+
+const inputClassName = `w-full px-4 py-2.5 text-white text-sm bg-white/5 border border-white/20 backdrop-blur-sm rounded-xl
+  shadow-[inset_0_1px_0px_rgba(255,255,255,0.1)] placeholder:text-white/40
+  focus:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white/30 focus:border-white/40 transition-all duration-300`;
 
 export function StackForm({ stack, onSubmit, onCancel }: StackFormProps) {
   const [name, setName] = useState(stack?.name || '');
@@ -23,55 +28,55 @@ export function StackForm({ stack, onSubmit, onCancel }: StackFormProps) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
+    <form onSubmit={handleSubmit} className="space-y-5">
       {/* Cover Preview */}
       <div className="space-y-2">
-        <label className="block text-sm font-medium text-gray-300">Cover</label>
+        <label className="block text-sm font-medium text-white/80">Cover</label>
         <div
-          className="h-32 rounded-lg flex items-center justify-center text-white text-4xl font-bold"
+          className="h-32 rounded-xl flex items-center justify-center text-white text-4xl font-bold border border-white/20 shadow-[inset_0_1px_0px_rgba(255,255,255,0.2)]"
           style={{ background: cover }}
         >
           {name.charAt(0) || '?'}
         </div>
-        <button
+        <Button
           type="button"
           onClick={handleRandomColor}
-          className="w-full px-4 py-2 bg-slate-700 hover:bg-slate-600 text-white rounded-lg transition-colors"
+          className="w-full py-2.5"
         >
           🎨 Generate Random Color
-        </button>
+        </Button>
       </div>
 
       {/* Name */}
       <div className="space-y-2">
-        <label className="block text-sm font-medium text-gray-300">Name *</label>
+        <label className="block text-sm font-medium text-white/80">Name *</label>
         <input
           type="text"
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder="Enter stack name"
           required
-          className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-violet-500"
+          className={inputClassName}
         />
       </div>
 
       {/* Actions */}
       <div className="flex gap-3 pt-4">
-        <button
+        <Button
           type="button"
           onClick={onCancel}
-          className="flex-1 px-6 py-3 bg-slate-700 hover:bg-slate-600 text-white rounded-lg font-medium transition-colors"
+          className="flex-1 py-3"
         >
           Cancel
-        </button>
-        <button
+        </Button>
+        <Button
           type="submit"
-          className="flex-1 px-6 py-3 bg-gradient-to-r from-violet-600 to-fuchsia-600 hover:from-violet-500 hover:to-fuchsia-500 text-white rounded-lg font-medium transition-all"
+          highlight="1"
+          className="flex-1 py-3"
         >
           {stack ? 'Update' : 'Create'}
-        </button>
+        </Button>
       </div>
     </form>
   );
 }
-

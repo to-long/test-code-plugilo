@@ -1,4 +1,12 @@
+import { RoundButton } from '@/shared/liquid-glass-components';
+import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect } from 'react';
+
+const CloseIcon = () => (
+  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+  </svg>
+);
 
 interface ModalProps {
   isOpen: boolean;
@@ -19,36 +27,51 @@ export function Modal({ isOpen, onClose, title, children }: ModalProps) {
     };
   }, [isOpen]);
 
-  if (!isOpen) return null;
-
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      {/* Backdrop */}
-      <div
-        className="absolute inset-0 bg-black/60 backdrop-blur-sm"
-        onClick={onClose}
-      />
-
-      {/* Modal */}
-      <div className="relative bg-slate-800 rounded-2xl shadow-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto">
-        {/* Header */}
-        <div className="sticky top-0 bg-slate-800 border-b border-slate-700 px-6 py-4 flex items-center justify-between">
-          <h2 className="text-2xl font-bold text-white">{title}</h2>
-          <button
+    <AnimatePresence>
+      {isOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          {/* Backdrop */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="absolute inset-0 bg-black/60 backdrop-blur-md"
             onClick={onClose}
-            className="p-2 rounded-full hover:bg-slate-700 text-gray-400 hover:text-white transition-colors"
-            aria-label="Close"
-          >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
-        </div>
+          />
 
-        {/* Content */}
-        <div className="p-6">{children}</div>
-      </div>
-    </div>
+          {/* Modal with Liquid Glass Effect */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.9, y: 20 }}
+            transition={{ duration: 0.25, ease: 'easeOut' }}
+            className="relative max-w-lg w-full max-h-[90vh] overflow-y-auto rounded-3xl"
+          >
+            {/* Glass Background */}
+            <div className="absolute inset-0 bg-black/25 backdrop-blur-xl rounded-3xl border border-white/50 shadow-[inset_0_1px_0px_rgba(255,255,255,0.75),0_0_30px_rgba(0,0,0,0.3),0_10px_40px_rgba(0,0,0,0.25)]" />
+
+            {/* Gradient overlays for depth */}
+            <div className="absolute inset-0 bg-gradient-to-br from-white/30 via-transparent to-transparent opacity-70 rounded-3xl pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-tl from-white/15 via-transparent to-transparent opacity-50 rounded-3xl pointer-events-none" />
+
+            {/* Content Container */}
+            <div className="relative">
+              {/* Header */}
+              <div className="sticky top-0 z-10 px-6 py-4 flex items-center justify-between border-b border-white/20">
+                <h2 className="text-2xl font-bold text-white drop-shadow-sm">{title}</h2>
+                <RoundButton onClick={onClose} aria-label="Close">
+                  <CloseIcon />
+                </RoundButton>
+              </div>
+
+              {/* Content */}
+              <div className="p-6">{children}</div>
+            </div>
+          </motion.div>
+        </div>
+      )}
+    </AnimatePresence>
   );
 }
-

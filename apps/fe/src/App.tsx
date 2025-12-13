@@ -1,3 +1,4 @@
+import { Button } from '@/shared/liquid-glass-components';
 import { useEffect, useState } from 'react';
 import { CardForm } from './components/CardForm';
 import { CreateMenu } from './components/CreateMenu';
@@ -5,7 +6,6 @@ import { Modal } from './components/Modal';
 import { StackForm } from './components/StackForm';
 import { SwipeableCardDeck } from './components/SwipeableCardDeck';
 import { Dock } from './features/dock/components/Dock';
-import { Demo } from './shared/liquid-glass-components/Demo';
 import { useStore } from './store/useStore';
 import type { Card, ModalType } from './types';
 
@@ -100,18 +100,20 @@ export default function App() {
 
   return (
     <div className="min-h-screen pb-32">
-      <Demo />
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 py-8">
         {isLoading ? (
           <div className="flex flex-col items-center justify-center min-h-[60vh] text-center">
-            <p className="text-gray-400">Loading stacks...</p>
+            <div className="relative">
+              <div className="w-12 h-12 rounded-full border-2 border-white/20 border-t-white/60 animate-spin" />
+            </div>
+            <p className="text-white/60 mt-4">Loading stacks...</p>
           </div>
         ) : stacks.length === 0 ? (
           <div className="flex flex-col items-center justify-center min-h-[60vh] text-center">
-            <div className="mb-8">
+            <div className="mb-8 p-8 rounded-3xl bg-white/5 backdrop-blur-sm border border-white/20 shadow-[inset_0_1px_0px_rgba(255,255,255,0.2)]">
               <svg
-                className="w-32 h-32 mx-auto text-gray-600 mb-4"
+                className="w-24 h-24 mx-auto text-white/30 mb-6"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -124,13 +126,14 @@ export default function App() {
                 />
               </svg>
               <h2 className="text-2xl font-bold text-white mb-2">No Stacks Yet</h2>
-              <p className="text-gray-400 mb-6">Create your first stack to get started</p>
-              <button
+              <p className="text-white/60 mb-6">Create your first stack to get started</p>
+              <Button
                 onClick={() => setModalType('create-stack')}
-                className="px-6 py-3 bg-gradient-to-r from-violet-600 to-fuchsia-600 hover:from-violet-500 hover:to-fuchsia-500 text-white rounded-lg font-medium transition-all"
+                highlight="1"
+                className="px-8 py-3"
               >
                 Create Stack
-              </button>
+              </Button>
             </div>
           </div>
         ) : (
@@ -150,10 +153,13 @@ export default function App() {
         )}
       </main>
 
-      {/* Error Toast */}
+      {/* Error Toast with Liquid Glass Effect */}
       {error && (
-        <div className="fixed top-20 right-4 bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 animate-slide-in">
-          {error}
+        <div className="fixed top-20 right-4 z-50 animate-slide-in">
+          <div className="relative px-6 py-3 rounded-2xl text-white backdrop-blur-xl border border-red-400/30 bg-red-500/20 shadow-[inset_0_1px_0px_rgba(255,255,255,0.2),0_0_20px_rgba(239,68,68,0.3)]">
+            <div className="absolute inset-0 bg-gradient-to-br from-red-400/30 via-transparent to-transparent rounded-2xl pointer-events-none" />
+            <span className="relative">{error}</span>
+          </div>
         </div>
       )}
 
