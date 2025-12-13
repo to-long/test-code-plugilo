@@ -1,0 +1,33 @@
+import type { Card } from '../../types';
+
+export interface SwipeableCardDeckProps {
+  cards: Card[];
+  onEdit: (card: Card) => void;
+  onDelete: (cardId: string) => void;
+  onDragStart: (cardId: string) => void;
+  onDragEnd: () => void;
+  onDragEndWithPosition?: (cardId: string, position: Position) => void;
+  onDragPositionChange?: (position: Position | null) => void;
+}
+
+export interface Position {
+  x: number;
+  y: number;
+}
+
+export interface ExitingCardState {
+  card: Card;
+  startX: number;
+  startY: number;
+  startRotate: number;
+  startScale: number;
+}
+
+export interface VerticalDragState {
+  active: boolean;
+  pointerX: number;
+  pointerY: number;
+}
+
+export type DragDirection = 'horizontal' | 'vertical' | null;
+
