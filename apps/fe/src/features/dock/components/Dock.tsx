@@ -8,12 +8,15 @@ import {
 import { AnimatePresence, motion } from 'framer-motion';
 import type React from 'react';
 import { useMemo, useState } from 'react';
+import ChevronLeftSvg from '~/public/icons/chevron-left.svg?react';
+import ChevronRightSvg from '~/public/icons/chevron-right.svg?react';
 import CollapseSvg from '~/public/icons/collapse.svg?react';
 import LogoSvg from '~/public/icons/logo.svg?react';
 import MagnifierSvg from '~/public/icons/magnifier.svg?react';
 import PlusSvg from '~/public/icons/plus.svg?react';
 import StarSvg from '~/public/icons/star.svg?react';
 import type { Stack } from '../../../types';
+import { useDockScroll } from '../hooks/useDockScroll';
 import { CollapsedDock } from './CollapsedDock';
 import { StackFilterBar } from './StackFilterBar';
 
@@ -50,6 +53,17 @@ export function Dock({
     if (!query) return stacks;
     return stacks.filter((stack) => stack.name.toLowerCase().includes(query));
   }, [stacks, searchQuery]);
+
+  const {
+    containerRef: stacksContainerRef,
+    canScrollLeft,
+    canScrollRight,
+    needsScrolling,
+    scrollLeft,
+    scrollRight,
+    handleScroll,
+    containerMaxWidth,
+  } = useDockScroll(visibleStacks.length);
 
   const handleStackDragOver = (event: React.DragEvent<HTMLDivElement>) => {
     if (isDraggingCard) {
@@ -99,49 +113,86 @@ export function Dock({
 
               <Delimiter />
 
-              {/* Stack Items */}
-              {visibleStacks.map((stack, index) => {
-                const isActive = activeStackId === stack.id;
-                const isHovered = hoveredStackId === stack.id;
-                const highlight = HIGHLIGHT_COLORS[index % HIGHLIGHT_COLORS.length];
+              {/* Scroll Left Button */}
+              {needsScrolling && (
+                <button
+                  onClick={scrollLeft}
+                  className={`flex items-center justify-center w-6 h-12 transition-all self-center ${
+                    canScrollLeft ? 'opacity-100' : 'opacity-0 pointer-events-none'
+                  }`}
+                  aria-label="Scroll left"
+                >
+                  <ChevronLeftSvg className="w-4 h-4" />
+                </button>
+              )}
 
-                return (
-                  <motion.div
-                    key={stack.id}
-                    data-stack-id={stack.id}
-                    onClick={() => onStackSelect(stack.id)}
-                    onDragOver={handleStackDragOver}
-                    onDrop={(e) => handleStackDrop(e, stack.id)}
-                    className="cursor-pointer relative"
-                    animate={{
-                      scale: isHovered ? 1.15 : 1,
-                    }}
-                    transition={{ type: 'spring', stiffness: 400, damping: 25 }}
-                  >
-                    {/* Glow effect when hovered during drag */}
-                    {isHovered && (
-                      <motion.div
-                        className="absolute inset-0 rounded-2xl pointer-events-none"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        style={{
-                          boxShadow: '0 0 20px 8px rgba(255, 255, 255, 0.4), 0 0 40px 16px rgba(255, 255, 255, 0.2)',
-                          zIndex: -1,
-                        }}
+              {/* Stack Items Container */}
+              <div
+                ref={stacksContainerRef}
+                className="flex gap-2 overflow-x-auto overflow-y-visible scrollbar-hide py-2 -my-2 px-2 -mx-2"
+                style={{
+                  maxWidth: containerMaxWidth ?? 'none',
+                  scrollbarWidth: 'none',
+                  msOverflowStyle: 'none',
+                }}
+                onScroll={handleScroll}
+              >
+                {visibleStacks.map((stack, index) => {
+                  const isActive = activeStackId === stack.id;
+                  const isHovered = hoveredStackId === stack.id;
+                  const highlight = HIGHLIGHT_COLORS[index % HIGHLIGHT_COLORS.length];
+
+                  return (
+                    <motion.div
+                      key={stack.id}
+                      data-stack-id={stack.id}
+                      onClick={() => onStackSelect(stack.id)}
+                      onDragOver={handleStackDragOver}
+                      onDrop={(e) => handleStackDrop(e, stack.id)}
+                      className="cursor-pointer relative flex-shrink-0"
+                      animate={{
+                        scale: isHovered ? 1.15 : 1,
+                      }}
+                      transition={{ type: 'spring', stiffness: 400, damping: 25 }}
+                    >
+                      {/* Glow effect when hovered during drag */}
+                      {isHovered && (
+                        <motion.div
+                          className="absolute inset-0 rounded-2xl pointer-events-none"
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          style={{
+                            boxShadow: '0 0 20px 8px rgba(255, 255, 255, 0.4), 0 0 40px 16px rgba(255, 255, 255, 0.2)',
+                            zIndex: -1,
+                          }}
+                        />
+                      )}
+                      <StackItem
+                        name={stack.name}
+                        cover={
+                          <span className="text-lg font-bold">{stack.name.charAt(0).toUpperCase()}</span>
+                        }
+                        cardCount={stack.cardCount}
+                        highlight={highlight}
+                        active={isActive || isHovered}
                       />
-                    )}
-                    <StackItem
-                      name={stack.name}
-                      cover={
-                        <span className="text-lg font-bold">{stack.name.charAt(0).toUpperCase()}</span>
-                      }
-                      cardCount={stack.cardCount}
-                      highlight={highlight}
-                      active={isActive || isHovered}
-                    />
-                  </motion.div>
-                );
-              })}
+                    </motion.div>
+                  );
+                })}
+              </div>
+
+              {/* Scroll Right Button */}
+              {needsScrolling && (
+                <button
+                  onClick={scrollRight}
+                  className={`flex items-center justify-center w-6 h-12 transition-all self-center ${
+                    canScrollRight ? 'opacity-100' : 'opacity-0 pointer-events-none'
+                  }`}
+                  aria-label="Scroll right"
+                >
+                  <ChevronRightSvg className="w-4 h-4" />
+                </button>
+              )}
 
               <Delimiter />
 
