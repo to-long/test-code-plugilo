@@ -1,4 +1,6 @@
 import { AnimatePresence, motion } from 'framer-motion';
+import MagnifierSvg from '~/public/icons/magnifier.svg?react';
+import PlusSvg from '~/public/icons/plus.svg?react';
 
 type StackFilterBarProps = {
   isOpen: boolean;
@@ -19,45 +21,25 @@ export function StackFilterBar({ isOpen, query, onQueryChange }: StackFilterBarP
           transition={{ duration: 0.16, ease: 'easeOut' }}
         >
           <div className="relative min-w-[260px] max-w-[520px] w-full">
-            {/* Glass layers */}
-            <div className="absolute inset-0 rounded-full bg-white/10 backdrop-blur-2xl border border-white/25 shadow-[0_18px_40px_rgba(15,23,42,0.85)]" />
-            <div className="absolute inset-0 rounded-full bg-gradient-to-r from-white/40 via-white/10 to-transparent opacity-90" />
-
-            {/* Content */}
-            <div className="relative flex items-center gap-2 px-3 py-1.5 text-sm text-slate-100">
-              <svg
-                className="w-4 h-4 text-slate-200/80 flex-shrink-0"
-                viewBox="0 0 24 24"
-                aria-hidden="true"
-                fill="none"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M21 21l-4.35-4.35M11 18a7 7 0 1 1 0-14 7 7 0 0 1 0 14z"
-                />
-              </svg>
-
-              <input
-                value={query}
-                onChange={(event) => onQueryChange(event.target.value)}
-                placeholder="Filter stacks"
-                className="flex-1 bg-transparent outline-none placeholder:text-slate-300 text-sm text-slate-50"
-              />
-
-              {query && (
-                <button
-                  type="button"
-                  onClick={() => onQueryChange('')}
-                  className="text-slate-200 hover:text-white transition-colors"
-                  aria-label="Clear filter"
-                >
-                  ×
-                </button>
-              )}
+            <input
+              value={query}
+              onChange={(event) => onQueryChange(event.target.value)}
+              placeholder="Filter stacks"
+              className="pl-8 pr-12 py-1 w-full text-white text-sm bg-black/20 border border-white/50 backdrop-blur-sm rounded-full shadow-[inset_0_1px_0px_rgba(255,255,255,0.75),0_0_9px_rgba(0,0,0,0.2),0_3px_8px_rgba(0,0,0,0.15)] placeholder:text-white/70 focus:bg-white/5 focus:outline-none focus:ring-2 focus:ring-white/30 transition-all duration-300 relative before:absolute before:inset-0 before:bg-gradient-to-br before:from-white/60 before:via-transparent before:to-transparent before:opacity-70 before:pointer-events-none after:absolute after:inset-0 before:rounded-lg after:bg-gradient-to-tl after:from-white/30 after:via-transparent after:to-transparent after:opacity-50 after:pointer-events-none"
+            />
+            <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white/70">
+              <MagnifierSvg className="w-4 h-4" />
             </div>
+            {query ? (
+              <button
+                type="button"
+                onClick={() => onQueryChange('')}
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-white/70 hover:text-white transition-colors duration-200"
+                aria-label="Clear filter"
+              >
+                <PlusSvg className="w-4 h-4 rotate-45" />
+              </button>
+            ) : null}
           </div>
         </motion.div>
       )}

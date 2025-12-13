@@ -132,6 +132,7 @@ export function Dock({
                 className="flex gap-2 overflow-x-auto overflow-y-visible scrollbar-hide py-2 -my-2 px-2 -mx-2"
                 style={{
                   maxWidth: containerMaxWidth ?? 'none',
+                  minWidth: '200px', // At least enough for 3 stack items (3 × 56px + 2 × 8px gaps + padding)
                   scrollbarWidth: 'none',
                   msOverflowStyle: 'none',
                 }}

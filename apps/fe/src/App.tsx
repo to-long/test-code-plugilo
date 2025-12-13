@@ -1,3 +1,4 @@
+import { AnimatePresence, motion } from 'framer-motion';
 import { useCallback, useEffect } from 'react';
 import { CardForm } from './components/CardForm';
 import { CreateMenu } from './components/CreateMenu';
@@ -157,21 +158,30 @@ export default function App() {
   return (
     <>
       {/* Card Deck - Only shown when a stack is selected */}
-      {activeStackId && (
-        <div className="fixed inset-0 z-40 pb-32">
-          <main className="max-w-7xl mx-auto px-4 py-8 h-full">
-            <SwipeableCardDeck
-              cards={activeCards}
-              onEdit={openEditCard}
-              onDelete={handleDeleteCard}
-              onDragStart={startDragging}
-              onDragEnd={stopDragging}
-              onDragEndWithPosition={handleDragEndWithPosition}
-              onDragPositionChange={handleDragPositionChange}
-            />
-          </main>
-        </div>
-      )}
+      <AnimatePresence mode="wait">
+        {activeStackId && (
+          <motion.div
+            key={activeStackId}
+            className="fixed inset-0 z-40 pb-32"
+            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: 20 }}
+            transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+          >
+            <main className="max-w-7xl mx-auto px-4 py-8 h-full">
+              <SwipeableCardDeck
+                cards={activeCards}
+                onEdit={openEditCard}
+                onDelete={handleDeleteCard}
+                onDragStart={startDragging}
+                onDragEnd={stopDragging}
+                onDragEndWithPosition={handleDragEndWithPosition}
+                onDragPositionChange={handleDragPositionChange}
+              />
+            </main>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Error Toast with Liquid Glass Effect */}
       {error && (
