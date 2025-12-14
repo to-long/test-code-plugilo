@@ -21,7 +21,7 @@ export const CollapsedDock = ({ expandDock, stacksCount }: CollapsedDockProps) =
       exit={{ opacity: 0, y: 24, scale: 0.85 }}
       transition={{ duration: 0.18, ease: 'easeOut' }}
     >
-      <MenuBar className="w-60 h-10 p-0 ps-3 items-center cursor-pointer" onClick={expandDock}>
+      <MenuBar className="w-60 h-10 py-2 ps-3 items-center cursor-pointer" onClick={expandDock}>
         <LogoSvg className="w-14 drop-shadow-[0_6px_18px_rgba(15,23,42,0.9)]" />
         <Delimiter className="h-[50%]" />
         <span className="text-left text-xs text-slate-100/80 truncate">{label}</span>

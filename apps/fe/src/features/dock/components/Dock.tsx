@@ -4,16 +4,14 @@ import { Button, Delimiter, RoundButton } from '@/shared';
 import { AnimatePresence, motion } from 'framer-motion';
 import type React from 'react';
 import { useMemo, useState } from 'react';
-import ChevronLeftSvg from '~/public/icons/chevron-left.svg?react';
-import ChevronRightSvg from '~/public/icons/chevron-right.svg?react';
 import CollapseSvg from '~/public/icons/collapse.svg?react';
 import LogoSvg from '~/public/icons/logo.svg?react';
 import MagnifierSvg from '~/public/icons/magnifier.svg?react';
 import PlusSvg from '~/public/icons/plus.svg?react';
 import StarSvg from '~/public/icons/star.svg?react';
-import { useDockScroll } from '../hooks/useDockScroll';
 import { CollapsedDock } from './CollapsedDock';
 import { MenuBar } from './MenuBar';
+import { ScrollContainer } from './ScrollContainer';
 import { StackSearch } from './StackSearch';
 
 // Highlight colors to cycle through for stacks
@@ -51,17 +49,6 @@ export function Dock({
     if (!query) return stacks;
     return stacks.filter((stack) => stack.name.toLowerCase().includes(query));
   }, [stacks, searchQuery]);
-
-  const {
-    containerRef: stacksContainerRef,
-    canScrollLeft,
-    canScrollRight,
-    needsScrolling,
-    scrollLeft,
-    scrollRight,
-    handleScroll,
-    containerMaxWidth,
-  } = useDockScroll(visibleStacks.length);
 
   const handleStackDragOver = (event: React.DragEvent<HTMLDivElement>) => {
     if (isDraggingCard) {
@@ -111,31 +98,7 @@ export function Dock({
 
               <Delimiter />
 
-              {/* Scroll Left Button */}
-              {needsScrolling && (
-                <button
-                  onClick={scrollLeft}
-                  className={`flex items-center justify-center w-6 h-12 transition-all self-center ${
-                    canScrollLeft ? 'opacity-100' : 'opacity-0 pointer-events-none'
-                  }`}
-                  aria-label="Scroll left"
-                >
-                  <ChevronLeftSvg className="w-4 h-4" />
-                </button>
-              )}
-
-              {/* Stack Items Container */}
-              <div
-                ref={stacksContainerRef}
-                className="flex gap-2 overflow-x-auto overflow-y-visible scrollbar-hide py-2 -my-2 px-2 -mx-2"
-                style={{
-                  maxWidth: containerMaxWidth ?? 'none',
-                  minWidth: '200px', // At least enough for 3 stack items (3 × 56px + 2 × 8px gaps + padding)
-                  scrollbarWidth: 'none',
-                  msOverflowStyle: 'none',
-                }}
-                onScroll={handleScroll}
-              >
+              <ScrollContainer scrollLength={visibleStacks.length}>
                 {visibleStacks.map((stack, index) => {
                   const isActive = activeStackId === stack.id;
                   const isHovered = hoveredStackId === stack.id;
@@ -181,20 +144,7 @@ export function Dock({
                     </motion.div>
                   );
                 })}
-              </div>
-
-              {/* Scroll Right Button */}
-              {needsScrolling && (
-                <button
-                  onClick={scrollRight}
-                  className={`flex items-center justify-center w-6 h-12 transition-all self-center ${
-                    canScrollRight ? 'opacity-100' : 'opacity-0 pointer-events-none'
-                  }`}
-                  aria-label="Scroll right"
-                >
-                  <ChevronRightSvg className="w-4 h-4" />
-                </button>
-              )}
+              </ScrollContainer>
 
               <Delimiter />
 

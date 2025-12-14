@@ -37,7 +37,7 @@ interface UseDockScrollReturn {
  */
 export function useDockScroll(
   itemCount: number,
-  options: UseDockScrollOptions = {}
+  options: UseDockScrollOptions = {},
 ): UseDockScrollReturn {
   const { scrollMultiplier = 2, updateDelay = 100 } = options;
 
@@ -102,4 +102,3 @@ export function useDockScroll(
     containerMaxWidth,
   };
 }
-
