@@ -1,13 +1,11 @@
 import { type PanInfo, animate, motion } from 'framer-motion';
-import { CardItem } from '../CardItem';
-import {
-  BackgroundCards,
-  DeleteZone,
-  EmptyDeck,
-  ExitingCard,
-  GhostCard,
-  ThumbnailPreview,
-} from './components';
+import { CardItem } from './CardItem';
+import { BackgroundCards } from './BackgroundCards';
+import { DeleteZone } from './DeleteZone';
+import { EmptyDeck } from './EmptyDeck';
+import { ExitingCard } from './ExitingCard';
+import { GhostCard } from './GhostCard';
+import { ThumbnailPreview } from './ThumbnailPreview';
 import {
   DELETE_OFFSET_THRESHOLD,
   DIRECTION_LOCK_THRESHOLD,
@@ -19,9 +17,9 @@ import {
   SWIPE_VELOCITY_THRESHOLD,
   VERTICAL_DRAG_THRESHOLD,
   Z_INDEX,
-} from './constants';
-import { useCardMotion, useSwipeState } from './hooks';
-import type { SwipeableCardDeckProps } from './types';
+} from '../constants';
+import { useCardMotion, useSwipeState } from '../hooks';
+import type { SwipeableCardDeckProps } from '../types';
 
 export function SwipeableCardDeck({
   cards,
@@ -110,7 +108,6 @@ export function SwipeableCardDeck({
       setSwipeProgress(progress);
     }
   };
-
 
   // Handle drag end
   const handleDragEnd = (_event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
@@ -249,3 +246,4 @@ export function SwipeableCardDeck({
     </div>
   );
 }
+

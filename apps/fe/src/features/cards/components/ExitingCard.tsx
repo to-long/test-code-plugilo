@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
-import { CardItem } from '../../CardItem';
+import { CardItem } from './CardItem';
+import type { ExitingCardState } from '../types';
 import {
   BASE_CARD_SCALE,
   BACKGROUND_CARD_OPACITY_STEP,
@@ -11,7 +12,6 @@ import {
   MAX_VISIBLE_CARDS,
   Z_INDEX,
 } from '../constants';
-import type { ExitingCardState } from '../types';
 
 interface ExitingCardProps {
   exitingCard: ExitingCardState;

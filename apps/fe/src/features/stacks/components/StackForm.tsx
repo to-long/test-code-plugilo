@@ -1,7 +1,7 @@
 import { Button } from '@/shared/liquid-glass-components';
 import { useState } from 'react';
 import type { Stack } from '../types';
-import { getRandomColor } from '../services/api';
+import { getRandomColor } from '../api';
 
 interface StackFormProps {
   stack?: Stack;
@@ -80,3 +80,4 @@ export function StackForm({ stack, onSubmit, onCancel }: StackFormProps) {
     </form>
   );
 }
+

@@ -1,5 +1,5 @@
 /**
- * Constants for SwipeableCardDeck component
+ * Constants for Cards feature
  * Centralized configuration for card deck animations and behavior
  */
 

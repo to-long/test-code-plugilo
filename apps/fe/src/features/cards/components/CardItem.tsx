@@ -1,9 +1,9 @@
-import type { Card as CardType } from '../types';
+import type { Card } from '../types';
 import PencilSvg from '~/public/icons/pencil.svg?react';
-import { RoundButton } from '../shared/liquid-glass-components/RoundButton';
+import { RoundButton } from '@/shared/liquid-glass-components/RoundButton';
 
 interface CardItemProps {
-  card: CardType;
+  card: Card;
   onEdit: () => void;
   onDelete: () => void;
   style?: React.CSSProperties;

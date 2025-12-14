@@ -1,5 +1,5 @@
-import { CardItem } from '../../CardItem';
-import type { Card } from '../../../types';
+import { CardItem } from './CardItem';
+import type { Card } from '../types';
 import { GHOST_CARD_OPACITY } from '../constants';
 
 interface GhostCardProps {

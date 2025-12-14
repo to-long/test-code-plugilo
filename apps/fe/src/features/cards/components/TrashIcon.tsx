@@ -1,4 +1,4 @@
-export default function TrashIcon() {
+export function TrashIcon() {
   return (
     <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <path

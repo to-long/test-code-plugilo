@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
-import { CardItem } from '../../CardItem';
-import type { Card } from '../../../types';
+import { CardItem } from './CardItem';
+import type { Card, ExitingCardState } from '../types';
 import {
   BASE_CARD_SCALE,
   BACKGROUND_CARD_OPACITY_STEP,
@@ -10,7 +10,6 @@ import {
   DECK_SCALE_STEP,
   MAX_VISIBLE_CARDS,
 } from '../constants';
-import type { ExitingCardState } from '../types';
 
 interface BackgroundCardsProps {
   cards: Card[];

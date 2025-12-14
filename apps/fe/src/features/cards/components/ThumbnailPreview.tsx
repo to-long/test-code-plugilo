@@ -1,8 +1,7 @@
 import { motion } from 'framer-motion';
-import { CardItem } from '../../CardItem';
-import type { Card } from '../../../types';
+import { CardItem } from './CardItem';
+import type { Card, VerticalDragState } from '../types';
 import { THUMBNAIL_SCALE, Z_INDEX } from '../constants';
-import type { VerticalDragState } from '../types';
 
 interface ThumbnailPreviewProps {
   card: Card;

@@ -1,9 +1,5 @@
 import { useState, useCallback } from 'react';
-
-interface Position {
-  x: number;
-  y: number;
-}
+import type { Position } from '../types';
 
 /**
  * Hook for managing drag-and-drop state for cards

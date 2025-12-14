@@ -1,12 +1,9 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { useCallback, useEffect } from 'react';
-import { CardForm } from './components/CardForm';
-import { CreateMenu } from './components/CreateMenu';
-import { Modal } from './components/Modal';
-import { StackForm } from './components/StackForm';
-import { SwipeableCardDeck } from './components/SwipeableCardDeck';
-import { Dock } from './features/dock/components/Dock';
-import { getStackIdAtPosition, useDragState, useModalState } from './hooks';
+import { CardForm, SwipeableCardDeck, useDragState, getStackIdAtPosition } from '@/features/cards';
+import { Dock } from '@/features/dock';
+import { StackForm } from '@/features/stacks';
+import { Modal, CreateMenu, useModalState } from '@/shared';
 import { useStore } from './store/useStore';
 
 export default function App() {

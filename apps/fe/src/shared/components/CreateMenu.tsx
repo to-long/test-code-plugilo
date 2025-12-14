@@ -59,3 +59,4 @@ export function CreateMenu({ isOpen, onClose, onCreateCard, onCreateStack }: Cre
     </Modal>
   );
 }
+

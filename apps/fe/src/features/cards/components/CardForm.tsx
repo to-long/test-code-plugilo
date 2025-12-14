@@ -1,7 +1,8 @@
 import { Button } from '@/shared/liquid-glass-components';
 import { useState } from 'react';
-import type { Card, Stack } from '../types';
-import { getPlaceholderImage } from '../services/api';
+import type { Card } from '../types';
+import type { Stack } from '@/features/stacks/types';
+import { getPlaceholderImage } from '../api';
 
 interface CardFormProps {
   card?: Card;
@@ -119,3 +120,4 @@ export function CardForm({ card, stacks, onSubmit, onCancel }: CardFormProps) {
     </form>
   );
 }
+

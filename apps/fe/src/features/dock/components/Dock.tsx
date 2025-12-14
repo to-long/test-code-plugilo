@@ -15,7 +15,7 @@ import LogoSvg from '~/public/icons/logo.svg?react';
 import MagnifierSvg from '~/public/icons/magnifier.svg?react';
 import PlusSvg from '~/public/icons/plus.svg?react';
 import StarSvg from '~/public/icons/star.svg?react';
-import type { Stack } from '../../../types';
+import type { Stack } from '@/features/stacks/types';
 import { useDockScroll } from '../hooks/useDockScroll';
 import { CollapsedDock } from './CollapsedDock';
 import { StackFilterBar } from './StackFilterBar';

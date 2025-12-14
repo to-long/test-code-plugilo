@@ -1,6 +1,34 @@
 import { create } from 'zustand';
-import type { AppState, Card, Stack } from '../types';
+import type { Card } from '@/features/cards/types';
+import type { Stack } from '@/features/stacks/types';
 import { api } from '../services/api';
+
+export interface AppState {
+  stacks: Stack[];
+  cards: Card[];
+  activeStackId: string | null;
+  isLoading: boolean;
+  error: string | null;
+
+  // Data loading
+  loadInitialData: () => Promise<void>;
+
+  // Stack actions
+  createStack: (name: string, cover: string) => Promise<void>;
+  updateStack: (id: string, updates: Partial<Stack>) => Promise<void>;
+  deleteStack: (id: string) => Promise<void>;
+  setActiveStack: (id: string | null) => void;
+
+  // Card actions
+  createCard: (card: Omit<Card, 'id' | 'createdAt' | 'updatedAt'>) => Promise<void>;
+  updateCard: (id: string, updates: Partial<Card>) => Promise<void>;
+  deleteCard: (id: string) => Promise<void>;
+  moveCard: (cardId: string, targetStackId: string) => Promise<void>;
+
+  // Utility
+  getActiveCards: () => Card[];
+  getStackById: (id: string) => Stack | undefined;
+}
 
 export const useStore = create<AppState>((set, get) => ({
 	  stacks: [],

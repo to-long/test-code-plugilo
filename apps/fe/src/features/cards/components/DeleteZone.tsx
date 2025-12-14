@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import TrashIcon from './TrashIcon';
+import { TrashIcon } from './TrashIcon';
 
 interface DeleteZoneProps {
   isOverDeleteIcon: boolean;

@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
-import type { Card, ModalType } from '../types';
+import type { Card } from '@/features/cards/types';
+import type { ModalType } from '../types';
 
 /**
  * Hook for managing modal state and editing card state
