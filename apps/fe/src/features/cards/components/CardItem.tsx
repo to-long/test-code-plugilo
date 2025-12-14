@@ -1,7 +1,7 @@
-import { useState, useRef, useEffect } from 'react';
-import type { Card } from '../types';
+import { RoundButton } from '@/shared/components/RoundButton';
+import { useEffect, useRef, useState } from 'react';
 import ThreeDotsSvg from '~/public/icons/three-dots.svg?react';
-import { RoundButton } from '@/shared/liquid-glass-components/RoundButton';
+import type { Card } from '../types';
 
 interface CardItemProps {
   card: Card;
@@ -13,7 +13,15 @@ interface CardItemProps {
   className?: string;
 }
 
-export function CardItem({ card, onEdit, onDelete, onViewDetail, onShare, style, className = '' }: CardItemProps) {
+export function CardItem({
+  card,
+  onEdit,
+  onDelete,
+  onViewDetail,
+  onShare,
+  style,
+  className = '',
+}: CardItemProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
@@ -96,4 +104,3 @@ export function CardItem({ card, onEdit, onDelete, onViewDetail, onShare, style,
     </div>
   );
 }
-

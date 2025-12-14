@@ -1,5 +1,5 @@
+import { RoundButton } from '@/shared';
 import PencilSvg from '~/public/icons/pencil.svg?react';
-import { RoundButton } from './RoundButton';
 
 type CardProps = React.HTMLAttributes<HTMLDivElement> & {
   image: string;

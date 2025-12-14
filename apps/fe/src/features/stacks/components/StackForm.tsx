@@ -1,7 +1,7 @@
-import { Button } from '@/shared/liquid-glass-components';
+import { Button } from '@/shared';
 import { useState } from 'react';
-import type { Stack } from '../types';
 import { getRandomColor } from '../api';
+import type { Stack } from '../types';
 
 interface StackFormProps {
   stack?: Stack;
@@ -38,11 +38,7 @@ export function StackForm({ stack, onSubmit, onCancel }: StackFormProps) {
         >
           {name.charAt(0) || '?'}
         </div>
-        <Button
-          type="button"
-          onClick={handleRandomColor}
-          className="w-full py-2.5"
-        >
+        <Button type="button" onClick={handleRandomColor} className="w-full py-2.5">
           🎨 Generate Random Color
         </Button>
       </div>
@@ -62,22 +58,13 @@ export function StackForm({ stack, onSubmit, onCancel }: StackFormProps) {
 
       {/* Actions - Sticky at bottom */}
       <div className="flex gap-3 pt-4 sticky bottom-0 -mx-6 px-6 -mb-6 pb-6">
-        <Button
-          type="button"
-          onClick={onCancel}
-          className="flex-1 py-3"
-        >
+        <Button type="button" onClick={onCancel} className="flex-1 py-3">
           Cancel
         </Button>
-        <Button
-          type="submit"
-          highlight="1"
-          className="flex-1 py-3"
-        >
+        <Button type="submit" highlight="1" className="flex-1 py-3">
           {stack ? 'Update' : 'Create'}
         </Button>
       </div>
     </form>
   );
 }
-

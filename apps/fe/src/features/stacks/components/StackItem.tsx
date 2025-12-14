@@ -1,4 +1,4 @@
-import { Button, type ButtonProps } from '../../../shared/liquid-glass-components/Buttons';
+import { Button, type ButtonProps } from '../../../shared/components/Buttons';
 
 type StackProps = {
   name: React.ReactNode;

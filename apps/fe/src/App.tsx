@@ -1,9 +1,10 @@
-import { AnimatePresence, motion } from 'framer-motion';
-import { useCallback, useEffect } from 'react';
-import { CardForm, SwipeableCardDeck, useDragState, getStackIdAtPosition } from '@/features/cards';
+import { CardForm, SwipeableCardDeck, getStackIdAtPosition, useDragState } from '@/features/cards';
 import { Dock } from '@/features/dock';
 import { StackForm } from '@/features/stacks';
-import { Modal, CreateMenu, CardDetail, ShareCard, useModalState } from '@/shared';
+import { CreateMenu, Modal, useModalState } from '@/shared';
+import { AnimatePresence, motion } from 'framer-motion';
+import { useCallback, useEffect } from 'react';
+import { CardDetail, ShareCard } from './features/cards/components';
 import { useStore } from './store/useStore';
 
 export default function App() {
@@ -62,7 +63,7 @@ export default function App() {
         console.error('Failed to create card:', err);
       }
     },
-    [createCard, closeModal]
+    [createCard, closeModal],
   );
 
   const handleUpdateCard = useCallback(
@@ -75,7 +76,7 @@ export default function App() {
         console.error('Failed to update card:', err);
       }
     },
-    [editingCard, updateCard, closeModal]
+    [editingCard, updateCard, closeModal],
   );
 
   const handleDeleteCard = useCallback(
@@ -86,7 +87,7 @@ export default function App() {
         console.error('Failed to delete card:', err);
       }
     },
-    [deleteCard]
+    [deleteCard],
   );
 
   // Stack handlers
@@ -99,7 +100,7 @@ export default function App() {
         console.error('Failed to create stack:', err);
       }
     },
-    [createStack, closeModal]
+    [createStack, closeModal],
   );
 
   const handleMoveCard = useCallback(
@@ -111,7 +112,7 @@ export default function App() {
         console.error('Failed to move card:', err);
       }
     },
-    [moveCard, stopDragging]
+    [moveCard, stopDragging],
   );
 
   // Drag handlers
@@ -124,7 +125,7 @@ export default function App() {
 
       handleMoveCard(cardId, targetStackId);
     },
-    [activeStackId, handleMoveCard, updateHoveredStack]
+    [activeStackId, handleMoveCard, updateHoveredStack],
   );
 
   const handleDragPositionChange = useCallback(
@@ -137,14 +138,14 @@ export default function App() {
       const stackId = getStackIdAtPosition(position);
       updateHoveredStack(stackId !== activeStackId ? stackId : null);
     },
-    [activeStackId, updateHoveredStack]
+    [activeStackId, updateHoveredStack],
   );
 
   const handleStackSelect = useCallback(
     (stackId: string) => {
       setActiveStack(activeStackId === stackId ? null : stackId);
     },
-    [activeStackId, setActiveStack]
+    [activeStackId, setActiveStack],
   );
 
   const handleStackDrop = useCallback(
@@ -153,7 +154,7 @@ export default function App() {
         handleMoveCard(draggingCardId, stackId);
       }
     },
-    [draggingCardId, handleMoveCard]
+    [draggingCardId, handleMoveCard],
   );
 
   return (

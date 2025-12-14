@@ -1,4 +1,4 @@
-import { RoundButton } from '@/shared/liquid-glass-components';
+import { RoundButton } from '@/shared';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect } from 'react';
 
@@ -72,9 +72,7 @@ export function Modal({ isOpen, onClose, title, children, footer }: ModalProps) 
 
               {/* Footer - Fixed */}
               {footer && (
-                <div className="flex-shrink-0 px-6 py-4 border-t border-white/20">
-                  {footer}
-                </div>
+                <div className="flex-shrink-0 px-6 py-4 border-t border-white/20">{footer}</div>
               )}
             </div>
           </motion.div>
@@ -83,4 +81,3 @@ export function Modal({ isOpen, onClose, title, children, footer }: ModalProps) 
     </AnimatePresence>
   );
 }
-

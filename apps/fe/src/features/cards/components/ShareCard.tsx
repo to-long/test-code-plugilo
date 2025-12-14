@@ -1,6 +1,6 @@
-import { useState } from 'react';
 import type { Card } from '@/features/cards/types';
-import { Button } from '@/shared/liquid-glass-components';
+import { useState } from 'react';
+import { Button } from '../../../shared/components/Buttons';
 
 interface ShareCardProps {
   card: Card;
@@ -22,8 +22,10 @@ export function ShareCard({ card }: ShareCardProps) {
 
   return (
     <div className="flex flex-col gap-4">
-      <p className="text-white/70 text-sm">Share this card with others by copying the link below:</p>
-      
+      <p className="text-white/70 text-sm">
+        Share this card with others by copying the link below:
+      </p>
+
       <div className="flex gap-2">
         <input
           type="text"
@@ -36,10 +38,7 @@ export function ShareCard({ card }: ShareCardProps) {
         </Button>
       </div>
 
-      {copied && (
-        <p className="text-green-400 text-sm">Link copied to clipboard!</p>
-      )}
+      {copied && <p className="text-green-400 text-sm">Link copied to clipboard!</p>}
     </div>
   );
 }
-
