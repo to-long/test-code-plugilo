@@ -10,6 +10,7 @@
     "api-gen": "openapi-typescript ./swagger.json -o ./src/open-api/generated/api.d.ts"
   },
   "dependencies": {
+    "@r2wc/react-to-web-component": "^2.1.0",
     "framer-motion": "^12.23.25",
     "openapi-fetch": "^0.13.5",
     "react": "^19.0.0",

@@ -1,4 +1,5 @@
-import type { Card, Stack } from '../types';
+import type { Card } from '@/features/cards/types';
+import type { Stack } from '@/features/stacks/types';
 import { client } from '../open-api';
 import type { components } from '../open-api/generated/api';
 
@@ -194,4 +195,3 @@ export const getRandomColor = () => {
 export const getPlaceholderImage = (text: string) => {
   return `https://ui-avatars.com/api/?name=${encodeURIComponent(text)}&size=400&background=random`;
 };
-

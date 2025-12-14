@@ -11,4 +11,7 @@ export default defineConfig({
     title: 'plugilo.ai',
     favicon: './public/favicon.ico',
   },
+  output: {
+    manifest: true,
+  },
 });
