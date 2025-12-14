@@ -1,3 +1,4 @@
+import type { Stack } from '@/features/stacks/types';
 import {
   Button,
   Delimiter,
@@ -15,7 +16,6 @@ import LogoSvg from '~/public/icons/logo.svg?react';
 import MagnifierSvg from '~/public/icons/magnifier.svg?react';
 import PlusSvg from '~/public/icons/plus.svg?react';
 import StarSvg from '~/public/icons/star.svg?react';
-import type { Stack } from '@/features/stacks/types';
 import { useDockScroll } from '../hooks/useDockScroll';
 import { CollapsedDock } from './CollapsedDock';
 import { StackFilterBar } from './StackFilterBar';
@@ -102,7 +102,7 @@ export function Dock({
             />
 
             {/* Dock Container with MenuBar */}
-            <MenuBar className="pe-2 items-end">
+            <MenuBar className="p-3 pe-1 items-end">
               {/* Logo / Brand */}
               <StackItem
                 name={<LogoSvg className="w-10" />}
@@ -165,7 +165,8 @@ export function Dock({
                           initial={{ opacity: 0 }}
                           animate={{ opacity: 1 }}
                           style={{
-                            boxShadow: '0 0 20px 8px rgba(255, 255, 255, 0.4), 0 0 40px 16px rgba(255, 255, 255, 0.2)',
+                            boxShadow:
+                              '0 0 20px 8px rgba(255, 255, 255, 0.4), 0 0 40px 16px rgba(255, 255, 255, 0.2)',
                             zIndex: -1,
                           }}
                         />
@@ -173,7 +174,9 @@ export function Dock({
                       <StackItem
                         name={stack.name}
                         cover={
-                          <span className="text-lg font-bold">{stack.name.charAt(0).toUpperCase()}</span>
+                          <span className="text-lg font-bold">
+                            {stack.name.charAt(0).toUpperCase()}
+                          </span>
                         }
                         cardCount={stack.cardCount}
                         highlight={highlight}
@@ -210,7 +213,7 @@ export function Dock({
               </div>
 
               {/* Action Buttons */}
-              <div className="w-10 items-end flex gap-1 flex-col ms-auto">
+              <div className="w-10 items-end flex gap-1 self-start flex-col ms-auto">
                 <RoundButton
                   onClick={() => {
                     setIsSearchOpen((previous) => {

@@ -1,5 +1,5 @@
+import type { Stack } from '@/features/stacks/types';
 import type React from 'react';
-import type { Stack } from '../../../types';
 
 type StackDockItemProps = {
   stack: Stack;
@@ -43,7 +43,7 @@ export function StackDockItem({
         <div className="relative">
           {/* Stack Icon */}
           <div
-            className="w-14 h-14 rounded-2xl overflow-hidden shadow-lg transition-all duration-300 group-hover:shadow-2xl relative"
+            className="w-14 h-14 rounded-2xl overflow-x-hidden overflow-y-visible shadow-lg transition-all duration-300 group-hover:shadow-2xl relative"
             style={{ background: stack.cover }}
           >
             {/* Glass Overlay */}
