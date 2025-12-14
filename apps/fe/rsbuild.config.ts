@@ -8,6 +8,7 @@ export default defineConfig({
     port: 3000,
   },
   html: {
-    title: 'FE App',
+    title: 'plugilo.ai',
+    favicon: './public/favicon.ico',
   },
 });
