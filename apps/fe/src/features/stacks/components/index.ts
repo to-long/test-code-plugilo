@@ -1,1 +1,2 @@
-export { StackForm } from './StackForm';
+export * from './StackForm';
+export * from './StackItem';

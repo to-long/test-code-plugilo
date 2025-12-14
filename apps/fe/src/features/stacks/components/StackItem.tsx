@@ -1,4 +1,4 @@
-import { Button, type ButtonProps } from './Buttons';
+import { Button, type ButtonProps } from '../../../shared/liquid-glass-components/Buttons';
 
 type StackProps = {
   name: React.ReactNode;
@@ -7,7 +7,7 @@ type StackProps = {
   active?: boolean;
 } & Pick<ButtonProps, 'highlight'>;
 
-export function Stack({ name, cover, cardCount = 0, highlight, active }: StackProps) {
+export function StackItem({ name, cover, cardCount = 0, highlight, active }: StackProps) {
   return (
     <div className="flex flex-col gap-1 relative items-center w-14">
       <Button className="w-12 h-12" highlight={highlight}>

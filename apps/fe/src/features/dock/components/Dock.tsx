@@ -1,10 +1,6 @@
+import { StackItem } from '@/features/stacks/components';
 import type { Stack } from '@/features/stacks/types';
-import {
-  Button,
-  Delimiter,
-  RoundButton,
-  Stack as StackItem,
-} from '@/shared/liquid-glass-components';
+import { Button, Delimiter, RoundButton } from '@/shared/liquid-glass-components';
 import { AnimatePresence, motion } from 'framer-motion';
 import type React from 'react';
 import { useMemo, useState } from 'react';
