@@ -24,6 +24,8 @@ export interface SwipeableCardDeckProps {
   cards: Card[];
   onEdit: (card: Card) => void;
   onDelete: (cardId: string) => void;
+  onViewDetail?: (card: Card) => void;
+  onShare?: (card: Card) => void;
   onDragStart: (cardId: string) => void;
   onDragEnd: () => void;
   onDragEndWithPosition?: (cardId: string, position: Position) => void;

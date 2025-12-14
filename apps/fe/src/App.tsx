@@ -3,7 +3,7 @@ import { useCallback, useEffect } from 'react';
 import { CardForm, SwipeableCardDeck, useDragState, getStackIdAtPosition } from '@/features/cards';
 import { Dock } from '@/features/dock';
 import { StackForm } from '@/features/stacks';
-import { Modal, CreateMenu, useModalState } from '@/shared';
+import { Modal, CreateMenu, CardDetail, ShareCard, useModalState } from '@/shared';
 import { useStore } from './store/useStore';
 
 export default function App() {
@@ -24,10 +24,14 @@ export default function App() {
   const {
     modalType,
     editingCard,
+    viewingCard,
+    sharingCard,
     showCreateMenu,
     openCreateCard,
     openCreateStack,
     openEditCard,
+    openViewDetail,
+    openShare,
     closeModal,
     openCreateMenu,
     closeCreateMenu,
@@ -170,6 +174,8 @@ export default function App() {
                 cards={activeCards}
                 onEdit={openEditCard}
                 onDelete={handleDeleteCard}
+                onViewDetail={openViewDetail}
+                onShare={openShare}
                 onDragStart={startDragging}
                 onDragEnd={stopDragging}
                 onDragEndWithPosition={handleDragEndWithPosition}
@@ -229,6 +235,16 @@ export default function App() {
       {/* Create Stack Modal */}
       <Modal isOpen={modalType === 'create-stack'} onClose={closeModal} title="Create Stack">
         <StackForm onSubmit={handleCreateStack} onCancel={closeModal} />
+      </Modal>
+
+      {/* View Detail Modal */}
+      <Modal isOpen={modalType === 'view-detail'} onClose={closeModal} title="Card Details">
+        {viewingCard && <CardDetail card={viewingCard} />}
+      </Modal>
+
+      {/* Share Modal */}
+      <Modal isOpen={modalType === 'share'} onClose={closeModal} title="Share Card">
+        {sharingCard && <ShareCard card={sharingCard} />}
       </Modal>
     </>
   );

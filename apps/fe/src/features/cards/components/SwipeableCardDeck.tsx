@@ -25,6 +25,8 @@ export function SwipeableCardDeck({
   cards,
   onEdit,
   onDelete,
+  onViewDetail,
+  onShare,
   onDragStart,
   onDragEnd,
   onDragEndWithPosition,
@@ -235,6 +237,8 @@ export function SwipeableCardDeck({
             card={currentCard}
             onEdit={() => onEdit(currentCard)}
             onDelete={() => onDelete(currentCard.id)}
+            onViewDetail={onViewDetail ? () => onViewDetail(currentCard) : undefined}
+            onShare={onShare ? () => onShare(currentCard) : undefined}
           />
         </motion.div>
       </div>

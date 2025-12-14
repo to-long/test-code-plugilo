@@ -8,6 +8,8 @@ import type { ModalType } from '../types';
 export function useModalState() {
   const [modalType, setModalType] = useState<ModalType>(null);
   const [editingCard, setEditingCard] = useState<Card | null>(null);
+  const [viewingCard, setViewingCard] = useState<Card | null>(null);
+  const [sharingCard, setSharingCard] = useState<Card | null>(null);
   const [showCreateMenu, setShowCreateMenu] = useState(false);
 
   const openCreateCard = useCallback(() => {
@@ -23,9 +25,21 @@ export function useModalState() {
     setModalType('edit-card');
   }, []);
 
+  const openViewDetail = useCallback((card: Card) => {
+    setViewingCard(card);
+    setModalType('view-detail');
+  }, []);
+
+  const openShare = useCallback((card: Card) => {
+    setSharingCard(card);
+    setModalType('share');
+  }, []);
+
   const closeModal = useCallback(() => {
     setModalType(null);
     setEditingCard(null);
+    setViewingCard(null);
+    setSharingCard(null);
   }, []);
 
   const openCreateMenu = useCallback(() => {
@@ -39,10 +53,14 @@ export function useModalState() {
   return {
     modalType,
     editingCard,
+    viewingCard,
+    sharingCard,
     showCreateMenu,
     openCreateCard,
     openCreateStack,
     openEditCard,
+    openViewDetail,
+    openShare,
     closeModal,
     openCreateMenu,
     closeCreateMenu,
