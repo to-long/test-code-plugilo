@@ -203,6 +203,7 @@ export default function App() {
         isDraggingCard={isDraggingToStacks}
         hoveredStackId={hoveredStackId}
         onStackDrop={handleStackDrop}
+        onCollapse={() => setActiveStack(null)}
       />
 
       {/* Create Menu */}

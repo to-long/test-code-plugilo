@@ -32,6 +32,7 @@ type DockProps = {
   isDraggingCard: boolean;
   hoveredStackId?: string | null;
   onStackDrop?: (stackId: string) => void;
+  onCollapse?: () => void;
 };
 
 export function Dock({
@@ -43,6 +44,7 @@ export function Dock({
   isDraggingCard,
   hoveredStackId,
   onStackDrop,
+  onCollapse,
 }: DockProps) {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -223,7 +225,13 @@ export function Dock({
                 >
                   <MagnifierSvg className="w-3 h-3" />
                 </RoundButton>
-                <RoundButton onClick={() => setIsCollapsed(true)} aria-label="Minimize dock">
+                <RoundButton
+                  onClick={() => {
+                    setIsCollapsed(true);
+                    onCollapse?.();
+                  }}
+                  aria-label="Minimize dock"
+                >
                   <CollapseSvg className="w-3 h-3" />
                 </RoundButton>
               </div>
