@@ -1,4 +1,4 @@
-import { type ButtonProps, highlightColors } from './button';
+import { type ButtonProps, highlightColors } from './Buttons';
 
 export function RoundButton({ className = '', children, highlight = '', ...props }: ButtonProps) {
   return (

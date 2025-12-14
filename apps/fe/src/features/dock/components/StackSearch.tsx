@@ -8,7 +8,7 @@ type StackFilterBarProps = {
   onQueryChange: (value: string) => void;
 };
 
-export function StackFilterBar({ isOpen, query, onQueryChange }: StackFilterBarProps) {
+export function StackSearch({ isOpen, query, onQueryChange }: StackFilterBarProps) {
   return (
     <AnimatePresence>
       {isOpen && (

@@ -1,4 +1,4 @@
-import { Button, type ButtonProps } from './button';
+import { Button, type ButtonProps } from './Buttons';
 
 type StackProps = {
   name: React.ReactNode;
@@ -13,7 +13,9 @@ export function Stack({ name, cover, cardCount = 0, highlight, active }: StackPr
       <Button className="w-12 h-12" highlight={highlight}>
         {cover || name}
       </Button>
-      <span className="text-[10px] text-white text-center w-full line-clamp-2 leading-tight h-[24px] flex items-start justify-center">{name}</span>
+      <span className="text-[10px] text-white text-center w-full line-clamp-2 leading-tight h-[24px] flex items-start justify-center">
+        {name}
+      </span>
       {cardCount > 0 && (
         <div className="absolute top-0 right-0 translate-x-1/2 -translate-y-1/2 bg-gradient-to-br from-red-500 to-pink-600 text-white text-[9px] rounded-full min-w-[20px] h-4 px-1 flex items-center justify-center font-bold shadow-lg border-1 border-white/30">
           {cardCount > 9 ? '9+' : cardCount}

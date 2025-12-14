@@ -1,10 +1,10 @@
 // Components
-export { Dock } from './components/Dock';
-export { CollapsedDock } from './components/CollapsedDock';
-export { StackFilterBar } from './components/StackFilterBar';
+export * from './components/Dock';
+export * from './components/CollapsedDock';
+export * from './components/StackSearch';
 
 // Hooks
-export { useDockScroll } from './hooks/useDockScroll';
+export * from './hooks/useDockScroll';
 
 // Types
-export type { DockProps } from './types';
+export * from './types';

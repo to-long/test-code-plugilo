@@ -1,7 +1,8 @@
-import { Delimiter, MenuBar, RoundButton } from '@/shared/liquid-glass-components';
+import { Delimiter, RoundButton } from '@/shared/liquid-glass-components';
 import { motion } from 'framer-motion';
 import ExpandSvg from '~/public/icons/expand.svg?react';
 import LogoSvg from '~/public/icons/logo.svg?react';
+import { MenuBar } from './MenuBar';
 
 type CollapsedDockProps = {
   expandDock: () => void;

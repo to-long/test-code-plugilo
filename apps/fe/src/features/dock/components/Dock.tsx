@@ -2,7 +2,6 @@ import type { Stack } from '@/features/stacks/types';
 import {
   Button,
   Delimiter,
-  MenuBar,
   RoundButton,
   Stack as StackItem,
 } from '@/shared/liquid-glass-components';
@@ -18,7 +17,8 @@ import PlusSvg from '~/public/icons/plus.svg?react';
 import StarSvg from '~/public/icons/star.svg?react';
 import { useDockScroll } from '../hooks/useDockScroll';
 import { CollapsedDock } from './CollapsedDock';
-import { StackFilterBar } from './StackFilterBar';
+import { MenuBar } from './MenuBar';
+import { StackSearch } from './StackSearch';
 
 // Highlight colors to cycle through for stacks
 const HIGHLIGHT_COLORS: Array<'1' | '2' | '3' | '4' | '5'> = ['1', '2', '3', '4', '5'];
@@ -95,7 +95,7 @@ export function Dock({
             transition={{ duration: 0.22, ease: 'easeOut' }}
           >
             {/* Search / filter bar */}
-            <StackFilterBar
+            <StackSearch
               isOpen={isSearchOpen}
               query={searchQuery}
               onQueryChange={(value) => setSearchQuery(value)}
