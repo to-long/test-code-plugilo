@@ -71,7 +71,7 @@ export function Dock({
         ) : (
           <motion.div
             key="expanded"
-            className="flex flex-col items-center gap-3 pointer-events-auto"
+            className="flex flex-col items-center gap-3 pointer-events-auto w-full max-w-[768px] px-2"
             initial={{ opacity: 0, y: 40, scale: 0.9, filter: 'blur(8px)' }}
             animate={{ opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' }}
             exit={{ opacity: 0, y: 40, scale: 0.9, filter: 'blur(8px)' }}
@@ -85,7 +85,7 @@ export function Dock({
             />
 
             {/* Dock Container with MenuBar */}
-            <MenuBar className="p-3 pe-1 items-end">
+            <MenuBar className="p-3 pe-1 items-end w-full">
               {/* Logo / Brand */}
               <StackItem
                 name={<LogoSvg className="w-10" />}
@@ -146,7 +146,7 @@ export function Dock({
                 })}
               </ScrollContainer>
 
-              <Delimiter />
+              <Delimiter className="ms-auto" />
 
               {/* Create Button - wrapped to align with stacks */}
               <div className="flex flex-col gap-1 items-center w-14">
@@ -159,7 +159,7 @@ export function Dock({
               </div>
 
               {/* Action Buttons */}
-              <div className="w-10 items-end flex gap-1 self-start flex-col ms-auto">
+              <div className="items-end flex gap-1 self-start flex-col">
                 <RoundButton
                   onClick={() => {
                     setIsSearchOpen((previous) => {
