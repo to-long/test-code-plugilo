@@ -60,7 +60,7 @@ export function useDockScroll(
     const container = containerRef.current;
     if (!container) return;
     container.scrollBy({
-      left: -STACK_ITEM_WIDTH * scrollMultiplier,
+      left: -container.clientWidth,
       behavior: 'smooth',
     });
   }, [scrollMultiplier]);
@@ -69,7 +69,7 @@ export function useDockScroll(
     const container = containerRef.current;
     if (!container) return;
     container.scrollBy({
-      left: STACK_ITEM_WIDTH * scrollMultiplier,
+      left: container.clientWidth,
       behavior: 'smooth',
     });
   }, [scrollMultiplier]);
