@@ -112,24 +112,7 @@ export function Dock({
                       onDragOver={handleStackDragOver}
                       onDrop={(e) => handleStackDrop(e, stack.id)}
                       className="cursor-pointer relative flex-shrink-0"
-                      animate={{
-                        scale: isHovered ? 1.15 : 1,
-                      }}
-                      transition={{ type: 'spring', stiffness: 400, damping: 25 }}
                     >
-                      {/* Glow effect when hovered during drag */}
-                      {isHovered && (
-                        <motion.div
-                          className="absolute inset-0 rounded-2xl pointer-events-none"
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          style={{
-                            boxShadow:
-                              '0 0 20px 8px rgba(255, 255, 255, 0.4), 0 0 40px 16px rgba(255, 255, 255, 0.2)',
-                            zIndex: -1,
-                          }}
-                        />
-                      )}
                       <StackItem
                         name={stack.name}
                         cover={
@@ -139,7 +122,8 @@ export function Dock({
                         }
                         cardCount={stack.cardCount}
                         highlight={highlight}
-                        active={isActive || isHovered}
+                        active={isActive}
+                        hovered={isHovered}
                       />
                     </motion.div>
                   );

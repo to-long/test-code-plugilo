@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import { Button, type ButtonProps } from '../../../shared/components/Buttons';
 
 type StackProps = {
@@ -5,11 +6,25 @@ type StackProps = {
   cover?: React.ReactNode;
   cardCount?: number;
   active?: boolean;
-} & Pick<ButtonProps, 'highlight'>;
+  hovered?: boolean;
+} & Pick<ButtonProps, 'highlight'> &
+  React.HTMLAttributes<HTMLDivElement>;
 
-export function StackItem({ name, cover, cardCount = 0, highlight, active }: StackProps) {
+export function StackItem({
+  name,
+  cover,
+  cardCount = 0,
+  highlight,
+  active,
+  hovered,
+  className = '',
+  ...props
+}: StackProps) {
   return (
-    <div className="flex flex-col gap-1 relative items-center w-14">
+    <div
+      className={`flex flex-col gap-1 relative items-center w-14 transition-all duration-300 ${active || hovered ? ' scale-[110%] -translate-y-2' : ''} ${className}`}
+      {...props}
+    >
       <Button className="w-12 h-12" highlight={highlight}>
         {cover || name}
       </Button>
@@ -23,6 +38,18 @@ export function StackItem({ name, cover, cardCount = 0, highlight, active }: Sta
       )}
       {active && (
         <span className="absolute bottom-[-10px] left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-white/40" />
+      )}
+      {hovered && (
+        <motion.div
+          className="absolute inset-0 rounded-2xl pointer-events-none"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          style={{
+            boxShadow:
+              '0 0 20px 8px rgba(255, 255, 255, 0.4), 0 0 40px 16px rgba(255, 255, 255, 0.2)',
+            zIndex: -1,
+          }}
+        />
       )}
     </div>
   );
