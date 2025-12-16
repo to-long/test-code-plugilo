@@ -4,7 +4,7 @@ import { useStackHandlers } from '@/features/stacks';
 import { AppModals, CreateMenu, useModalState } from '@/shared';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect } from 'react';
-import { useAppStore } from './store/useStore';
+import { useAppStore } from './shared/store/useStore';
 
 export default function App() {
   // App-level state
