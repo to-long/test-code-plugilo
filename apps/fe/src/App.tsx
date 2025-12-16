@@ -5,22 +5,24 @@ import { CreateMenu, Modal, useModalState } from '@/shared';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useCallback, useEffect } from 'react';
 import { CardDetail, ShareCard } from './features/cards/components';
-import { useStore } from './store/useStore';
+import { useAppStore, useStackStore, useCardStore } from './store/useStore';
 
 export default function App() {
-  const {
-    stacks,
-    activeStackId,
-    error,
-    createStack,
-    setActiveStack,
-    createCard,
-    updateCard,
-    deleteCard,
-    moveCard,
-    getActiveCards,
-    loadInitialData,
-  } = useStore();
+  // App-level state
+  const { error, loadInitialData } = useAppStore();
+
+  // Stack state
+  const stacks = useStackStore((state) => state.stacks);
+  const activeStackId = useStackStore((state) => state.activeStackId);
+  const createStack = useStackStore((state) => state.createStack);
+  const setActiveStack = useStackStore((state) => state.setActiveStack);
+
+  // Card state
+  const createCard = useCardStore((state) => state.createCard);
+  const updateCard = useCardStore((state) => state.updateCard);
+  const deleteCard = useCardStore((state) => state.deleteCard);
+  const moveCard = useCardStore((state) => state.moveCard);
+  const getActiveCards = useCardStore((state) => state.getActiveCards);
 
   const {
     modalType,

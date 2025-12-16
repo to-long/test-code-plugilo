@@ -12,6 +12,10 @@ export {
   TrashIcon,
 } from './components';
 
+// Store
+export { useCardStore } from './store';
+export type { CardState } from './store';
+
 // Hooks
 export { useCardMotion, useSwipeState, useDragState, getStackIdAtPosition } from './hooks';
 
