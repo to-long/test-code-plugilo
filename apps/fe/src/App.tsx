@@ -1,29 +1,16 @@
-import { CardForm, SwipeableCardDeck, getStackIdAtPosition, useDragState } from '@/features/cards';
+import { SwipeableCardDeck, useCardHandlers, useDragHandlers } from '@/features/cards';
 import { Dock } from '@/features/dock';
-import { StackForm } from '@/features/stacks';
-import { CreateMenu, Modal, useModalState } from '@/shared';
+import { useStackHandlers } from '@/features/stacks';
+import { AppModals, CreateMenu, useModalState } from '@/shared';
 import { AnimatePresence, motion } from 'framer-motion';
-import { useCallback, useEffect } from 'react';
-import { CardDetail, ShareCard } from './features/cards/components';
-import { useAppStore, useStackStore, useCardStore } from './store/useStore';
+import { useEffect } from 'react';
+import { useAppStore } from './store/useStore';
 
 export default function App() {
   // App-level state
   const { error, loadInitialData } = useAppStore();
 
-  // Stack state
-  const stacks = useStackStore((state) => state.stacks);
-  const activeStackId = useStackStore((state) => state.activeStackId);
-  const createStack = useStackStore((state) => state.createStack);
-  const setActiveStack = useStackStore((state) => state.setActiveStack);
-
-  // Card state
-  const createCard = useCardStore((state) => state.createCard);
-  const updateCard = useCardStore((state) => state.updateCard);
-  const deleteCard = useCardStore((state) => state.deleteCard);
-  const moveCard = useCardStore((state) => state.moveCard);
-  const getActiveCards = useCardStore((state) => state.getActiveCards);
-
+  // Modal state
   const {
     modalType,
     editingCard,
@@ -40,124 +27,28 @@ export default function App() {
     closeCreateMenu,
   } = useModalState();
 
+  // Stack handlers
+  const { stacks, activeStackId, handleCreateStack, handleStackSelect, handleCollapse } =
+    useStackHandlers({ onSuccess: closeModal });
+
+  // Card handlers
+  const { activeCards, handleCreateCard, handleUpdateCard, handleDeleteCard, handleMoveCard } =
+    useCardHandlers({ onSuccess: closeModal });
+
+  // Drag handlers
   const {
     isDraggingToStacks,
-    draggingCardId,
     hoveredStackId,
     startDragging,
     stopDragging,
-    updateHoveredStack,
-  } = useDragState();
+    handleDragEndWithPosition,
+    handleDragPositionChange,
+    handleStackDrop,
+  } = useDragHandlers({ activeStackId, onMoveCard: handleMoveCard });
 
   useEffect(() => {
     loadInitialData();
   }, [loadInitialData]);
-
-  const activeCards = getActiveCards();
-
-  // Card handlers
-  const handleCreateCard = useCallback(
-    async (data: { name: string; description: string; cover: string; stackId: string }) => {
-      try {
-        await createCard(data);
-        closeModal();
-      } catch (err) {
-        console.error('Failed to create card:', err);
-      }
-    },
-    [createCard, closeModal],
-  );
-
-  const handleUpdateCard = useCallback(
-    async (data: { name: string; description: string; cover: string; stackId: string }) => {
-      if (!editingCard) return;
-      try {
-        await updateCard(editingCard.id, data);
-        closeModal();
-      } catch (err) {
-        console.error('Failed to update card:', err);
-      }
-    },
-    [editingCard, updateCard, closeModal],
-  );
-
-  const handleDeleteCard = useCallback(
-    async (cardId: string) => {
-      try {
-        await deleteCard(cardId);
-      } catch (err) {
-        console.error('Failed to delete card:', err);
-      }
-    },
-    [deleteCard],
-  );
-
-  // Stack handlers
-  const handleCreateStack = useCallback(
-    async (data: { name: string; cover: string }) => {
-      try {
-        await createStack(data.name, data.cover);
-        closeModal();
-      } catch (err) {
-        console.error('Failed to create stack:', err);
-      }
-    },
-    [createStack, closeModal],
-  );
-
-  const handleMoveCard = useCallback(
-    async (cardId: string, targetStackId: string) => {
-      try {
-        await moveCard(cardId, targetStackId);
-        stopDragging();
-      } catch (err) {
-        console.error('Failed to move card:', err);
-      }
-    },
-    [moveCard, stopDragging],
-  );
-
-  // Drag handlers
-  const handleDragEndWithPosition = useCallback(
-    (cardId: string, position: { x: number; y: number }) => {
-      const targetStackId = getStackIdAtPosition(position);
-      updateHoveredStack(null);
-
-      if (!targetStackId || targetStackId === activeStackId) return;
-
-      handleMoveCard(cardId, targetStackId);
-    },
-    [activeStackId, handleMoveCard, updateHoveredStack],
-  );
-
-  const handleDragPositionChange = useCallback(
-    (position: { x: number; y: number } | null) => {
-      if (!position) {
-        updateHoveredStack(null);
-        return;
-      }
-
-      const stackId = getStackIdAtPosition(position);
-      updateHoveredStack(stackId !== activeStackId ? stackId : null);
-    },
-    [activeStackId, updateHoveredStack],
-  );
-
-  const handleStackSelect = useCallback(
-    (stackId: string) => {
-      setActiveStack(activeStackId === stackId ? null : stackId);
-    },
-    [activeStackId, setActiveStack],
-  );
-
-  const handleStackDrop = useCallback(
-    (stackId: string) => {
-      if (draggingCardId) {
-        handleMoveCard(draggingCardId, stackId);
-      }
-    },
-    [draggingCardId, handleMoveCard],
-  );
 
   return (
     <>
@@ -209,7 +100,7 @@ export default function App() {
         isDraggingCard={isDraggingToStacks}
         hoveredStackId={hoveredStackId}
         onStackDrop={handleStackDrop}
-        onCollapse={() => setActiveStack(null)}
+        onCollapse={handleCollapse}
       />
 
       {/* Create Menu */}
@@ -220,35 +111,18 @@ export default function App() {
         onCreateStack={openCreateStack}
       />
 
-      {/* Create Card Modal */}
-      <Modal isOpen={modalType === 'create-card'} onClose={closeModal} title="Create Card">
-        <CardForm stacks={stacks} onSubmit={handleCreateCard} onCancel={closeModal} />
-      </Modal>
-
-      {/* Edit Card Modal */}
-      <Modal isOpen={modalType === 'edit-card'} onClose={closeModal} title="Edit Card">
-        <CardForm
-          card={editingCard || undefined}
-          stacks={stacks}
-          onSubmit={handleUpdateCard}
-          onCancel={closeModal}
-        />
-      </Modal>
-
-      {/* Create Stack Modal */}
-      <Modal isOpen={modalType === 'create-stack'} onClose={closeModal} title="Create Stack">
-        <StackForm onSubmit={handleCreateStack} onCancel={closeModal} />
-      </Modal>
-
-      {/* View Detail Modal */}
-      <Modal isOpen={modalType === 'view-detail'} onClose={closeModal} title="Card Details">
-        {viewingCard && <CardDetail card={viewingCard} />}
-      </Modal>
-
-      {/* Share Modal */}
-      <Modal isOpen={modalType === 'share'} onClose={closeModal} title="Share Card">
-        {sharingCard && <ShareCard card={sharingCard} />}
-      </Modal>
+      {/* App Modals */}
+      <AppModals
+        modalType={modalType}
+        editingCard={editingCard}
+        viewingCard={viewingCard}
+        sharingCard={sharingCard}
+        stacks={stacks}
+        onClose={closeModal}
+        onCreateCard={handleCreateCard}
+        onUpdateCard={(data) => editingCard && handleUpdateCard(editingCard.id, data)}
+        onCreateStack={handleCreateStack}
+      />
     </>
   );
 }

@@ -17,7 +17,15 @@ export { useCardStore } from './store';
 export type { CardState } from './store';
 
 // Hooks
-export { useCardMotion, useSwipeState, useDragState, getStackIdAtPosition } from './hooks';
+export {
+  useCardMotion,
+  useSwipeState,
+  useDragState,
+  getStackIdAtPosition,
+  useCardHandlers,
+  useDragHandlers,
+} from './hooks';
+export type { CardFormData } from './hooks';
 
 // API
 export { cardApi, getPlaceholderImage } from './api';
