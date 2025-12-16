@@ -38,9 +38,9 @@ export const useStackStore = create<StackState>((set, get) => ({
       updatedAt: Date.now(),
     };
 
-    // Optimistic update
+    
     set((state) => ({
-      stacks: [...state.stacks, optimisticStack],
+      stacks: [optimisticStack, ...state.stacks],
     }));
 
     try {
