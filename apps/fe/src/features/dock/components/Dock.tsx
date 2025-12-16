@@ -10,8 +10,8 @@ import MagnifierSvg from '~/public/icons/magnifier.svg?react';
 import PlusSvg from '~/public/icons/plus.svg?react';
 import StarSvg from '~/public/icons/star.svg?react';
 import { CollapsedDock } from './CollapsedDock';
+import { MemoizedHorizontalScroller } from './HorizontalScroller';
 import { MenuBar } from './MenuBar';
-import { ScrollContainer } from './ScrollContainer';
 import { StackSearch } from './StackSearch';
 
 // Highlight colors to cycle through for stacks
@@ -71,7 +71,7 @@ export function Dock({
         ) : (
           <motion.div
             key="expanded"
-            className="flex flex-col items-center gap-3 pointer-events-auto w-full max-w-[768px] px-2"
+            className="flex flex-col items-center gap-3 pointer-events-auto w-fit px-2 max-w-full"
             initial={{ opacity: 0, y: 40, scale: 0.9, filter: 'blur(8px)' }}
             animate={{ opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' }}
             exit={{ opacity: 0, y: 40, scale: 0.9, filter: 'blur(8px)' }}
@@ -98,7 +98,7 @@ export function Dock({
 
               <Delimiter />
 
-              <ScrollContainer scrollLength={visibleStacks.length}>
+              <MemoizedHorizontalScroller>
                 {visibleStacks.map((stack, index) => {
                   const isActive = activeStackId === stack.id;
                   const isHovered = hoveredStackId === stack.id;
@@ -128,7 +128,7 @@ export function Dock({
                     </motion.div>
                   );
                 })}
-              </ScrollContainer>
+              </MemoizedHorizontalScroller>
 
               <Delimiter className="ms-auto" />
 
