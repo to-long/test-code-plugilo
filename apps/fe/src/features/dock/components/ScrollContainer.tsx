@@ -7,7 +7,7 @@ type ScrollContainerProps = React.PropsWithChildren<{
   scrollLength: number;
 }>;
 
-export function ScrollContainer({ children, scrollLength, ...props }: ScrollContainerProps) {
+export function ScrollContainer({ children, scrollLength }: ScrollContainerProps) {
   const {
     containerRef: stacksContainerRef,
     canScrollLeft,
@@ -16,7 +16,6 @@ export function ScrollContainer({ children, scrollLength, ...props }: ScrollCont
     scrollLeft,
     scrollRight,
     handleScroll,
-    containerMaxWidth,
   } = useDockScroll(scrollLength);
 
   return (
@@ -26,8 +25,8 @@ export function ScrollContainer({ children, scrollLength, ...props }: ScrollCont
         <button
           type="button"
           onClick={scrollLeft}
-          className={`flex items-center justify-center w-6 h-12 transition-all self-start ${
-            canScrollLeft ? 'opacity-100' : 'opacity-0 pointer-events-none'
+          className={`flex items-center justify-center w-6 h-12 transition-opacity duration-200 self-start ${
+            canScrollLeft ? 'opacity-0 hover:opacity-100' : 'opacity-0 pointer-events-none'
           }`}
           aria-label="Scroll left"
         >
@@ -49,8 +48,8 @@ export function ScrollContainer({ children, scrollLength, ...props }: ScrollCont
         <button
           type="button"
           onClick={scrollRight}
-          className={`flex items-center justify-center w-6 h-12 transition-all self-start ${
-            canScrollRight ? 'opacity-100' : 'opacity-0 pointer-events-none'
+          className={`flex items-center justify-center w-6 h-12 transition-opacity duration-200 self-start ${
+            canScrollRight ? 'opacity-0 hover:opacity-100' : 'opacity-0 pointer-events-none'
           }`}
           aria-label="Scroll right"
         >
