@@ -133,7 +133,7 @@ export function Dock({
               <Delimiter className="ms-auto" />
 
               {/* Create Button - wrapped to align with stacks */}
-              <div className="flex flex-col items-center w-14">
+              <div className="flex flex-col gap-1 items-center w-14">
                 <Button className="w-12 h-12" highlight="1" onClick={onCreateClick}>
                   <motion.div whileHover={{ rotate: 90, scale: 1.2 }}>
                     <PlusSvg className="w-6 h-6" />
