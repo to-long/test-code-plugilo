@@ -1,7 +1,8 @@
 import { create } from 'zustand';
 import type { Card } from '@/features/cards/types';
 import type { Stack } from '@/features/stacks/types';
-import { api } from '../services/api';
+import { cardApi } from '@/features/cards/api';
+import { stackApi } from '@/features/stacks/api';
 
 export interface AppState {
   stacks: Stack[];
@@ -40,7 +41,10 @@ export const useStore = create<AppState>((set, get) => ({
 	  loadInitialData: async () => {
 	    set({ isLoading: true, error: null });
 	    try {
-	      const { stacks, cards } = await api.fetchInitialData();
+	      const [stacks, cards] = await Promise.all([
+	        stackApi.fetchAll(),
+	        cardApi.fetchAll(),
+	      ]);
 	      set({
 	        stacks,
 	        cards,
@@ -73,7 +77,7 @@ export const useStore = create<AppState>((set, get) => ({
     }));
 
     try {
-      const newStack = await api.createStack(name, cover);
+      const newStack = await stackApi.create(name, cover);
       set((state) => ({
         stacks: state.stacks.map((s) => (s.id === tempId ? newStack : s)),
       }));
@@ -98,7 +102,7 @@ export const useStore = create<AppState>((set, get) => ({
     }));
 
     try {
-      await api.updateStack(id, updates);
+      await stackApi.update(id, updates);
     } catch (error) {
       // Rollback on error
       set({ stacks: previousStacks, error: error instanceof Error ? error.message : 'Failed to update stack' });
@@ -118,7 +122,7 @@ export const useStore = create<AppState>((set, get) => ({
     }));
 
     try {
-      await api.deleteStack(id);
+      await stackApi.delete(id);
     } catch (error) {
       // Rollback on error
       set({ stacks: previousStacks, cards: previousCards, error: error instanceof Error ? error.message : 'Failed to delete stack' });
@@ -140,16 +144,16 @@ export const useStore = create<AppState>((set, get) => ({
       updatedAt: Date.now(),
     };
 
-    // Optimistic update
+    // Optimistic update - place new card at the beginning
     set((state) => ({
-      cards: [...state.cards, optimisticCard],
+      cards: [optimisticCard, ...state.cards],
       stacks: state.stacks.map((s) =>
         s.id === card.stackId ? { ...s, cardCount: s.cardCount + 1 } : s
       ),
     }));
 
     try {
-      const newCard = await api.createCard(card);
+      const newCard = await cardApi.create(card);
       set((state) => ({
         cards: state.cards.map((c) => (c.id === tempId ? newCard : c)),
       }));
@@ -177,7 +181,7 @@ export const useStore = create<AppState>((set, get) => ({
     }));
 
     try {
-      await api.updateCard(id, updates);
+      await cardApi.update(id, updates);
     } catch (error) {
       // Rollback on error
       set({ cards: previousCards, error: error instanceof Error ? error.message : 'Failed to update card' });
@@ -199,7 +203,7 @@ export const useStore = create<AppState>((set, get) => ({
     }));
 
     try {
-      await api.deleteCard(id);
+      await cardApi.delete(id);
     } catch (error) {
       // Rollback on error
       set({ cards: previousCards, stacks: previousStacks, error: error instanceof Error ? error.message : 'Failed to delete card' });
@@ -227,7 +231,7 @@ export const useStore = create<AppState>((set, get) => ({
     }));
 
     try {
-      await api.moveCard(cardId, targetStackId);
+      await cardApi.move(cardId, targetStackId);
     } catch (error) {
       // Rollback on error
       set({ cards: previousCards, stacks: previousStacks, error: error instanceof Error ? error.message : 'Failed to move card' });
