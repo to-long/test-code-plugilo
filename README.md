@@ -24,6 +24,18 @@ make install
 
 # Start development (FE + BE)
 make dev
+
+# Build production (FE + BE)
+make build 
+
+# Start production (FE + BE)
+make start 
+
+# Build swagger for BE and generate typescript on FE 
+make api-gen
+
+# Reset database on BE 
+make db-reset
 ```
 
 - **Frontend**: http://localhost:3000
@@ -45,7 +57,6 @@ make dev
 | `make clean` | Remove node_modules and build artifacts |
 | `make build` | Build all apps for production |
 | `make start` | Start production server (frontend + backend) |
-
 
 
 ## Tech Stack
@@ -121,8 +132,6 @@ The backend provides REST endpoints for:
 
 - **Stacks** - Collections/folders for organizing cards
 - **Cards** - Items within stacks
-
-Run `make api-gen` after backend changes to regenerate frontend types.
 
 
 See [`BE structure`](apps/be/README.md) for a detailed BE implement
