@@ -36,4 +36,6 @@ coverage/
 
 # Misc
 *.tsbuildinfo
-.env*
+.env.local
+.env.development
+.env.production

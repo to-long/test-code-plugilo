@@ -5,7 +5,6 @@ A full-stack application with React frontend and Hono backend.
 
 ## Prerequisites
 
-
 Install the following tools globally:
 
 ```bash
@@ -14,6 +13,11 @@ npm install -g pnpm
 
 # bun - JavaScript runtime (used for running scripts)
 curl -fsSL https://bun.sh/install | bash
+```
+
+## create env file, adjust API endpoint base on environment
+```bash
+cp .env.example .env
 ```
 
 ## Quick Start
