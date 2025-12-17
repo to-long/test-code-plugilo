@@ -1,7 +1,33 @@
 import CardCreateSvg from '~/public/icons/card-create.svg?react';
 import StackCreateSvg from '~/public/icons/stack-create.svg?react';
-import { Button } from './Buttons';
+import { highlightColors } from './Buttons';
 import { Modal } from './Modal';
+
+function IconBox({
+  highlight,
+  children,
+}: {
+  highlight: keyof typeof highlightColors;
+  children: React.ReactNode;
+}) {
+  return (
+    <div
+      className={`
+        inline-flex items-center justify-center align-middle select-none w-12 h-12 text-white text-sm rounded-lg 
+        font-sans font-medium text-center antialiased before:rounded-lg after:rounded-lg
+        transition-all duration-300 relative
+        border border-white/50
+        bg-white/2.5 backdrop-blur-sm shadow-[inset_0_1px_0px_rgba(255,255,255,0.55),0_0_9px_rgba(0,0,0,0.15),0_3px_8px_rgba(0,0,0,0.1)] 
+        before:absolute before:inset-0 before:bg-gradient-to-br before:from-white/50 before:via-transparent before:to-transparent before:pointer-events-none before:opacity-30
+        after:absolute after:inset-0 after:bg-gradient-to-tl after:from-white/50 after:via-transparent after:to-transparent after:pointer-events-none after:opacity-10
+        ${highlightColors[highlight]}
+      `}
+      aria-hidden="true"
+    >
+      {children}
+    </div>
+  );
+}
 
 interface CreateMenuProps {
   isOpen: boolean;
@@ -26,13 +52,9 @@ export function CreateMenu({ isOpen, onClose, onCreateCard, onCreateStack }: Cre
             shadow-[inset_0_1px_0px_rgba(255,255,255,0.3)] hover:shadow-[inset_0_1px_0px_rgba(255,255,255,0.5),0_0_20px_rgba(139,92,246,0.2)]"
         >
           <div className="flex items-center gap-4 relative z-10">
-            <Button
-              highlight="1"
-              className="w-12 h-12 flex-shrink-0 pointer-events-none"
-              aria-hidden="true"
-            >
+            <IconBox highlight="1">
               <CardCreateSvg className="w-6 h-6 text-white" aria-hidden="true" />
-            </Button>
+            </IconBox>
             <div className="text-left">
               <h3 className="text-lg font-semibold text-white group-hover:text-white/90 transition-colors">
                 Create Card
@@ -56,13 +78,9 @@ export function CreateMenu({ isOpen, onClose, onCreateCard, onCreateStack }: Cre
             shadow-[inset_0_1px_0px_rgba(255,255,255,0.3)] hover:shadow-[inset_0_1px_0px_rgba(255,255,255,0.5),0_0_20px_rgba(236,72,153,0.2)]"
         >
           <div className="flex items-center gap-4 relative z-10">
-            <Button
-              highlight="4"
-              className="w-12 h-12 flex-shrink-0 pointer-events-none"
-              aria-hidden="true"
-            >
+            <IconBox highlight="4">
               <StackCreateSvg className="w-6 h-6 text-white" aria-hidden="true" />
-            </Button>
+            </IconBox>
             <div className="text-left">
               <h3 className="text-lg font-semibold text-white group-hover:text-white/90 transition-colors">
                 Create Stack
