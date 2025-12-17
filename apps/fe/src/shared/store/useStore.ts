@@ -1,29 +1,30 @@
-import { create } from 'zustand';
 import { cardApi } from '@/features/cards/api';
+import { useCardStore } from '@/features/cards/store';
 import { stackApi } from '@/features/stacks/api';
 import { useStackStore } from '@/features/stacks/store';
-import { useCardStore } from '@/features/cards/store';
+import { create } from 'zustand';
 
 export interface AppState {
   isLoading: boolean;
   error: string | null;
+  theme: string;
 
   // Data loading
   loadInitialData: () => Promise<void>;
   setError: (error: string | null) => void;
+  switchTheme: (theme?: string) => void;
 }
 
-export const useAppStore = create<AppState>((set) => ({
+export const useAppStore = create<AppState>((set, get) => ({
   isLoading: false,
   error: null,
+  theme: '',
 
   loadInitialData: async () => {
-    set({ isLoading: true, error: null });
+    const theme = localStorage.getItem('plugilo-theme') || 'light';
+    set({ isLoading: true, error: null, theme });
     try {
-      const [stacks, cards] = await Promise.all([
-        stackApi.fetchAll(),
-        cardApi.fetchAll(),
-      ]);
+      const [stacks, cards] = await Promise.all([stackApi.fetchAll(), cardApi.fetchAll()]);
 
       // Update feature stores
       useStackStore.getState().setStacks(stacks);
@@ -40,6 +41,12 @@ export const useAppStore = create<AppState>((set) => ({
 
   setError: (error: string | null) => {
     set({ error });
+  },
+
+  switchTheme: (theme?: string) => {
+    const nextTheme = theme || (get().theme === 'dark' ? 'light' : 'dark');
+    set({ theme: nextTheme });
+    localStorage.setItem('plugilo-theme', nextTheme);
   },
 }));
 

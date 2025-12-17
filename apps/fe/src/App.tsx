@@ -3,7 +3,7 @@ import { Dock } from '@/features/dock';
 import { useStackHandlers } from '@/features/stacks';
 import { AppModals, CreateMenu, useModalState } from '@/shared';
 import { AnimatePresence, motion } from 'framer-motion';
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { lazy } from 'react';
 import { useAppStore } from './shared/store/useStore';
 
@@ -16,15 +16,22 @@ type AppProps = {
 };
 
 export default function App({ theme = 'light' }: AppProps) {
-  // App-level state
+  // global state
   const { error, loadInitialData } = useAppStore();
 
+  const rootRef = useRef<HTMLElement>(null);
+  const { theme: currentTheme, switchTheme } = useAppStore();
+
   useEffect(() => {
-    const currentTheme = localStorage.getItem('theme') || theme;
-    if (currentTheme) {
-      document.documentElement.classList.add(currentTheme);
+    if (!currentTheme) {
+      switchTheme(theme);
+    } else if (currentTheme && rootRef.current) {
+      for (const className of rootRef.current.classList) {
+        rootRef.current.classList.remove(className);
+      }
+      rootRef.current.classList.add(currentTheme);
     }
-  }, [theme]);
+  }, [currentTheme, theme, switchTheme]);
 
   // Modal state
   const {
@@ -100,7 +107,7 @@ export default function App({ theme = 'light' }: AppProps) {
   }, [loadInitialData]);
 
   return (
-    <>
+    <main ref={rootRef}>
       {/* Card Deck - Only shown when a stack is selected */}
       <AnimatePresence mode="wait">
         {activeStackId && (
@@ -183,6 +190,6 @@ export default function App({ theme = 'light' }: AppProps) {
         onUpdateStack={(data) => editingStack && handleUpdateStack(editingStack.id, data)}
         onDeleteStack={() => deletingStack && handleDeleteStack(deletingStack.id)}
       />
-    </>
+    </main>
   );
 }

@@ -1,19 +1,13 @@
 import { StackItem } from '@/features/stacks/components/StackItem';
+import { useAppStore } from '@/shared/store/useStore';
 import { motion } from 'framer-motion';
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 import LogoSvg from '~/public/icons/logo.svg?react';
 import StarSvg from '~/public/icons/star.svg?react';
 
 export const Logo = () => {
   const [isHovered, setIsHovered] = useState(false);
-
-  const switchTheme = useCallback(() => {
-    const currentTheme = localStorage.getItem('theme') || 'light';
-    const nextTheme = currentTheme === 'light' ? 'dark' : 'light';
-    document.documentElement.classList.remove(currentTheme);
-    document.documentElement.classList.add(nextTheme);
-    localStorage.setItem('theme', nextTheme);
-  }, []);
+  const { switchTheme } = useAppStore();
 
   return (
     <div
@@ -22,7 +16,7 @@ export const Logo = () => {
       onMouseLeave={() => setIsHovered(false)}
     >
       <StackItem
-        onClick={switchTheme}
+        onClick={() => switchTheme()}
         name={<LogoSvg className="w-12" aria-label="Plugilo logo" />}
         cover={
           <motion.div
