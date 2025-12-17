@@ -1,10 +1,15 @@
-import { SwipeableCardDeck, useCardHandlers, useDragHandlers } from '@/features/cards';
+import { useCardHandlers, useDragHandlers } from '@/features/cards';
 import { Dock } from '@/features/dock';
 import { useStackHandlers } from '@/features/stacks';
 import { AppModals, CreateMenu, useModalState } from '@/shared';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect } from 'react';
+import { lazy } from 'react';
 import { useAppStore } from './shared/store/useStore';
+
+const SwipeableCardDeck = lazy(() =>
+  import('@/features/cards').then((mod) => ({ default: mod.SwipeableCardDeck })),
+);
 
 export default function App({ theme = 'light' }: { theme?: string }) {
   // App-level state
