@@ -2,7 +2,7 @@ import { createPathBasedClient } from 'openapi-fetch';
 import type { paths } from './generated/api';
 
 export const client = createPathBasedClient<paths>({
-  baseUrl: 'http://localhost:8000',
+  baseUrl: import.meta.env.PUBLIC_API_URL,
 });
 
 // demo call :
