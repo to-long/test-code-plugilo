@@ -3,68 +3,44 @@ const manifestUrl = './manifest.json';
 function waitFor(checkFn, { interval = 50, timeout = 10000 } = {}) {
   return new Promise((resolve, reject) => {
     const start = Date.now();
-    function poll() {
+    (function poll() {
       try {
-        if (checkFn()) {
-          resolve();
-        } else if (Date.now() - start >= timeout) {
-          reject(new Error('waitFor: timed out'));
-        } else {
-          setTimeout(poll, interval);
-        }
+        if (checkFn()) return resolve();
+        if (Date.now() - start >= timeout) return reject(new Error('waitFor: timed out'));
+        setTimeout(poll, interval);
       } catch (e) {
         reject(e);
       }
-    }
-    poll();
+    })();
   });
 }
 
 function buildAssetPath(assetUrls) {
-  // assetUrls: array of asset path strings (may or may not be absolute)
-  // if manifestUrl contains a domain, prepend protocol + hostname to non-absolute assetUrls
   if (!Array.isArray(assetUrls)) return [];
-
   try {
-    // Find current script's domain
     let scriptDomain = null;
-    // biome-ignore lint/complexity/useOptionalChain: vanilajs
-    if (document.currentScript && document.currentScript.src) {
+    const getDomain = (src) => {
       try {
-        const scriptUrl = new URL(document.currentScript.src, window.location.href);
-        scriptDomain = `${scriptUrl.protocol}//${scriptUrl.host}`;
-      } catch {}
-    }
-    // If document.currentScript fallback (IE/edge/old), try last script
+        return new URL(src, window.location.href).origin;
+      } catch {
+        return null;
+      }
+    };
+    scriptDomain = getDomain(document.currentScript?.src);
     if (!scriptDomain) {
       const scripts = document.getElementsByTagName('script');
-      if (scripts.length > 0) {
-        try {
-          const scriptUrl = new URL(scripts[scripts.length - 1].src, window.location.href);
-          scriptDomain = `${scriptUrl.protocol}//${scriptUrl.host}`;
-        } catch {}
-      }
+      scriptDomain = getDomain(scripts[scripts.length - 1]?.src);
     }
-
-    // Current window's domain
-    const windowDomain = `${window.location.protocol}//${window.location.host}`;
-
-    // If the script is from a different domain than the window, map all assets to the script's domain
+    const windowDomain = window.location.origin;
     if (scriptDomain && scriptDomain !== windowDomain) {
-      return assetUrls.map((file) => {
-        // If already absolute, return as-is
-        if (/^https?:\/\//.test(file)) return file;
-        // if file starts with '/', attach scriptDomain
-        if (file.startsWith('/')) return `${scriptDomain}${file}`;
-        // otherwise, treat as root relative
-        return `${scriptDomain}/${file.replace(/^\/+/, '')}`;
-      });
+      return assetUrls.map((file) =>
+        /^https?:\/\//.test(file)
+          ? file
+          : `${scriptDomain}${file.startsWith('/') ? '' : '/'}${file.replace(/^\/+/, '')}`,
+      );
     }
-
-    // Otherwise, return as-is
     return assetUrls;
-  } catch (e) {
-    // fallback: just return as is
+  } catch {
     return assetUrls;
   }
 }
