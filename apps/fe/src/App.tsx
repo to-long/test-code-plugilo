@@ -6,9 +6,11 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect } from 'react';
 import { useAppStore } from './shared/store/useStore';
 
-export default function App() {
+export default function App({ theme = 'light' }: { theme?: string }) {
   // App-level state
   const { error, loadInitialData } = useAppStore();
+
+  console.log('theme', theme);
 
   // Modal state
   const {

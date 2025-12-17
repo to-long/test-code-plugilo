@@ -16,7 +16,9 @@ if (root) {
 const registerWishlistDock = () => {
   if (!customElements.get('wishlist-dock')) {
     console.log('registering wishlist-dock web component');
-    const WishlistDock = r2wc(App);
+    const WishlistDock = r2wc(App, {
+      props: { theme: 'string' },
+    });
     customElements.define('wishlist-dock', WishlistDock);
   }
 };
