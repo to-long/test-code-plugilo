@@ -1,3 +1,4 @@
+import { useKeyPressed } from '@/shared';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect, useRef } from 'react';
 import MagnifierSvg from '~/public/icons/magnifier.svg?react';
@@ -12,6 +13,7 @@ type StackFilterBarProps = {
 
 export function StackSearch({ setCloseSearch, isOpen, query, onQueryChange }: StackFilterBarProps) {
   const inputRef = useRef<HTMLInputElement>(null);
+  useKeyPressed('Escape', setCloseSearch);
 
   useEffect(() => {
     if (isOpen) {
@@ -20,25 +22,8 @@ export function StackSearch({ setCloseSearch, isOpen, query, onQueryChange }: St
           inputRef.current.focus();
         }
       }, 100);
-
-      function handleKeyDown(e: KeyboardEvent) {
-        if (e.key === 'Escape' || e.key === 'Esc') {
-          if (!query) {
-            // Attempt to blur input, trigger onBlur (optional: you can call a prop like onClose)
-            if (inputRef.current) {
-              setCloseSearch();
-            }
-          }
-        }
-      }
-
-      window.addEventListener('keydown', handleKeyDown, { capture: true });
-
-      return () => {
-        window.removeEventListener('keydown', handleKeyDown, { capture: true });
-      };
     }
-  }, [isOpen, query, setCloseSearch]);
+  }, [isOpen]);
 
   return (
     <AnimatePresence>

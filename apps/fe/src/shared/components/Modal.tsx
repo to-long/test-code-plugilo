@@ -1,4 +1,4 @@
-import { RoundButton } from '@/shared';
+import { RoundButton, useKeyPressed } from '@/shared';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect } from 'react';
 import CloseSvg from '~/public/icons/close.svg?react';
@@ -12,6 +12,12 @@ interface ModalProps {
 }
 
 export function Modal({ isOpen, onClose, title, children, footer }: ModalProps) {
+  useKeyPressed('Escape', () => {
+    if (isOpen) {
+      onClose();
+    }
+  });
+
   useEffect(() => {
     // Prevent background scroll
     if (isOpen) {
@@ -19,24 +25,7 @@ export function Modal({ isOpen, onClose, title, children, footer }: ModalProps) 
     } else {
       document.body.style.overflow = 'unset';
     }
-
-    // Listen for ESC key to close modal
-    function handleKeyDown(e: KeyboardEvent) {
-      if (isOpen && (e.key === 'Escape' || e.key === 'Esc')) {
-        e.stopPropagation();
-        onClose();
-      }
-    }
-
-    if (isOpen) {
-      window.addEventListener('keydown', handleKeyDown, { capture: true });
-    }
-
-    return () => {
-      document.body.style.overflow = 'unset';
-      window.removeEventListener('keydown', handleKeyDown, { capture: true });
-    };
-  }, [isOpen, onClose]);
+  }, [isOpen]);
 
   return (
     <AnimatePresence>
