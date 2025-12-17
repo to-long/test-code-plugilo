@@ -1,5 +1,25 @@
 const remoteUrl = '/manifest.json';
 
+function waitFor(checkFn, { interval = 50, timeout = 10000 } = {}) {
+  return new Promise((resolve, reject) => {
+    const start = Date.now();
+    function poll() {
+      try {
+        if (checkFn()) {
+          resolve();
+        } else if (Date.now() - start >= timeout) {
+          reject(new Error('waitFor: timed out'));
+        } else {
+          setTimeout(poll, interval);
+        }
+      } catch (e) {
+        reject(e);
+      }
+    }
+    poll();
+  });
+}
+
 fetch(remoteUrl)
   .then((response) => response.json())
   .then((manifest) => {
@@ -27,5 +47,8 @@ fetch(remoteUrl)
           document.body.appendChild(script);
         }
       }
+      waitFor(() => window.registerWishlistDock).then(() => {
+        window.registerWishlistDock();
+      });
     }
   });

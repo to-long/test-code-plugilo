@@ -13,8 +13,12 @@ if (root) {
   );
 }
 
-console.log('define wishlist-dock web component');
+const registerWishlistDock = () => {
+  if (!customElements.get('wishlist-dock')) {
+    console.log('registering wishlist-dock web component');
+    const WishlistDock = r2wc(App);
+    customElements.define('wishlist-dock', WishlistDock);
+  }
+};
 
-const WishlistDock = r2wc(App);
-
-customElements.define('wishlist-dock', WishlistDock);
+window.registerWishlistDock = registerWishlistDock;

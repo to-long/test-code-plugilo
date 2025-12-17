@@ -78,25 +78,35 @@ make dev
 
 ```
 ├── apps/
-│   ├── be/                 # Backend
-│   │   ├── db/             # Database & migrations
-│   │   │   ├── index.ts    # DB connection
-│   │   │   ├── migrate.ts  # Migration runner
-│   │   │   └── migrations/ # Migration files
+│   ├── be/                         # Backend app
+│   │   ├── db/                     # Database handling & migrations
+│   │   │   ├── index.ts            # DB connection
+│   │   │   ├── migrate.ts          # Migration runner
+│   │   │   └── migrations/         # SQL migration files
 │   │   ├── src/
-│   │   │   ├── main.ts     # Server entry
-│   │   │   ├── data/       # Data stores
-│   │   │   └── routes/     # API routes
-│   │   └── public/         # Static files (swagger)
+│   │   │   ├── main.ts             # Server entrypoint
+│   │   │   ├── data/               # Data access & business logic
+│   │   │   └── routes/             # API routes
+│   │   └── public/                 # Swagger & static assets
 │   │
-│   └── fe/                 # Frontend
-│       └── src/
-│           ├── App.tsx     # Main component
-│           └── open-api/   # Generated API types
+│   └── fe/                         # Frontend app
+│       ├── public/                 # Static files & web component loader
+│       │   ├── inject-web-component.js # Script to inject web component
+│       │   └── test-web-component.html # Demo/test HTML page
+│       ├── src/
+│       │   ├── App.tsx             # Main React component
+│       │   ├── index.tsx           # Web/component entrypoint
+│       │   ├── index.css           # Global styles
+│       │   └── open-api/           # Auto-generated API types (from OpenAPI)
+│       ├── rsbuild.config.ts       # Rsbuild config (bundler)
+│       ├── tailwind.config.js      # TailwindCSS config
+│       ├── postcss.config.js       # PostCSS config
+│       └── tsconfig.json           # TypeScript config
 │
-├── Makefile                # Dev commands
-├── biome.json              # Linter config
-└── pnpm-workspace.yaml     # Monorepo config
+├── Makefile                        # Top-level dev/task commands
+├── biome.json                      # Biome linter/formatter config
+├── package.json                    # Monorepo scripts & metadata
+└── pnpm-workspace.yaml             # pnpm monorepo config
 ```
 
 ## API
