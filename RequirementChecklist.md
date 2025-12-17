@@ -74,7 +74,7 @@ Pick any that showcase your strengths:
     - [✓] Accessibility features
     - [ ] Offline support
     - [✓] Search/filter functionality
-    - [✓] Keyboard shortcuts
+    - [✓] Keyboard shortcuts: ctrl+F to open search, esc to close search, esc to close popup 
 
 # Notes:
 - [✓] : fully support

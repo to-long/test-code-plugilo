@@ -87,7 +87,7 @@ function HorizontalScroller({ children }: HorizontalScrollerProps) {
       {/* Stack Items Container */}
       <div
         ref={stacksContainerRef}
-        className="flex gap-2 overflow-x-auto overflow-y-visible scrollbar-hide py-2 -my-2 px-2 -mx-2"
+        className="flex gap-2 overflow-x-auto overflow-y-visible scrollbar-hide py-2 -my-2 px-2 -mx-2 min-w-[120px]"
         onScroll={() => checkOverflowDebounced()}
       >
         {children}

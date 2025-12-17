@@ -4,6 +4,7 @@ import { Button, RoundButton } from '@/shared';
 import { AnimatePresence, motion } from 'framer-motion';
 import type React from 'react';
 import { useMemo, useState } from 'react';
+import { useHotkeys } from 'react-hotkeys-hook';
 import CollapseSvg from '~/public/icons/collapse.svg?react';
 import MagnifierSvg from '~/public/icons/magnifier.svg?react';
 import PlusSvg from '~/public/icons/plus.svg?react';
@@ -65,6 +66,11 @@ export function Dock({
       onStackDrop(stackId);
     }
   };
+
+  useHotkeys('ctrl+f', () => {
+    console.log('ctrl+f');
+    setIsSearchOpen(true);
+  });
 
   return (
     <div className="fixed inset-x-0 bottom-5 z-40 flex justify-center pointer-events-none min-w-[360px]">
