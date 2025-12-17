@@ -10,4 +10,6 @@ export type DockProps = {
   hoveredStackId?: string | null;
   onStackDrop?: (stackId: string) => void;
   onCollapse?: () => void;
+  onStackEdit?: (stackId: string) => void;
+  onStackDelete?: (stackId: string) => void;
 };

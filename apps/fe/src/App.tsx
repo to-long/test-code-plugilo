@@ -3,7 +3,7 @@ import { Dock } from '@/features/dock';
 import { useStackHandlers } from '@/features/stacks';
 import { AppModals, CreateMenu, useModalState } from '@/shared';
 import { AnimatePresence, motion } from 'framer-motion';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { lazy } from 'react';
 import { useAppStore } from './shared/store/useStore';
 
@@ -32,10 +32,14 @@ export default function App({ theme = 'light' }: AppProps) {
     editingCard,
     viewingCard,
     sharingCard,
+    editingStack,
+    deletingStack,
     showCreateMenu,
     openCreateCard,
     openCreateStack,
     openEditCard,
+    openEditStack,
+    openDeleteStack,
     openViewDetail,
     openShare,
     closeModal,
@@ -44,8 +48,37 @@ export default function App({ theme = 'light' }: AppProps) {
   } = useModalState();
 
   // Stack handlers
-  const { stacks, activeStackId, handleCreateStack, handleStackSelect, handleCollapse } =
-    useStackHandlers({ onSuccess: closeModal });
+  const {
+    stacks,
+    activeStackId,
+    getStackById,
+    handleCreateStack,
+    handleUpdateStack,
+    handleDeleteStack,
+    handleStackSelect,
+    handleCollapse,
+  } = useStackHandlers({ onSuccess: closeModal });
+
+  // Stack edit/delete handlers
+  const handleStackEdit = useCallback(
+    (stackId: string) => {
+      const stack = getStackById(stackId);
+      if (stack) {
+        openEditStack(stack);
+      }
+    },
+    [getStackById, openEditStack],
+  );
+
+  const handleStackDeleteClick = useCallback(
+    (stackId: string) => {
+      const stack = getStackById(stackId);
+      if (stack) {
+        openDeleteStack(stack);
+      }
+    },
+    [getStackById, openDeleteStack],
+  );
 
   // Card handlers
   const { activeCards, handleCreateCard, handleUpdateCard, handleDeleteCard, handleMoveCard } =
@@ -122,6 +155,8 @@ export default function App({ theme = 'light' }: AppProps) {
         hoveredStackId={hoveredStackId}
         onStackDrop={handleStackDrop}
         onCollapse={handleCollapse}
+        onStackEdit={handleStackEdit}
+        onStackDelete={handleStackDeleteClick}
       />
 
       {/* Create Menu */}
@@ -138,11 +173,15 @@ export default function App({ theme = 'light' }: AppProps) {
         editingCard={editingCard}
         viewingCard={viewingCard}
         sharingCard={sharingCard}
+        editingStack={editingStack}
+        deletingStack={deletingStack}
         stacks={stacks}
         onClose={closeModal}
         onCreateCard={handleCreateCard}
         onUpdateCard={(data) => editingCard && handleUpdateCard(editingCard.id, data)}
         onCreateStack={handleCreateStack}
+        onUpdateStack={(data) => editingStack && handleUpdateStack(editingStack.id, data)}
+        onDeleteStack={() => deletingStack && handleDeleteStack(deletingStack.id)}
       />
     </>
   );

@@ -1,5 +1,6 @@
 import { CardForm, CardDetail, ShareCard } from '@/features/cards/components';
 import { StackForm } from '@/features/stacks';
+import { ConfirmModal } from './ConfirmModal';
 import { Modal } from './Modal';
 import type { Card } from '@/features/cards';
 import type { Stack } from '@/features/stacks';
@@ -12,11 +13,15 @@ interface AppModalsProps {
   editingCard: Card | null;
   viewingCard: Card | null;
   sharingCard: Card | null;
+  editingStack: Stack | null;
+  deletingStack: Stack | null;
   stacks: Stack[];
   onClose: () => void;
   onCreateCard: (data: CardFormData) => void;
   onUpdateCard: (data: CardFormData) => void;
   onCreateStack: (data: StackFormData) => void;
+  onUpdateStack: (data: StackFormData) => void;
+  onDeleteStack: () => void;
 }
 
 /**
@@ -27,11 +32,15 @@ export function AppModals({
   editingCard,
   viewingCard,
   sharingCard,
+  editingStack,
+  deletingStack,
   stacks,
   onClose,
   onCreateCard,
   onUpdateCard,
   onCreateStack,
+  onUpdateStack,
+  onDeleteStack,
 }: AppModalsProps) {
   return (
     <>
@@ -54,6 +63,23 @@ export function AppModals({
       <Modal isOpen={modalType === 'create-stack'} onClose={onClose} title="Create Stack">
         <StackForm onSubmit={onCreateStack} onCancel={onClose} />
       </Modal>
+
+      {/* Edit Stack Modal */}
+      <Modal isOpen={modalType === 'edit-stack'} onClose={onClose} title="Edit Stack">
+        <StackForm stack={editingStack || undefined} onSubmit={onUpdateStack} onCancel={onClose} />
+      </Modal>
+
+      {/* Delete Stack Confirmation Modal */}
+      <ConfirmModal
+        isOpen={modalType === 'delete-stack'}
+        onClose={onClose}
+        onConfirm={onDeleteStack}
+        title="Delete Stack"
+        message={`Are you sure you want to delete "${deletingStack?.name || 'this stack'}"? This will also delete all cards in this stack. This action cannot be undone.`}
+        confirmText="Delete"
+        cancelText="Cancel"
+        variant="danger"
+      />
 
       {/* View Detail Modal */}
       <Modal isOpen={modalType === 'view-detail'} onClose={onClose} title="Card Details">

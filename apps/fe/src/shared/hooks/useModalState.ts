@@ -1,15 +1,18 @@
 import { useState, useCallback } from 'react';
 import type { Card } from '@/features/cards/types';
+import type { Stack } from '@/features/stacks/types';
 import type { ModalType } from '../types';
 
 /**
- * Hook for managing modal state and editing card state
+ * Hook for managing modal state and editing card/stack state
  */
 export function useModalState() {
   const [modalType, setModalType] = useState<ModalType>(null);
   const [editingCard, setEditingCard] = useState<Card | null>(null);
   const [viewingCard, setViewingCard] = useState<Card | null>(null);
   const [sharingCard, setSharingCard] = useState<Card | null>(null);
+  const [editingStack, setEditingStack] = useState<Stack | null>(null);
+  const [deletingStack, setDeletingStack] = useState<Stack | null>(null);
   const [showCreateMenu, setShowCreateMenu] = useState(false);
 
   const openCreateCard = useCallback(() => {
@@ -23,6 +26,16 @@ export function useModalState() {
   const openEditCard = useCallback((card: Card) => {
     setEditingCard(card);
     setModalType('edit-card');
+  }, []);
+
+  const openEditStack = useCallback((stack: Stack) => {
+    setEditingStack(stack);
+    setModalType('edit-stack');
+  }, []);
+
+  const openDeleteStack = useCallback((stack: Stack) => {
+    setDeletingStack(stack);
+    setModalType('delete-stack');
   }, []);
 
   const openViewDetail = useCallback((card: Card) => {
@@ -40,6 +53,8 @@ export function useModalState() {
     setEditingCard(null);
     setViewingCard(null);
     setSharingCard(null);
+    setEditingStack(null);
+    setDeletingStack(null);
   }, []);
 
   const openCreateMenu = useCallback(() => {
@@ -55,10 +70,14 @@ export function useModalState() {
     editingCard,
     viewingCard,
     sharingCard,
+    editingStack,
+    deletingStack,
     showCreateMenu,
     openCreateCard,
     openCreateStack,
     openEditCard,
+    openEditStack,
+    openDeleteStack,
     openViewDetail,
     openShare,
     closeModal,

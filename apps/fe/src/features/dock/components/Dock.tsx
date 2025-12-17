@@ -1,4 +1,4 @@
-import { StackItem } from '@/features/stacks/components';
+import { StackItem, StackMenu } from '@/features/stacks/components';
 import type { Stack } from '@/features/stacks/types';
 import { Button, RoundButton } from '@/shared';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -26,6 +26,8 @@ type DockProps = {
   hoveredStackId?: string | null;
   onStackDrop?: (stackId: string) => void;
   onCollapse?: () => void;
+  onStackEdit?: (stackId: string) => void;
+  onStackDelete?: (stackId: string) => void;
 };
 
 export function Dock({
@@ -38,6 +40,8 @@ export function Dock({
   hoveredStackId,
   onStackDrop,
   onCollapse,
+  onStackEdit,
+  onStackDelete,
 }: DockProps) {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -114,6 +118,10 @@ export function Dock({
                         highlight={highlight}
                         active={isActive}
                         hovered={isHovered}
+                      />
+                      <StackMenu
+                        onEdit={() => onStackEdit?.(stack.id)}
+                        onDelete={() => onStackDelete?.(stack.id)}
                       />
                     </motion.div>
                   );

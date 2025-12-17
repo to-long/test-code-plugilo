@@ -14,6 +14,7 @@ function toNumberId(id: string): number {
 }
 
 function mapCover(cover?: ApiCover): string {
+  console.log(cover)
   if (!cover) return getRandomColor();
   return cover.value ?? getRandomColor();
 }

@@ -1,4 +1,5 @@
 export * from './Buttons';
+export * from './ConfirmModal';
 export * from './Delimiter';
 export * from './Modal';
 export * from './RoundButton';

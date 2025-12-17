@@ -25,7 +25,7 @@ export function StackItem({
       className={`flex flex-col gap-1 relative items-center w-14 transition-all duration-300 ${active || hovered ? ' scale-[110%]' : ''} ${className}`}
       {...props}
     >
-      <Button className="w-12 h-12" highlight={highlight}>
+      <Button className={`w-12 h-12 ${active ? 'ring-1 ring-white' : ''}`} highlight={highlight}>
         {cover || name}
       </Button>
       <span className="text-[10px] text-white text-center w-full line-clamp-2 leading-tight h-[24px] flex items-start justify-center">
@@ -39,9 +39,7 @@ export function StackItem({
           <span aria-hidden="true">{cardCount > 9 ? '9+' : cardCount}</span>
         </div>
       )}
-      {active && (
-        <span className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-white/40" />
-      )}
+     
       {hovered && (
         <motion.div
           className="absolute inset-0 rounded-2xl pointer-events-none"
