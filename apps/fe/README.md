@@ -78,6 +78,32 @@ A custom web component (`<wishlist-dock>`) is under development. **CSS is curren
 
 Manual testing is available via the included HTML page:
 
+
+### Embedding the `<wishlist-dock>` widget on your site
+
+You can embed the wishlist dock widget *anywhere* by including the loader script and adding the custom element tag:
+
+1. **Copy these two lines into your HTML:**
+
+```html
+<wishlist-dock></wishlist-dock>
+<script defer src="<https://your-cdn.com>/inject-web-component.js"></script>
+```
+
+> ⚠️ Update the `src` path if you self-host the assets or run locally (e.g., `/inject-web-component.js` in development).  
+> Make sure the loader is loaded **after** the custom element in your HTML for proper initialization.
+
+2. **Style considerations**
+   - The widget's CSS is **not isolated**. Site/global CSS may affect it and vice-versa (see [Architecture decisions & Trade-offs](#architecture-decisions--trade-offs-you-made)).
+   - If you notice style clashes, consider further namespacing your global CSS, or loading the widget in a style-sandboxed container (advanced).
+
+3. **Example (for local testing):**
+   - Open [`test-web-component.html`](./public/test-web-component.html) in your browser to see how it works.
+
+**That's it!**  
+No build tools or frameworks are required to embed the wishlist dock widget—just copy and paste as shown above.
+
+
 - **Development/Test:**  
   Open [`test-web-component.html`](http://localhost:3000/test-web-component.html) in your browser.
 - This page loads the web component and injects its necessary assets using [`inject-web-component.js`](./public/inject-web-component.js).
@@ -92,13 +118,3 @@ Manual testing is available via the included HTML page:
 - add more features: share on Social networks
 - add more common components in style `liquid-glass` to standalize components 
 - encapsulate css to isolate css 
-
-## Optional Enhancements: 
-
-- [ ] Unit/integration tests
-- [x] Code splitting & lazy loading
-- [x] Advanced animations
-- [x] Accessibility features
-- [ ] Offline support
-- [x] Search/filter functionality
-- [ ] Keyboard shortcuts

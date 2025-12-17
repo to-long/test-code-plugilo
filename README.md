@@ -121,5 +121,9 @@ The backend provides REST endpoints for:
 Run `make api-gen` after backend changes to regenerate frontend types.
 
 
-BE structure: [apps/be/README.md](apps/be/README.md).  
-FE structure: [apps/fe/README.md](apps/fe/README.md). 
+See [`BE structure`](apps/be/README.md) for a detailed BE implement
+
+See [`FE structure`](apps/fe/README.md) for a detailed FE implement
+
+See [`RequirementChecklist`](./RequirementChecklist.md) for a detailed feature-by-feature status and must-have/nice-to-have breakdown.
+
