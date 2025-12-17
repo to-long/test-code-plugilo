@@ -2,10 +2,10 @@
 A floating button that expands into a panel showing the user's stacks.
 ## Must Have:
     - [✓] Minimize/expand states with smooth animations
-    - [-] Can be embedded into third-party websites without conflicts: still conflict in edge cases
+    - [✓] Can be embedded into third-party websites without conflicts: using web component with shadow mode to prevent css conflicts
     - [✓] Responsive (mobile + desktop)
 ## Nice To Have:
-    - [-] Use Web Component (Shadow DOM for style isolation): not yet using shadow DOM, need more time to setup and test
+    - [✓] Use Web Component (Shadow DOM for style isolation): can isolate css in web components 
     - [✓] Theme support (light/dark)
 ## Example Usage:
     - [✓] `<wishlist-dock data-theme="dark">!#wishlist-dock>`
