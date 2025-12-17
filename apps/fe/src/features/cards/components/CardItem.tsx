@@ -60,12 +60,15 @@ export function CardItem({
       ${className}`}
       style={style}
     >
-      <img
-        src={card.cover}
-        alt={card.name}
-        className="w-full h-[250px] object-cover rounded-xl rounded-b-none pointer-events-none select-none"
-        draggable={false}
-      />
+      <div className="w-full h-[250px] rounded-xl rounded-b-none bg-white flex items-center justify-center border-b border-gray-100/75">
+        <img
+          src={card.cover}
+          alt={card.name}
+          className=" pointer-events-none select-none object-scale-down"
+          draggable={false}
+        />
+      </div>
+
       <div className="flex flex-col gap-1 p-3 bg-white rounded-xl rounded-t-none flex-1 pointer-events-none">
         <div className="flex gap-2 items-center">
           <h3 className="text-base font-bold text-gray-900 flex-1 truncate">{card.name}</h3>

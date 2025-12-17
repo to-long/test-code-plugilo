@@ -9,4 +9,3 @@ export * from './SwipeableCardDeck';
 export * from './ThumbnailPreview';
 export * from './ShareCard';
 export * from './CardDetail';
-export * from './Card';
