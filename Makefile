@@ -38,7 +38,7 @@ build:
 	@pnpm build
 
 # Run all apps 
-run:
+start:
 	@echo "🚀 Running Backend (start)..."
 	@cd apps/be && bun run start &
 	@echo "⚛️  Running Frontend (preview)..."
