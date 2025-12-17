@@ -64,7 +64,7 @@ apps/fe/
 
 ## Styling Approach
 
-This project uses a design system inspired by [`Apple’s “Liquid Glass”`](https://developer-apple-com.translate.goog/documentation/TechnologyOverviews/liquid-glass?_x_tr_sl=en&_x_tr_tl=vi&_x_tr_hl=vi&_x_tr_pto=tc&_x_tr_hist=true) UI—prioritizing translucent panels, blurred backgrounds, and layered, glassy interfaces for a modern, elegant appearance.
+This project uses Tailwind and a design system inspired by [`Apple’s “Liquid Glass”`](https://developer-apple-com.translate.goog/documentation/TechnologyOverviews/liquid-glass?_x_tr_sl=en&_x_tr_tl=vi&_x_tr_hl=vi&_x_tr_pto=tc&_x_tr_hist=true) UI—prioritizing translucent panels, blurred backgrounds, and layered, glassy interfaces for a modern, elegant appearance.
 
 ## Backend Integration
 
@@ -95,16 +95,10 @@ Manual testing is available via the included HTML page:
 
 ## Optional Enhancements: 
 
-[ ] Unit/integration tests
-
-[x] Code splitting & lazy loading
-
-[x] Advanced animations
-
-[x] Accessibility features
-
-[ ] Offline support
-
-[x] Search/filter functionality
-
-[ ] Keyboard shortcuts
+- [ ] Unit/integration tests
+- [x] Code splitting & lazy loading
+- [x] Advanced animations
+- [x] Accessibility features
+- [ ] Offline support
+- [x] Search/filter functionality
+- [ ] Keyboard shortcuts

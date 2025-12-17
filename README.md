@@ -119,3 +119,7 @@ The backend provides REST endpoints for:
 - **Cards** - Items within stacks
 
 Run `make api-gen` after backend changes to regenerate frontend types.
+
+
+BE structure: [apps/be/README.md](apps/be/README.md).  
+FE structure: [apps/fe/README.md](apps/fe/README.md). 
