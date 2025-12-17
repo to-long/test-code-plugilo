@@ -8,7 +8,7 @@ A floating button that expands into a panel showing the user's stacks.
     - [✓] Use Web Component (Shadow DOM for style isolation): can isolate css in web components 
     - [✓] Theme support (light/dark)
 ## Example Usage:
-    - [✓] `<wishlist-dock data-theme="dark">!#wishlist-dock>`
+    - [✓] `<wishlist-dock data-theme="dark"></wishlist-dock>`
 
 # 2. Stack Management
 Users can create and organize collections.
@@ -42,15 +42,15 @@ Display and manage items within stacks.
 ## Must Have:
     - [✓] State management solution: using zustands 
     - [✓] Optimistic UI updates: Update UI immediately, sync with API later
-    - [✓] API layer for CRUD operations (use fake/mock API service if needed)
+    - [✓] API layer for CRUD operations (use fake/mock API service if needed): real API / real BE
 ## Nice To Have:
-    - [✓] Data persistence (localStorage, IndexedDB, or similar)
-    - [✓] Loading and error states
+    - [✓] Data persistence (localStorage, IndexedDB, or similar): using local storage
+    - [✓] Loading and error states: show error toast
 ## Important - Optimistic UI:
-    - [✓] When user adds/removes cards → Update UI instantly
-    - [✓] When user creates/deletes stacks → Update UI instantly
-    - [✓] Sync with backend in the background
-    - [✓] Handle API failures gracefully (rollback with error message)
+    - [✓] When user adds/removes cards: Update UI instantly
+    - [✓] When user creates/deletes stacks: Update UI instantly
+    - [✓] Sync with backend in the background: Optimistic Update
+    - [✓] Handle API failures gracefully (rollback with error message): Optimistic Update
     - [-] Show sync indicators when needed
 
 # 5.Technical Requirements
@@ -61,7 +61,7 @@ Display and manage items within stacks.
     - [✓] Clean, maintainable code structure
 ## You Decide:
     - [✓] State management approach: Zustands
-    - [✓] Styling solution: Tailwinds
+    - [✓] Styling solution: Tailwinds, self built components with Liquid Glass style 
     - [✓] Libraries/tools to use: Rsbuild, pnpm, ...
     - [✓] How to split and organize features: feature slicing patterns
     - [✓] Code splitting strategy: split code by feature, split SwipeableCardDeck to reduce initial code loading
@@ -72,7 +72,7 @@ Pick any that showcase your strengths:
     - [✓] Code splitting & lazy loading
     - [✓] Advanced animations
     - [✓] Accessibility features
-    - [ ] Offline support
+    - [✓] Offline support
     - [✓] Search/filter functionality
     - [✓] Keyboard shortcuts: ctrl+F to open search, esc to close search, esc to close popup 
 

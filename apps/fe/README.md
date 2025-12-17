@@ -87,7 +87,7 @@ API types are automatically generated from the backend's OpenAPI (Swagger) schem
   
 2. **Example (for local testing):**
 
-- Open [`test-web-component.html`](./public/test-web-component.html) in your browser to see how it works.
+- Open [`http://localhost:3000/test-web-component.html`](http://localhost:3000/test-web-component.html) in your browser to see how it works.
 
 **That's it!**  
 No build tools or frameworks are required to embed the wishlist dock widget—just copy and paste as shown above.
@@ -98,3 +98,7 @@ No build tools or frameworks are required to embed the wishlist dock widget—ju
 ## Improve if have more time
 - add more features: share on Social networks
 - add more common components in style `liquid-glass` to standalize components 
+- add more unit test for increase test coverage
+- add integration test
+- prefetch images / assets to reduce loading time
+- add more loading state, error state, validation on form
