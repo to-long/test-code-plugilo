@@ -17,7 +17,8 @@ export function StackMenu({ onEdit, onDelete }: StackMenuProps) {
     e.stopPropagation();
     if (buttonRef.current) {
       const rect = buttonRef.current.getBoundingClientRect();
-      setPosition({ x: rect.right, y: rect.top });
+      const centerX = rect.left + rect.width / 2;
+      setPosition({ x: centerX, y: rect.top });
     }
     setIsOpen((prev) => !prev);
   };
@@ -66,7 +67,7 @@ export function StackMenu({ onEdit, onDelete }: StackMenuProps) {
             exit={{ opacity: 0, scale: 0.9, filter: 'blur(4px)' }}
             transition={{ duration: 0.15, ease: 'easeOut' }}
             className="fixed w-28 z-[100]"
-            style={{ left: position.x + 4, top: position.y - 70 }}
+            style={{ left: position.x - 56, top: position.y - 80 }}
           >
             {/* Glass Background - Light mode: light glass, Dark mode: dark glass */}
             <div className="absolute inset-0 bg-white/80 dark:bg-black/85 backdrop-blur-xl rounded-2xl border border-gray-200/50 dark:border-white/20 shadow-[0_0_30px_rgba(0,0,0,0.15),0_10px_40px_rgba(0,0,0,0.2)] dark:shadow-[inset_0_1px_0px_rgba(255,255,255,0.2),0_0_30px_rgba(0,0,0,0.5),0_10px_40px_rgba(0,0,0,0.4)]" />
