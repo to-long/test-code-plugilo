@@ -67,7 +67,7 @@ export function StackMenu({ onEdit, onDelete }: StackMenuProps) {
             exit={{ opacity: 0, scale: 0.9, filter: 'blur(4px)' }}
             transition={{ duration: 0.15, ease: 'easeOut' }}
             className="fixed w-28 z-[100]"
-            style={{ left: position.x - 56, top: position.y - 80 }}
+            style={{ left: position.x - 56, top: position.y - 80,  }}
           >
             {/* Glass Background - Light mode: light glass, Dark mode: dark glass */}
             <div className="absolute inset-0 bg-white/80 dark:bg-black/85 backdrop-blur-xl rounded-2xl border border-gray-200/50 dark:border-white/20 shadow-[0_0_30px_rgba(0,0,0,0.15),0_10px_40px_rgba(0,0,0,0.2)] dark:shadow-[inset_0_1px_0px_rgba(255,255,255,0.2),0_0_30px_rgba(0,0,0,0.5),0_10px_40px_rgba(0,0,0,0.4)]" />
@@ -77,12 +77,12 @@ export function StackMenu({ onEdit, onDelete }: StackMenuProps) {
             <div className="absolute inset-0 bg-gradient-to-tl from-gray-100/30 dark:from-white/5 via-transparent to-transparent opacity-50 rounded-2xl pointer-events-none" />
 
             {/* Menu Content */}
-            <div className="relative py-1.5">
+            <div className="relative p-1.5">
               <button
                 type="button"
                 role="menuitem"
                 onClick={handleItemClick(onEdit)}
-                className="w-full px-4 py-2 text-left text-xs text-gray-700 dark:text-white hover:bg-gray-100/80 dark:hover:bg-white/20 transition-colors font-medium"
+                className="w-full px-3 py-2 text-left text-xs text-gray-700 dark:text-white hover:bg-gray-100/80 dark:hover:bg-white/20 transition-colors font-medium rounded-xl"
               >
                 Edit
               </button>
@@ -90,7 +90,7 @@ export function StackMenu({ onEdit, onDelete }: StackMenuProps) {
                 type="button"
                 role="menuitem"
                 onClick={handleItemClick(onDelete)}
-                className="w-full px-4 py-2 text-left text-xs text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-500/25 transition-colors font-medium"
+                className="w-full px-3 py-2 text-left text-xs text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-500/25 transition-colors font-medium rounded-xl"
               >
                 Delete
               </button>
