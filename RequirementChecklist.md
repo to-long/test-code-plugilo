@@ -68,7 +68,7 @@ Display and manage items within stacks.
 
 # 6.Optional Enhancements
 Pick any that showcase your strengths:
-    - [ ] Unit/integration tests
+    - [-] Unit/integration tests: add unit test for shared component 
     - [✓] Code splitting & lazy loading
     - [✓] Advanced animations
     - [✓] Accessibility features

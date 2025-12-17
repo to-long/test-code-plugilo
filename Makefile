@@ -37,6 +37,13 @@ build:
 	@echo "🏗️  Building all apps..."
 	@pnpm build
 
+# Run all apps 
+run:
+	@echo "🚀 Running Backend (start)..."
+	@cd apps/be && bun run start &
+	@echo "⚛️  Running Frontend (preview)..."
+	@cd apps/fe && bun run preview
+	
 # Clean node_modules and build artifacts
 clean:
 	@echo "🧹 Cleaning..."
