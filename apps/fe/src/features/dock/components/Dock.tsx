@@ -93,94 +93,92 @@ export function Dock({
             />
 
             {/* Dock Container with MenuBar */}
-            <nav aria-label="Main navigation dock">
-              <MenuBar className="p-3 pe-1 items-end w-full">
-                {/* Logo / Brand */}
-                <StackItem
-                  onClick={switchTheme}
-                  name={<LogoSvg className="w-12" aria-label="Plugilo logo" />}
-                  cover={<StarSvg className="w-4 h-4" aria-hidden="true" />}
-                  aria-label="Plugilo home"
-                  className="border-r border-white/15 pe-2"
-                />
+            <MenuBar className="p-3 pe-1 items-end w-full" aria-label="Main navigation dock">
+              {/* Logo / Brand */}
+              <StackItem
+                onClick={switchTheme}
+                name={<LogoSvg className="w-12" aria-label="Plugilo logo" />}
+                cover={<StarSvg className="w-4 h-4" aria-hidden="true" />}
+                aria-label="Plugilo home"
+                className="border-r border-white/15 pe-2"
+              />
 
-                <MemoizedHorizontalScroller>
-                  {visibleStacks.map((stack, index) => {
-                    const isActive = activeStackId === stack.id;
-                    const isHovered = hoveredStackId === stack.id;
-                    const highlight = HIGHLIGHT_COLORS[index % HIGHLIGHT_COLORS.length];
+              <MemoizedHorizontalScroller>
+                {visibleStacks.map((stack, index) => {
+                  const isActive = activeStackId === stack.id;
+                  const isHovered = hoveredStackId === stack.id;
+                  const highlight = HIGHLIGHT_COLORS[index % HIGHLIGHT_COLORS.length];
 
-                    return (
-                      <motion.div
-                        key={stack.id}
-                        data-stack-id={stack.id}
-                        onClick={() => onStackSelect(stack.id)}
-                        onDragOver={handleStackDragOver}
-                        onDrop={(e) => handleStackDrop(e, stack.id)}
-                        className="cursor-pointer relative flex-shrink-0 bg-transparent border-none p-0"
-                        aria-label={`${stack.name} stack${stack.cardCount ? `, ${stack.cardCount} card${stack.cardCount === 1 ? '' : 's'}` : ''}${isActive ? ', selected' : ''}`}
-                        aria-pressed={isActive}
-                      >
-                        <StackItem
-                          name={stack.name}
-                          cover={
-                            <span className="text-lg font-bold" aria-hidden="true">
-                              {stack.name.charAt(0).toUpperCase()}
-                            </span>
-                          }
-                          cardCount={stack.cardCount}
-                          highlight={highlight}
-                          active={isActive}
-                          hovered={isHovered}
-                        />
-                      </motion.div>
-                    );
-                  })}
-                </MemoizedHorizontalScroller>
-
-                {/* Create Button - wrapped to align with stacks */}
-                <div className="flex flex-col gap-1 items-center w-14 border-l border-white/15 ps-2">
-                  <Button
-                    className="w-12 h-12"
-                    highlight="1"
-                    onClick={onCreateClick}
-                    aria-label="Create new card or stack"
-                  >
-                    <motion.div whileHover={{ rotate: 90, scale: 1.2 }}>
-                      <PlusSvg className="w-6 h-6" aria-hidden="true" />
-                    </motion.div>
-                  </Button>
-                  <span className="h-[24px]" aria-hidden="true" />
-                </div>
-
-                {/* Action Buttons */}
-                <div className="items-end flex gap-1 self-start flex-col">
-                  <RoundButton
-                    onClick={() => {
-                      setIsSearchOpen((previous) => {
-                        const next = !previous;
-                        if (next) {
-                          onSearchClick();
+                  return (
+                    <motion.div
+                      key={stack.id}
+                      data-stack-id={stack.id}
+                      onClick={() => onStackSelect(stack.id)}
+                      onDragOver={handleStackDragOver}
+                      onDrop={(e) => handleStackDrop(e, stack.id)}
+                      className="cursor-pointer relative flex-shrink-0 bg-transparent border-none p-0"
+                      aria-label={`${stack.name} stack${stack.cardCount ? `, ${stack.cardCount} card${stack.cardCount === 1 ? '' : 's'}` : ''}${isActive ? ', selected' : ''}`}
+                      aria-pressed={isActive}
+                    >
+                      <StackItem
+                        name={stack.name}
+                        cover={
+                          <span className="text-lg font-bold" aria-hidden="true">
+                            {stack.name.charAt(0).toUpperCase()}
+                          </span>
                         }
-                        return next;
-                      });
-                    }}
-                    aria-label="Search"
-                  >
-                    <MagnifierSvg className="w-3 h-3" />
-                  </RoundButton>
-                  <RoundButton
-                    onClick={() => {
-                      setIsCollapsed(true);
-                      onCollapse?.();
-                    }}
-                    aria-label="Minimize dock"
-                  >
-                    <CollapseSvg className="w-3 h-3" />
-                  </RoundButton>
-                </div>
-              </MenuBar>
-            </nav>
+                        cardCount={stack.cardCount}
+                        highlight={highlight}
+                        active={isActive}
+                        hovered={isHovered}
+                      />
+                    </motion.div>
+                  );
+                })}
+              </MemoizedHorizontalScroller>
+
+              {/* Create Button - wrapped to align with stacks */}
+              <div className="flex flex-col gap-1 items-center w-14 border-l border-white/15 ps-2">
+                <Button
+                  className="w-12 h-12"
+                  highlight="1"
+                  onClick={onCreateClick}
+                  aria-label="Create new card or stack"
+                >
+                  <motion.div whileHover={{ rotate: 90, scale: 1.2 }}>
+                    <PlusSvg className="w-6 h-6" aria-hidden="true" />
+                  </motion.div>
+                </Button>
+                <span className="h-[24px]" aria-hidden="true" />
+              </div>
+
+              {/* Action Buttons */}
+              <div className="items-end flex gap-1 self-start flex-col">
+                <RoundButton
+                  onClick={() => {
+                    setIsSearchOpen((previous) => {
+                      const next = !previous;
+                      if (next) {
+                        onSearchClick();
+                      }
+                      return next;
+                    });
+                  }}
+                  aria-label="Search"
+                >
+                  <MagnifierSvg className="w-3 h-3" />
+                </RoundButton>
+                <RoundButton
+                  onClick={() => {
+                    setIsCollapsed(true);
+                    onCollapse?.();
+                  }}
+                  aria-label="Minimize dock"
+                >
+                  <CollapseSvg className="w-3 h-3" />
+                </RoundButton>
+              </div>
+            </MenuBar>
           </motion.div>
         )}
       </AnimatePresence>

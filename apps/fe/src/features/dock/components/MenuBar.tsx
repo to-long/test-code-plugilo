@@ -6,7 +6,7 @@ export function MenuBar({
   ...props
 }: React.PropsWithChildren<MenuBarProps>) {
   return (
-    <div
+    <nav
       className={`flex gap-2 bg-black/25 dark:bg-black/70 backdrop-blur-sm border border-white/50 shadow-[inset_0_1px_0px_rgba(255,255,255,0.5),0_0_9px_rgba(0,0,0,0.2),0_3px_8px_rgba(0,0,0,0.15)] text-white relative rounded-3xl before:rounded-3xl after:rounded-3xl
         hover:bg-black/20 dark:hover:bg-black/65 transition-all duration-300
 
@@ -18,6 +18,6 @@ export function MenuBar({
       {...props}
     >
       {children}
-    </div>
+    </nav>
   );
 }
