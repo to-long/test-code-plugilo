@@ -101,9 +101,8 @@ export function Dock({
                   name={<LogoSvg className="w-12" aria-label="Plugilo logo" />}
                   cover={<StarSvg className="w-4 h-4" aria-hidden="true" />}
                   aria-label="Plugilo home"
+                  className="border-r border-white/15 pe-2"
                 />
-
-                <Delimiter />
 
                 <MemoizedHorizontalScroller>
                   {visibleStacks.map((stack, index) => {
@@ -112,8 +111,7 @@ export function Dock({
                     const highlight = HIGHLIGHT_COLORS[index % HIGHLIGHT_COLORS.length];
 
                     return (
-                      <motion.button
-                        type="button"
+                      <motion.div
                         key={stack.id}
                         data-stack-id={stack.id}
                         onClick={() => onStackSelect(stack.id)}
@@ -135,15 +133,13 @@ export function Dock({
                           active={isActive}
                           hovered={isHovered}
                         />
-                      </motion.button>
+                      </motion.div>
                     );
                   })}
                 </MemoizedHorizontalScroller>
 
-                <Delimiter className="ms-auto" />
-
                 {/* Create Button - wrapped to align with stacks */}
-                <div className="flex flex-col gap-1 items-center w-14">
+                <div className="flex flex-col gap-1 items-center w-14 border-l border-white/15 ps-2">
                   <Button
                     className="w-12 h-12"
                     highlight="1"
