@@ -10,7 +10,12 @@ export default function App({ theme = 'light' }: { theme?: string }) {
   // App-level state
   const { error, loadInitialData } = useAppStore();
 
-  console.log('theme', theme);
+  useEffect(() => {
+    const currentTheme = localStorage.getItem('theme') || theme;
+    if (currentTheme) {
+      document.documentElement.classList.add(currentTheme);
+    }
+  }, [theme]);
 
   // Modal state
   const {

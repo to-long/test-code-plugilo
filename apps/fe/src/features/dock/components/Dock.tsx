@@ -3,7 +3,7 @@ import type { Stack } from '@/features/stacks/types';
 import { Button, Delimiter, RoundButton } from '@/shared';
 import { AnimatePresence, motion } from 'framer-motion';
 import type React from 'react';
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import CollapseSvg from '~/public/icons/collapse.svg?react';
 import LogoSvg from '~/public/icons/logo.svg?react';
 import MagnifierSvg from '~/public/icons/magnifier.svg?react';
@@ -43,6 +43,14 @@ export function Dock({
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+
+  const switchTheme = useCallback(() => {
+    const currentTheme = localStorage.getItem('theme') || 'light';
+    const nextTheme = currentTheme === 'light' ? 'dark' : 'light';
+    document.documentElement.classList.remove(currentTheme);
+    document.documentElement.classList.add(nextTheme);
+    localStorage.setItem('theme', nextTheme);
+  }, []);
 
   const visibleStacks = useMemo(() => {
     const query = searchQuery.trim().toLowerCase();
@@ -89,12 +97,9 @@ export function Dock({
               <MenuBar className="p-3 pe-1 items-end w-full">
                 {/* Logo / Brand */}
                 <StackItem
-                  name={<LogoSvg className="w-10" aria-label="Plugilo logo" />}
-                  cover={
-                    <motion.div whileHover={{ rotate: 90, scale: 1.2 }}>
-                      <StarSvg className="w-4 h-4" aria-hidden="true" />
-                    </motion.div>
-                  }
+                  onClick={switchTheme}
+                  name={<LogoSvg className="w-12" aria-label="Plugilo logo" />}
+                  cover={<StarSvg className="w-4 h-4" aria-hidden="true" />}
                   aria-label="Plugilo home"
                 />
 
