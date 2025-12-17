@@ -27,16 +27,6 @@ fetch(remoteUrl)
     // manifest.entries.index.initial.css (array)
     const initial = manifest?.entries?.index?.initial;
     if (initial) {
-      // Add CSS files as <link>
-      if (Array.isArray(initial.css)) {
-        for (const cssFile of initial.css) {
-          const cssPath = cssFile.startsWith('/') ? cssFile : `/${cssFile}`;
-          const link = document.createElement('link');
-          link.rel = 'stylesheet';
-          link.href = cssPath;
-          document.head.appendChild(link);
-        }
-      }
       // Add JS files as <script>
       if (Array.isArray(initial.js)) {
         for (const jsFile of initial.js) {
@@ -48,7 +38,7 @@ fetch(remoteUrl)
         }
       }
       waitFor(() => window.registerWishlistDock).then(() => {
-        window.registerWishlistDock();
+        window.registerWishlistDock(initial.css);
       });
     }
   });

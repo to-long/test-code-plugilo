@@ -11,7 +11,11 @@ const SwipeableCardDeck = lazy(() =>
   import('@/features/cards').then((mod) => ({ default: mod.SwipeableCardDeck })),
 );
 
-export default function App({ theme = 'light' }: { theme?: string }) {
+type AppProps = {
+  theme?: string;
+};
+
+export default function App({ theme = 'light' }: AppProps) {
   // App-level state
   const { error, loadInitialData } = useAppStore();
 

@@ -12,5 +12,5 @@ declare module '*.svg?react' {
 }
 
 interface Window {
-  registerWishlistDock: () => void;
+  registerWishlistDock: (cssLinkArr: string[]) => void;
 }
