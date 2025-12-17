@@ -3,9 +3,9 @@ import { serveStatic } from '@hono/node-server/serve-static';
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
 import { initDb } from '../db/index.js';
+import { cardsRoutes } from './features/cards/index.js';
 import { generalRoutes } from './features/general/index.js';
 import { stacksRoutes } from './features/stacks/index.js';
-import { cardsRoutes } from './features/cards/index.js';
 
 const app = new Hono();
 const PORT = Number(process.env.PORT) || 8000;
@@ -13,7 +13,7 @@ const PORT = Number(process.env.PORT) || 8000;
 app.use(
   '*',
   cors({
-    origin: 'http://localhost:3000',
+    origin: ['http://localhost:3000', 'https://plugilo.creativext.com'],
     allowMethods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     allowHeaders: ['Content-Type', 'Authorization'],
   }),
