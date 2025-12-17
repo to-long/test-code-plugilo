@@ -43,6 +43,10 @@ make dev
 | `make format` | Format code |
 | `make build` | Build all apps |
 | `make clean` | Remove node_modules and build artifacts |
+| `make build` | Build all apps for production |
+| `make start` | Start production server (frontend + backend) |
+
+
 
 ## Tech Stack
 

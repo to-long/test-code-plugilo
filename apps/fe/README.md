@@ -68,11 +68,10 @@ This project uses Tailwind and a design system inspired by [`Apple’s “Liquid
 
 ## Backend Integration
 
-API types are automatically generated from the backend's OpenAPI (Swagger) schema. We use `jsdoc` and `openapi-typescript` to keep backend and frontend type definitions synchronized, ensuring type safety and reducing manual maintenance. This enables seamless and reliable data contracts between the frontend and backend.
+API types are automatically generated from the backend's OpenAPI (Swagger) schema. I use `jsdoc` and `openapi-typescript` to keep backend and frontend type definitions synchronized, ensuring type safety and reducing manual maintenance. This enables seamless and reliable data contracts between the frontend and backend.
 
 ## Web Component & How to embed the widget
-
-A custom web component (`<wishlist-dock>`) is under development. **CSS is currently _not isolated_ or encapsulated** — this is an intentional trade-off to save development time, since implementing fully isolated styles (like Shadow DOM scoping or specialized bundling) would substantially increase build complexity and effort. As a result, styles from the component might affect, or be affected by, the host page (risk of CSS collisions).
+** I have developed a web component that uses Shadow DOM in "open" mode, allowing its styles to be fully isolated from the host page. This means you can freely embed the `<wishlist-dock>` widget into different websites without worrying about style conflicts between the widget and the host site. **
 
 ### Testing the Web Component
 
@@ -83,15 +82,15 @@ Manual testing is available via the included HTML page:
 
 You can embed the wishlist dock widget *anywhere* by including the loader script and adding the custom element tag:
 
-1. **Copy these two lines into your HTML:**
+1. **Copy these lines into your HTML:**
 
 ```html
-<wishlist-dock></wishlist-dock>
-<script defer src="<https://your-cdn.com>/inject-web-component.js"></script>
+<wishlist-dock theme="dark"></wishlist-dock>
+<script defer src="https://<my.domain>/inject-web-component.js"></script>
 ```
 
 > ⚠️ Update the `src` path if you self-host the assets or run locally (e.g., `/inject-web-component.js` in development).  
-> Make sure the loader is loaded **after** the custom element in your HTML for proper initialization.
+> You need to request my permission to load <wishlist-dock> into your domain for the security issue
 
 2. **Style considerations**
    - The widget's CSS is **not isolated**. Site/global CSS may affect it and vice-versa (see [Architecture decisions & Trade-offs](#architecture-decisions--trade-offs-you-made)).
@@ -117,4 +116,3 @@ No build tools or frameworks are required to embed the wishlist dock widget—ju
 ## Improve if have more time
 - add more features: share on Social networks
 - add more common components in style `liquid-glass` to standalize components 
-- encapsulate css to isolate css 
