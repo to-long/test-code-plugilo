@@ -105,7 +105,7 @@ export function Dock({
                         const element = e.target as HTMLElement;
                         element.scrollIntoView({
                           behavior: 'smooth',
-                          block: 'end',
+                          block: 'center',
                           inline: 'center',
                         });
                         onStackSelect(stack.id);
