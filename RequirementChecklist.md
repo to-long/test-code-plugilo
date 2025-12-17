@@ -2,10 +2,10 @@
 A floating button that expands into a panel showing the user's stacks.
 ## Must Have:
     - [✓] Minimize/expand states with smooth animations
-    - [-] Can be embedded into third-party websites without conflicts -> still conflict in edge cases
+    - [-] Can be embedded into third-party websites without conflicts: still conflict in edge cases
     - [✓] Responsive (mobile + desktop)
 ## Nice To Have:
-    - [-] Use Web Component (Shadow DOM for style isolation) -> not yet using shadow DOM, need more time to setup and test
+    - [-] Use Web Component (Shadow DOM for style isolation): not yet using shadow DOM, need more time to setup and test
     - [✓] Theme support (light/dark)
 ## Example Usage:
     - [✓] `<wishlist-dock data-theme="dark">!#wishlist-dock>`
@@ -40,7 +40,7 @@ Display and manage items within stacks.
 
 # 4. State & Data
 ## Must Have:
-    - [✓] State management solution -> zustands 
+    - [✓] State management solution: using zustands 
     - [✓] Optimistic UI updates: Update UI immediately, sync with API later
     - [✓] API layer for CRUD operations (use fake/mock API service if needed)
 ## Nice To Have:
@@ -64,7 +64,7 @@ Display and manage items within stacks.
     - [✓] Styling solution: Tailwinds
     - [✓] Libraries/tools to use: Rsbuild, pnpm, ...
     - [✓] How to split and organize features: feature slicing patterns
-    - [✓] Code splitting strategy: split code by feature
+    - [✓] Code splitting strategy: split code by feature, split SwipeableCardDeck to reduce initial code loading
 
 # 6.Optional Enhancements
 Pick any that showcase your strengths:
