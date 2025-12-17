@@ -96,7 +96,15 @@ export function Dock({
                     <motion.div
                       key={stack.id}
                       data-stack-id={stack.id}
-                      onClick={() => onStackSelect(stack.id)}
+                      onClick={(e) => {
+                        const element = e.target as HTMLElement;
+                        element.scrollIntoView({
+                          behavior: 'smooth',
+                          block: 'end',
+                          inline: 'center',
+                        });
+                        onStackSelect(stack.id);
+                      }}
                       onDragOver={handleStackDragOver}
                       onDrop={(e) => handleStackDrop(e, stack.id)}
                       className="cursor-pointer relative flex-shrink-0 bg-transparent border-none p-0"
