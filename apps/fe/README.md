@@ -71,7 +71,7 @@ This project uses Tailwind and a design system inspired by [`Apple’s “Liquid
 API types are automatically generated from the backend's OpenAPI (Swagger) schema. I use `jsdoc` and `openapi-typescript` to keep backend and frontend type definitions synchronized, ensuring type safety and reducing manual maintenance. This enables seamless and reliable data contracts between the frontend and backend.
 
 ## Web Component & How to embed the widget
-** I have developed a web component that uses Shadow DOM in "open" mode, allowing its styles to be fully isolated from the host page. This means you can freely embed the `<wishlist-dock>` widget into different websites without worrying about style conflicts between the widget and the host site. **
+** I have developed a web component that uses Shadow DOM in "closed" mode, allowing its styles to be fully isolated from the host page. This means you can freely embed the `<wishlist-dock>` widget into different websites without worrying about style conflicts between the widget and the host site. **
 
 ### Testing the Web Component
 
@@ -109,9 +109,7 @@ No build tools or frameworks are required to embed the wishlist dock widget—ju
 - _Note:_ Style encapsulation is **not** implemented in the test environment.
 
 ### Architecture decisions & Trade-offs you made
-
-> **CSS for the web component is shared with the page and not encapsulated.**  
-> This trade-off was made to keep the build process fast and simple. Isolated styling (e.g., via Shadow DOM or CSS scoping) may be explored in the future.
+- Isolate Css with shadow mode = close to prevent css conflict. It's very convenience but take more effort to implement
 
 ## Improve if have more time
 - add more features: share on Social networks
