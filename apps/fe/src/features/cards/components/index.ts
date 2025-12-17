@@ -7,7 +7,6 @@ export * from './ExitingCard';
 export * from './GhostCard';
 export * from './SwipeableCardDeck';
 export * from './ThumbnailPreview';
-export * from './TrashIcon';
 export * from './ShareCard';
 export * from './CardDetail';
 export * from './Card';

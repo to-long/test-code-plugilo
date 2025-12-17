@@ -1,12 +1,7 @@
 import { RoundButton } from '@/shared';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect } from 'react';
-
-const CloseIcon = () => (
-  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-  </svg>
-);
+import CloseSvg from '~/public/icons/close.svg?react';
 
 interface ModalProps {
   isOpen: boolean;
@@ -70,7 +65,7 @@ export function Modal({ isOpen, onClose, title, children, footer }: ModalProps) 
                   {title}
                 </h2>
                 <RoundButton onClick={onClose} aria-label="Close modal">
-                  <CloseIcon aria-hidden="true" />
+                  <CloseSvg className="w-4 h-4" aria-hidden="true" />
                 </RoundButton>
               </div>
 

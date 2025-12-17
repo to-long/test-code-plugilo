@@ -9,7 +9,6 @@ export {
   GhostCard,
   SwipeableCardDeck,
   ThumbnailPreview,
-  TrashIcon,
 } from './components';
 
 // Store

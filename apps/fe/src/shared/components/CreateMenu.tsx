@@ -1,3 +1,5 @@
+import CardCreateSvg from '~/public/icons/card-create.svg?react';
+import StackCreateSvg from '~/public/icons/stack-create.svg?react';
 import { Button } from './Buttons';
 import { Modal } from './Modal';
 
@@ -29,20 +31,7 @@ export function CreateMenu({ isOpen, onClose, onCreateCard, onCreateStack }: Cre
               className="w-12 h-12 flex-shrink-0 pointer-events-none"
               aria-hidden="true"
             >
-              <svg
-                className="w-6 h-6 text-white"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                aria-hidden="true"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"
-                />
-              </svg>
+              <CardCreateSvg className="w-6 h-6 text-white" aria-hidden="true" />
             </Button>
             <div className="text-left">
               <h3 className="text-lg font-semibold text-white group-hover:text-white/90 transition-colors">
@@ -72,20 +61,7 @@ export function CreateMenu({ isOpen, onClose, onCreateCard, onCreateStack }: Cre
               className="w-12 h-12 flex-shrink-0 pointer-events-none"
               aria-hidden="true"
             >
-              <svg
-                className="w-6 h-6 text-white"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                aria-hidden="true"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
-                />
-              </svg>
+              <StackCreateSvg className="w-6 h-6 text-white" aria-hidden="true" />
             </Button>
             <div className="text-left">
               <h3 className="text-lg font-semibold text-white group-hover:text-white/90 transition-colors">

@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { TrashIcon } from './TrashIcon';
+import TrashSvg from '~/public/icons/trash.svg?react';
 
 interface DeleteZoneProps {
   isOverDeleteIcon: boolean;
@@ -44,7 +44,7 @@ export function DeleteZone({ isOverDeleteIcon }: DeleteZoneProps) {
           }`}
           aria-hidden="true"
         >
-          <TrashIcon />
+          <TrashSvg className="w-6 h-6" aria-hidden="true" />
         </motion.div>
         <span className="sr-only">
           {isOverDeleteIcon ? 'Release to delete card' : 'Drag card here to delete'}
