@@ -31,27 +31,33 @@ export function StackForm({ stack, onSubmit, onCancel }: StackFormProps) {
     <form onSubmit={handleSubmit} className="space-y-5">
       {/* Cover Preview */}
       <div className="space-y-2">
-        <label className="block text-sm font-medium text-white/80">Cover</label>
+        <span id="cover-label" className="block text-sm font-medium text-white/80">Cover</span>
         <div
           className="h-32 rounded-xl flex items-center justify-center text-white text-4xl font-bold border border-white/20 shadow-[inset_0_1px_0px_rgba(255,255,255,0.2)]"
           style={{ background: cover }}
+          role="img"
+          aria-labelledby="cover-label"
+          aria-describedby="cover-desc"
         >
-          {name.charAt(0) || '?'}
+          <span aria-hidden="true">{name.charAt(0) || '?'}</span>
         </div>
-        <Button type="button" onClick={handleRandomColor} className="w-full py-2.5">
-          🎨 Generate Random Color
+        <span id="cover-desc" className="sr-only">Current cover color preview</span>
+        <Button type="button" onClick={handleRandomColor} className="w-full py-2.5" aria-label="Generate random cover color">
+          <span aria-hidden="true">🎨</span> Generate Random Color
         </Button>
       </div>
 
       {/* Name */}
       <div className="space-y-2">
-        <label className="block text-sm font-medium text-white/80">Name *</label>
+        <label htmlFor="stack-name" className="block text-sm font-medium text-white/80">Name *</label>
         <input
+          id="stack-name"
           type="text"
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder="Enter stack name"
           required
+          aria-required="true"
           className={inputClassName}
         />
       </div>

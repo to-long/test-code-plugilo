@@ -3,7 +3,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect } from 'react';
 
 const CloseIcon = () => (
-  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
   </svg>
 );
@@ -31,7 +31,11 @@ export function Modal({ isOpen, onClose, title, children, footer }: ModalProps) 
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+        <dialog
+          open
+          aria-labelledby="modal-title"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-transparent"
+        >
           {/* Backdrop */}
           <motion.div
             initial={{ opacity: 0 }}
@@ -40,6 +44,7 @@ export function Modal({ isOpen, onClose, title, children, footer }: ModalProps) 
             transition={{ duration: 0.2 }}
             className="absolute inset-0 bg-black/60 backdrop-blur-md"
             onClick={onClose}
+            aria-hidden="true"
           />
 
           {/* Modal with Liquid Glass Effect */}
@@ -61,9 +66,11 @@ export function Modal({ isOpen, onClose, title, children, footer }: ModalProps) 
             <div className="relative flex flex-col max-h-[90vh]">
               {/* Header - Fixed */}
               <div className="flex-shrink-0 px-6 py-4 flex items-center justify-between border-b border-white/20">
-                <h2 className="text-2xl font-bold text-white drop-shadow-sm">{title}</h2>
-                <RoundButton onClick={onClose} aria-label="Close">
-                  <CloseIcon />
+                <h2 id="modal-title" className="text-2xl font-bold text-white drop-shadow-sm">
+                  {title}
+                </h2>
+                <RoundButton onClick={onClose} aria-label="Close modal">
+                  <CloseIcon aria-hidden="true" />
                 </RoundButton>
               </div>
 
@@ -76,7 +83,7 @@ export function Modal({ isOpen, onClose, title, children, footer }: ModalProps) 
               )}
             </div>
           </motion.div>
-        </div>
+        </dialog>
       )}
     </AnimatePresence>
   );

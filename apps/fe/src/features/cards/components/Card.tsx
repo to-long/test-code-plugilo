@@ -36,8 +36,8 @@ export function Card({
       <div className="flex flex-col gap-2 p-3 bg-white rounded-lg rounded-t-none">
         <div className="flex gap-1">
           <h3 className="text-lg font-bold text-gray-900">{name}</h3>
-          <RoundButton className="ms-auto">
-            <PencilSvg className="w-4 h-4 text-white" />
+          <RoundButton className="ms-auto" aria-label="Edit card">
+            <PencilSvg className="w-4 h-4 text-white" aria-hidden="true" />
           </RoundButton>
         </div>
         <p className="text-xs text-gray-500">{description}</p>

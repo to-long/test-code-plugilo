@@ -13,21 +13,28 @@ export function CreateMenu({ isOpen, onClose, onCreateCard, onCreateStack }: Cre
     <Modal isOpen={isOpen} onClose={onClose} title="Create New">
       <div className="space-y-4">
         <button
+          type="button"
           onClick={() => {
             onClose();
             onCreateCard();
           }}
+          aria-label="Create a new card - Add a new item to your collection"
           className="w-full p-5 rounded-2xl transition-all duration-300 group relative overflow-hidden
             bg-white/5 backdrop-blur-sm border border-white/20 hover:bg-white/10 hover:border-white/30
             shadow-[inset_0_1px_0px_rgba(255,255,255,0.3)] hover:shadow-[inset_0_1px_0px_rgba(255,255,255,0.5),0_0_20px_rgba(139,92,246,0.2)]"
         >
           <div className="flex items-center gap-4 relative z-10">
-            <Button highlight="1" className="w-12 h-12 flex-shrink-0 pointer-events-none">
+            <Button
+              highlight="1"
+              className="w-12 h-12 flex-shrink-0 pointer-events-none"
+              aria-hidden="true"
+            >
               <svg
                 className="w-6 h-6 text-white"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
+                aria-hidden="true"
               >
                 <path
                   strokeLinecap="round"
@@ -49,21 +56,28 @@ export function CreateMenu({ isOpen, onClose, onCreateCard, onCreateStack }: Cre
         </button>
 
         <button
+          type="button"
           onClick={() => {
             onClose();
             onCreateStack();
           }}
+          aria-label="Create a new stack - Organize cards into a new collection"
           className="w-full p-5 rounded-2xl transition-all duration-300 group relative overflow-hidden
             bg-white/5 backdrop-blur-sm border border-white/20 hover:bg-white/10 hover:border-white/30
             shadow-[inset_0_1px_0px_rgba(255,255,255,0.3)] hover:shadow-[inset_0_1px_0px_rgba(255,255,255,0.5),0_0_20px_rgba(236,72,153,0.2)]"
         >
           <div className="flex items-center gap-4 relative z-10">
-            <Button highlight="4" className="w-12 h-12 flex-shrink-0 pointer-events-none">
+            <Button
+              highlight="4"
+              className="w-12 h-12 flex-shrink-0 pointer-events-none"
+              aria-hidden="true"
+            >
               <svg
                 className="w-6 h-6 text-white"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
+                aria-hidden="true"
               >
                 <path
                   strokeLinecap="round"

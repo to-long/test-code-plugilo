@@ -7,12 +7,14 @@ interface DeleteZoneProps {
 
 export function DeleteZone({ isOverDeleteIcon }: DeleteZoneProps) {
   return (
-    <motion.div
+    <motion.section
       initial={{ opacity: 0, y: 20, scale: 0.8 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       exit={{ opacity: 0, y: 20, scale: 0.8 }}
       transition={{ type: 'spring', stiffness: 260, damping: 20 }}
       className="absolute top-8 left-1/2 -translate-x-1/2 z-50"
+      aria-label="Delete zone - drag card here to delete"
+      aria-live="polite"
     >
       <div className="relative">
         {/* Glow effect */}
@@ -23,7 +25,8 @@ export function DeleteZone({ isOverDeleteIcon }: DeleteZoneProps) {
               ? { scale: [1.1, 1.35, 1.1], opacity: [0.8, 1, 0.8] }
               : { scale: [1, 1.2, 1], opacity: [0.5, 0.9, 0.5] }
           }
-          transition={{ repeat: Infinity, duration: 1.2, ease: 'easeInOut' }}
+          transition={{ repeat: Number.POSITIVE_INFINITY, duration: 1.2, ease: 'easeInOut' }}
+          aria-hidden="true"
         />
 
         {/* Delete button */}
@@ -33,17 +36,20 @@ export function DeleteZone({ isOverDeleteIcon }: DeleteZoneProps) {
               ? { y: [0, -6, 0], scale: [1.1, 1.25, 1.1] }
               : { y: [0, -10, 0], scale: [1, 1.1, 1] }
           }
-          transition={{ repeat: Infinity, duration: 0.8, ease: 'easeInOut' }}
+          transition={{ repeat: Number.POSITIVE_INFINITY, duration: 0.8, ease: 'easeInOut' }}
           className={`relative bg-red-500/80 text-white p-4 rounded-full backdrop-blur-xl shadow-[0_0_40px_rgba(248,113,113,0.7)] border ${
             isOverDeleteIcon
               ? 'border-white/80 ring-4 ring-white/70'
               : 'border-white/30 ring-2 ring-white/30'
           }`}
+          aria-hidden="true"
         >
           <TrashIcon />
         </motion.div>
+        <span className="sr-only">
+          {isOverDeleteIcon ? 'Release to delete card' : 'Drag card here to delete'}
+        </span>
       </div>
-    </motion.div>
+    </motion.section>
   );
 }
-

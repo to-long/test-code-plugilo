@@ -32,8 +32,11 @@ export function StackItem({
         {name}
       </span>
       {cardCount > 0 && (
-        <div className="absolute top-1 right-1 translate-x-1/2 -translate-y-1/2 bg-gradient-to-br from-red-500 to-pink-600 text-white text-[9px] rounded-full min-w-[20px] h-4 px-1 flex items-center justify-center font-bold shadow-lg border-1 border-white/30">
-          {cardCount > 9 ? '9+' : cardCount}
+        <div
+          className="absolute top-1 right-1 translate-x-1/2 -translate-y-1/2 bg-gradient-to-br from-red-500 to-pink-600 text-white text-[9px] rounded-full min-w-[20px] h-4 px-1 flex items-center justify-center font-bold shadow-lg border-1 border-white/30"
+          aria-label={`${cardCount} card${cardCount === 1 ? '' : 's'}`}
+        >
+          <span aria-hidden="true">{cardCount > 9 ? '9+' : cardCount}</span>
         </div>
       )}
       {active && (

@@ -70,24 +70,40 @@ export function CardItem({
         <div className="flex gap-2 items-center">
           <h3 className="text-base font-bold text-gray-900 flex-1 truncate">{card.name}</h3>
           <div className="relative pointer-events-auto" ref={menuRef}>
-            <RoundButton className="flex-shrink-0" onClick={handleMenuClick}>
-              <ThreeDotsSvg className="w-4 h-4 text-gray-600" />
+            <RoundButton
+              className="flex-shrink-0"
+              onClick={handleMenuClick}
+              aria-label="Card options menu"
+              aria-expanded={isMenuOpen}
+              aria-haspopup="menu"
+            >
+              <ThreeDotsSvg className="w-4 h-4 text-gray-600" aria-hidden="true" />
             </RoundButton>
             {isMenuOpen && (
-              <div className="absolute right-0 top-full mt-1 w-36 bg-white/95 backdrop-blur-lg rounded-lg shadow-lg border border-gray-200 py-1 z-50">
+              <div
+                role="menu"
+                aria-label="Card actions"
+                className="absolute right-0 top-full mt-1 w-36 bg-white/95 backdrop-blur-lg rounded-lg shadow-lg border border-gray-200 py-1 z-50"
+              >
                 <button
+                  type="button"
+                  role="menuitem"
                   onClick={handleMenuItemClick(onViewDetail || (() => {}))}
                   className="w-full px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 transition-colors"
                 >
                   View Detail
                 </button>
                 <button
+                  type="button"
+                  role="menuitem"
                   onClick={handleMenuItemClick(onEdit)}
                   className="w-full px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 transition-colors"
                 >
                   Edit
                 </button>
                 <button
+                  type="button"
+                  role="menuitem"
                   onClick={handleMenuItemClick(onShare || (() => {}))}
                   className="w-full px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 transition-colors"
                 >

@@ -33,8 +33,12 @@ export function CardForm({ card, stacks, onSubmit, onCancel }: CardFormProps) {
     <form onSubmit={handleSubmit} className="space-y-5">
       {/* Cover Preview */}
       <div className="space-y-2">
-        <label className="block text-sm font-medium text-white/80">Cover Image</label>
-        <div className="relative h-48 bg-white/5 backdrop-blur-sm rounded-xl overflow-hidden border border-white/20 shadow-[inset_0_1px_0px_rgba(255,255,255,0.1)]">
+        <label htmlFor="card-cover" className="block text-sm font-medium text-white/80">Cover Image</label>
+        <div
+          className="relative h-48 bg-white/5 backdrop-blur-sm rounded-xl overflow-hidden border border-white/20 shadow-[inset_0_1px_0px_rgba(255,255,255,0.1)]"
+          role="img"
+          aria-label="Cover image preview"
+        >
           {cover || name ? (
             <img
               src={cover || getPlaceholderImage(name)}
@@ -42,7 +46,7 @@ export function CardForm({ card, stacks, onSubmit, onCancel }: CardFormProps) {
               className="w-full h-full object-cover"
             />
           ) : (
-            <div className="w-full h-full flex items-center justify-center text-white/30">
+            <div className="w-full h-full flex items-center justify-center text-white/30" aria-hidden="true">
               <svg className="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path
                   strokeLinecap="round"
@@ -55,31 +59,37 @@ export function CardForm({ card, stacks, onSubmit, onCancel }: CardFormProps) {
           )}
         </div>
         <input
+          id="card-cover"
           type="url"
           value={cover}
           onChange={(e) => setCover(e.target.value)}
           placeholder="Enter image URL (optional - will auto-generate if empty)"
+          aria-describedby="cover-hint"
           className={inputClassName}
         />
+        <span id="cover-hint" className="sr-only">Leave empty to auto-generate an image</span>
       </div>
 
       {/* Name */}
       <div className="space-y-2">
-        <label className="block text-sm font-medium text-white/80">Name *</label>
+        <label htmlFor="card-name" className="block text-sm font-medium text-white/80">Name *</label>
         <input
+          id="card-name"
           type="text"
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder="Enter card name"
           required
+          aria-required="true"
           className={inputClassName}
         />
       </div>
 
       {/* Description */}
       <div className="space-y-2">
-        <label className="block text-sm font-medium text-white/80">Description</label>
+        <label htmlFor="card-description" className="block text-sm font-medium text-white/80">Description</label>
         <textarea
+          id="card-description"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           placeholder="Enter description (optional)"
@@ -90,11 +100,13 @@ export function CardForm({ card, stacks, onSubmit, onCancel }: CardFormProps) {
 
       {/* Stack Selector */}
       <div className="space-y-2">
-        <label className="block text-sm font-medium text-white/80">Stack *</label>
+        <label htmlFor="card-stack" className="block text-sm font-medium text-white/80">Stack *</label>
         <select
+          id="card-stack"
           value={stackId}
           onChange={(e) => setStackId(e.target.value)}
           required
+          aria-required="true"
           className={inputClassName}
         >
           {stacks.map((stack) => (

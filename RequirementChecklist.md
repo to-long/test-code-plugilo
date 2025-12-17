@@ -64,19 +64,19 @@ Display and manage items within stacks.
     - [✓] Styling solution: Tailwinds
     - [✓] Libraries/tools to use: Rsbuild, pnpm, ...
     - [✓] How to split and organize features: feature slicing patterns
-    - [x] Code splitting strategy: too small to use lazy load here
+    - [✓] Code splitting strategy: split code by feature
 
 # 6.Optional Enhancements
 Pick any that showcase your strengths:
-    - [x] Unit/integration tests
-    - [-] Code splitting & lazy loading
+    - [ ] Unit/integration tests
+    - [✓] Code splitting & lazy loading
     - [✓] Advanced animations
     - [✓] Accessibility features
-    - [x] Offline support
+    - [ ] Offline support
     - [✓] Search/filter functionality
     - [✓] Keyboard shortcuts
 
 # Notes:
 - [✓] : fully support
 - [-] : partial support 
-- [x] : not yet support
+- [ ] : not yet support
