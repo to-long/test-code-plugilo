@@ -1,8 +1,10 @@
-# Plugilo
+# Plugilo Wishlist Dock
+![Plugilo Preview](./Preview.png)
 
 A full-stack application with React frontend and Hono backend.
 
 ## Prerequisites
+
 
 Install the following tools globally:
 
