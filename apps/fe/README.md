@@ -70,46 +70,30 @@ This project uses Tailwind and a design system inspired by [`Apple’s “Liquid
 
 API types are automatically generated from the backend's OpenAPI (Swagger) schema. I use `jsdoc` and `openapi-typescript` to keep backend and frontend type definitions synchronized, ensuring type safety and reducing manual maintenance. This enables seamless and reliable data contracts between the frontend and backend.
 
-## Web Component & How to embed the widget
-** I have developed a web component that uses Shadow DOM in "closed" mode, allowing its styles to be fully isolated from the host page. This means you can freely embed the `<wishlist-dock>` widget into different websites without worrying about style conflicts between the widget and the host site. **
+## How to embed the widget `<wishlist-dock>`
 
-### Testing the Web Component
+> For security reasons, your domain must be granted access to resources on my domain in order to embed the <wishlist-dock> web component on your site.
 
-Manual testing is available via the included HTML page:
-
-
-### Embedding the `<wishlist-dock>` widget on your site
-
-You can embed the wishlist dock widget *anywhere* by including the loader script and adding the custom element tag:
-
+- I have developed a web component that uses Shadow DOM in "closed" mode, the most security mode of web component, that outside cannot get shadow DOM inside web componsnt 
+- It allowing styles to be fully isolated from the host page. This means you can freely embed the `<wishlist-dock>` widget into different websites without worrying about style conflicts between the widget and the host site. **
 1. **Copy these lines into your HTML:**
 
 ```html
+<!-- web compponent tag -->
 <wishlist-dock theme="dark"></wishlist-dock>
+<!-- my injection script to boostrap web component -->
 <script defer src="https://<my.domain>/inject-web-component.js"></script>
 ```
+  
+2. **Example (for local testing):**
 
-> ⚠️ Update the `src` path if you self-host the assets or run locally (e.g., `/inject-web-component.js` in development).  
-> You need to request my permission to load <wishlist-dock> into your domain for the security issue
-
-2. **Style considerations**
-   - The widget's CSS is **not isolated**. Site/global CSS may affect it and vice-versa (see [Architecture decisions & Trade-offs](#architecture-decisions--trade-offs-you-made)).
-   - If you notice style clashes, consider further namespacing your global CSS, or loading the widget in a style-sandboxed container (advanced).
-
-3. **Example (for local testing):**
-   - Open [`test-web-component.html`](./public/test-web-component.html) in your browser to see how it works.
+- Open [`test-web-component.html`](./public/test-web-component.html) in your browser to see how it works.
 
 **That's it!**  
 No build tools or frameworks are required to embed the wishlist dock widget—just copy and paste as shown above.
 
-
-- **Development/Test:**  
-  Open [`test-web-component.html`](http://localhost:3000/test-web-component.html) in your browser.
-- This page loads the web component and injects its necessary assets using [`inject-web-component.js`](./public/inject-web-component.js).
-- _Note:_ Style encapsulation is **not** implemented in the test environment.
-
 ### Architecture decisions & Trade-offs you made
-- Isolate Css with shadow mode = close to prevent css conflict. It's very convenience but take more effort to implement
+- Isolate Css with shadow mode = close to prevent css conflict. It's very convenience but it's very complicated and take more effort to implement
 
 ## Improve if have more time
 - add more features: share on Social networks
