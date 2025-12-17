@@ -1,16 +1,15 @@
 import { StackItem } from '@/features/stacks/components';
 import type { Stack } from '@/features/stacks/types';
-import { Button, Delimiter, RoundButton } from '@/shared';
+import { Button, RoundButton } from '@/shared';
 import { AnimatePresence, motion } from 'framer-motion';
 import type React from 'react';
-import { useCallback, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import CollapseSvg from '~/public/icons/collapse.svg?react';
-import LogoSvg from '~/public/icons/logo.svg?react';
 import MagnifierSvg from '~/public/icons/magnifier.svg?react';
 import PlusSvg from '~/public/icons/plus.svg?react';
-import StarSvg from '~/public/icons/star.svg?react';
 import { CollapsedDock } from './CollapsedDock';
 import { MemoizedHorizontalScroller } from './HorizontalScroller';
+import { Logo } from './Logo';
 import { MenuBar } from './MenuBar';
 import { StackSearch } from './StackSearch';
 
@@ -43,14 +42,6 @@ export function Dock({
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-
-  const switchTheme = useCallback(() => {
-    const currentTheme = localStorage.getItem('theme') || 'light';
-    const nextTheme = currentTheme === 'light' ? 'dark' : 'light';
-    document.documentElement.classList.remove(currentTheme);
-    document.documentElement.classList.add(nextTheme);
-    localStorage.setItem('theme', nextTheme);
-  }, []);
 
   const visibleStacks = useMemo(() => {
     const query = searchQuery.trim().toLowerCase();
@@ -94,15 +85,7 @@ export function Dock({
 
             {/* Dock Container with MenuBar */}
             <MenuBar className="p-3 pe-1 items-end w-full" aria-label="Main navigation dock">
-              {/* Logo / Brand */}
-              <StackItem
-                onClick={switchTheme}
-                name={<LogoSvg className="w-12" aria-label="Plugilo logo" />}
-                cover={<StarSvg className="w-4 h-4" aria-hidden="true" />}
-                aria-label="Plugilo home"
-                className="border-r border-white/15 pe-2"
-              />
-
+              <Logo />
               <MemoizedHorizontalScroller>
                 {visibleStacks.map((stack, index) => {
                   const isActive = activeStackId === stack.id;
