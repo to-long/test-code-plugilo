@@ -63,7 +63,7 @@ export function Dock({
   };
 
   return (
-    <div className="fixed inset-x-0 bottom-5 z-40 flex justify-center pointer-events-none">
+    <div className="fixed inset-x-0 bottom-5 z-40 flex justify-center pointer-events-none min-w-[360px]">
       <AnimatePresence initial={false} mode="wait">
         {isCollapsed ? (
           <CollapsedDock expandDock={() => setIsCollapsed(false)} stacksCount={stacks.length} />
@@ -81,6 +81,7 @@ export function Dock({
               isOpen={isSearchOpen}
               query={searchQuery}
               onQueryChange={(value) => setSearchQuery(value)}
+              setCloseSearch={() => setIsSearchOpen(false)}
             />
 
             {/* Dock Container with MenuBar */}
@@ -129,7 +130,7 @@ export function Dock({
               </MemoizedHorizontalScroller>
 
               {/* Create Button - wrapped to align with stacks */}
-              <div className="flex flex-col gap-1 items-center w-14 border-l border-white/15 ps-2">
+              <div className="flex flex-col gap-1 items-center w-14 border-l border-white/15 ps-2 ms-auto">
                 <Button
                   className="w-12 h-12"
                   highlight="1"
