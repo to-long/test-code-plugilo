@@ -117,13 +117,3 @@ The backend provides REST endpoints for:
 - **Cards** - Items within stacks
 
 Run `make api-gen` after backend changes to regenerate frontend types.
-
-## Database
-
-SQLite database stored at `apps/be/data.db`. Migrations run automatically before server start.
-
-```bash
-# Run migrations manually
-cd apps/be && pnpm db:migrate
-```
-

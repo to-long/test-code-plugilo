@@ -122,3 +122,25 @@ SQLite database stored in `data.db`. Tables:
 |----------|---------|-------------|
 | `PORT` | `8000` | Server port |
 
+
+## Database
+
+SQLite database stored at `apps/be/data.db`. Migrations run automatically before server start.
+
+```bash
+# Run migrations manually
+cd apps/be && pnpm db:migrate
+### Resetting the Database
+
+If you need to reset the development database to a clean state, you can run:
+
+```bash
+cd apps/be && pnpm db:reset
+```
+
+This will drop all tables and re-run all migrations.
+
+_**Note:**_ Only use this in development/testing. Running `db:reset` will erase **all** data from the database.
+
+```
+
