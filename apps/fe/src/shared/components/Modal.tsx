@@ -13,15 +13,30 @@ interface ModalProps {
 
 export function Modal({ isOpen, onClose, title, children, footer }: ModalProps) {
   useEffect(() => {
+    // Prevent background scroll
     if (isOpen) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = 'unset';
     }
+
+    // Listen for ESC key to close modal
+    function handleKeyDown(e: KeyboardEvent) {
+      if (isOpen && (e.key === 'Escape' || e.key === 'Esc')) {
+        e.stopPropagation();
+        onClose();
+      }
+    }
+
+    if (isOpen) {
+      window.addEventListener('keydown', handleKeyDown, { capture: true });
+    }
+
     return () => {
       document.body.style.overflow = 'unset';
+      window.removeEventListener('keydown', handleKeyDown, { capture: true });
     };
-  }, [isOpen]);
+  }, [isOpen, onClose]);
 
   return (
     <AnimatePresence>
@@ -29,7 +44,7 @@ export function Modal({ isOpen, onClose, title, children, footer }: ModalProps) 
         <dialog
           open
           aria-labelledby="modal-title"
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-transparent"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 w-screen h-screen bg-transparent"
         >
           {/* Backdrop */}
           <motion.div
