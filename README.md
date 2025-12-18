@@ -1,7 +1,9 @@
 # Plugilo Wishlist Dock
 ![Plugilo Preview](./Preview.png)
+![Plugilo Embeded](./EmbedRemoteUrl.png)
 
 A full-stack application with React frontend and Hono backend.
+WebComponent that can be embeded in the website has enough CORS permissions
 
 ## Prerequisites
 
