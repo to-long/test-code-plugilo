@@ -15,34 +15,22 @@ function waitFor(checkFn, { interval = 50, timeout = 10000 } = {}) {
   });
 }
 
+function getScriptDomain(scriptUrl) {
+  try {
+    return new URL(scriptUrl, window.location.href).origin;
+  } catch {
+    return window.location.origin;
+  }
+}
+
 function buildAssetPath(assetUrls) {
   if (!Array.isArray(assetUrls)) return [];
-  try {
-    let scriptDomain = null;
-    const getDomain = (src) => {
-      try {
-        return new URL(src, window.location.href).origin;
-      } catch {
-        return null;
-      }
-    };
-    scriptDomain = getDomain(document.currentScript?.src);
-    if (!scriptDomain) {
-      const scripts = document.getElementsByTagName('script');
-      scriptDomain = getDomain(scripts[scripts.length - 1]?.src);
-    }
-    const windowDomain = window.location.origin;
-    if (scriptDomain && scriptDomain !== windowDomain) {
-      return assetUrls.map((file) =>
-        /^https?:\/\//.test(file)
-          ? file
-          : `${scriptDomain}${file.startsWith('/') ? '' : '/'}${file.replace(/^\/+/, '')}`,
-      );
-    }
-    return assetUrls;
-  } catch {
-    return assetUrls;
-  }
+  const scriptDomain = getScriptDomain(document.currentScript?.src);
+  return assetUrls.map((file) =>
+    /^https?:\/\//.test(file)
+      ? file
+      : `${scriptDomain}${file.startsWith('/') ? '' : '/'}${file.replace(/^\/+/, '')}`,
+  );
 }
 
 function injectWebComponent(manifestUrl) {
