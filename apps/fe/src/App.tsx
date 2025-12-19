@@ -1,4 +1,4 @@
-import { useCardHandlers, useDragHandlers, setRootElement } from '@/features/cards';
+import { useCardHandlers, useDragHandlers } from '@/features/cards';
 import { Dock } from '@/features/dock';
 import { useStackHandlers } from '@/features/stacks';
 import { AppModals, CreateMenu, useModalState } from '@/shared';
@@ -17,7 +17,7 @@ type AppProps = {
 
 export default function App({ theme = 'light' }: AppProps) {
   // global state
-  const { error, loadInitialData } = useAppStore();
+  const { error, loadInitialData, setRootElement } = useAppStore();
 
   const rootRef = useRef<HTMLElement>(null);
   const { theme: currentTheme, switchTheme } = useAppStore();

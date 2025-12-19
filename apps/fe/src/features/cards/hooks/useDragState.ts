@@ -1,16 +1,6 @@
 import { useState, useCallback } from 'react';
+import { getRootElement } from '@/shared/store/useStore';
 import type { Position } from '../types';
-
-// Store reference to root element for Shadow DOM support
-let rootElementRef: HTMLElement | null = null;
-
-/**
- * Set the root element reference for Shadow DOM support
- * Call this from App component with the main element ref
- */
-export function setRootElement(element: HTMLElement | null) {
-  rootElementRef = element;
-}
 
 /**
  * Hook for managing drag-and-drop state for cards
@@ -53,8 +43,9 @@ export function getStackIdAtPosition(position: Position): string | null {
   let elementAtPoint: Element | null = null;
 
   // If we have a root element reference, use its root node for Shadow DOM support
-  if (rootElementRef) {
-    const rootNode = rootElementRef.getRootNode();
+  const rootElement = getRootElement();
+  if (rootElement) {
+    const rootNode = rootElement.getRootNode();
     // Check if we're in a Shadow DOM (ShadowRoot has elementFromPoint method)
     if (rootNode instanceof ShadowRoot) {
       elementAtPoint = rootNode.elementFromPoint(position.x, position.y);
