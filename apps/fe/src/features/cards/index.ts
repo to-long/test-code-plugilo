@@ -21,6 +21,7 @@ export {
   useSwipeState,
   useDragState,
   getStackIdAtPosition,
+  setRootElement,
   useCardHandlers,
   useDragHandlers,
 } from './hooks';

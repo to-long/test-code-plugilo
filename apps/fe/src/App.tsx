@@ -1,4 +1,4 @@
-import { useCardHandlers, useDragHandlers } from '@/features/cards';
+import { useCardHandlers, useDragHandlers, setRootElement } from '@/features/cards';
 import { Dock } from '@/features/dock';
 import { useStackHandlers } from '@/features/stacks';
 import { AppModals, CreateMenu, useModalState } from '@/shared';
@@ -21,6 +21,14 @@ export default function App({ theme = 'light' }: AppProps) {
 
   const rootRef = useRef<HTMLElement>(null);
   const { theme: currentTheme, switchTheme } = useAppStore();
+
+  useEffect(() => {
+    // Set root element reference for Shadow DOM support in drag handlers
+    if (rootRef.current) {
+      setRootElement(rootRef.current);
+    }
+    return () => setRootElement(null);
+  }, []);
 
   useEffect(() => {
     if (!currentTheme) {
