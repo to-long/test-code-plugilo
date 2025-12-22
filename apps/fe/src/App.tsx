@@ -28,7 +28,7 @@ export default function App({ theme = 'light' }: AppProps) {
       setRootElement(rootRef.current);
     }
     return () => setRootElement(null);
-  }, []);
+  }, [setRootElement]);
 
   useEffect(() => {
     if (!currentTheme) {
