@@ -26,11 +26,10 @@ function getScriptDomain(scriptUrl) {
 function buildAssetPath(assetUrls) {
   if (!Array.isArray(assetUrls)) return [];
   const scriptDomain = getScriptDomain(document.currentScript?.src);
-  return assetUrls.map((file) =>
-    /^https?:\/\//.test(file)
-      ? file
-      : `${scriptDomain}${file.startsWith('/') ? '' : '/'}${file.replace(/^\/+/, '')}`,
+  const assetPaths = assetUrls.map((file) =>
+    /^https?:\/\//.test(file) ? file : `${scriptDomain}/${file.replace(/^\/+/, '')}`,
   );
+  return assetPaths;
 }
 
 function injectWebComponent(manifestUrl) {
